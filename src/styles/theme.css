@@ -1,0 +1,175 @@
+@theme {
+  /* COLORS */
+
+   /* Brand */
+  --color-primary: #123B2E;              /* Forest Green */
+  --color-accent-orange: #D88A11;        /* Orange Gold */
+  --color-accent-antique: #C5A059;          /* Antique Gold */
+  --color-accent-light: #E49B35;         /* Light Orange */
+  --color-accent-terracotta: #891E1E;    /* Terracotta Red */
+
+  /* Backgrounds */
+  --color-background-primary: #F9F8F6;
+  --color-background-highlight: #FFFCF8;
+  --color-background-card: #FBF8F2;
+
+  /* Surfaces */
+  --color-surface: #FFFFFF;
+
+  /* Borders */
+  --color-border-light: #E6E1D9;
+  --color-border-dark: #795717;
+
+  /* Text */
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #383838;
+
+  /* Utility */
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+
+
+  /* FONT FAMILIES*/
+  --font-heading: "Playfair Display", serif;
+  --font-body: "Inter", sans-serif;
+
+  /* DESKTOP TYPOGRAPHY */
+
+  /* Headings — Playfair Display */
+  --text-h1: 48px;
+  --text-h1--line-height: 56px;
+  --text-h1--font-weight: 500;
+
+  --text-h2: 36px;
+  --text-h2--line-height: 44px;
+  --text-h2--font-weight: 500;
+
+  --text-h3: 24px;
+  --text-h3--line-height: 32px;
+  --text-h3--font-weight: 500;
+
+  /* Body & UI — Inter */
+  --text-body-large: 18px;
+  --text-body-large--line-height: 26px;
+  --text-body-large--font-weight: 400;
+
+  --text-body-regular: 16px;
+  --text-body-regular--line-height: 28px;
+  --text-body-regular--font-weight: 400;
+
+  --text-body-small: 14px;
+  --text-body-small--line-height: 20px;
+  --text-body-small--font-weight: 400;
+
+  --text-section: 20px;
+  --text-section--line-height: 20px;
+  --text-section--font-weight: 600;
+
+  --text-section-small: 14px;
+  --text-section-small--line-height: 22px;
+  --text-section-small--font-weight: 600;
+
+  --text-link: 16px;
+  --text-link--line-height: 26px;
+  --text-link--font-weight: 500;
+
+  --text-link-navigation: 16px;
+  --text-link-navigation--line-height: 20px;
+  --text-link-navigation--font-weight: 400;
+
+  --text-button: 14px;
+  --text-button--line-height: 24px;
+  --text-button--font-weight: 500;
+
+/* MOBILE TYPOGRAPHY */
+
+  /* Headings */
+  --text-mobile-h1: 26px;
+  --text-mobile-h1--line-height: 32px;
+  --text-mobile-h1--font-weight: 600;
+
+  --text-mobile-h2: 20px;
+  --text-mobile-h2--line-height: 28px;
+  --text-mobile-h2--font-weight: 500;
+
+  --text-mobile-h3: 18px;
+  --text-mobile-h3--line-height: 24px;
+  --text-mobile-h3--font-weight: 500;
+
+  /* Body & UI */
+  --text-mobile-body: 14px;
+  --text-mobile-body--line-height: 22px;
+  --text-mobile-body--font-weight: 400;
+
+  --text-mobile-small: 13px;
+  --text-mobile-small--line-height: 18px;
+  --text-mobile-small--font-weight: 400;
+
+  --text-mobile-section: 14px;
+  --text-mobile-section--line-height: 20px;
+  --text-mobile-section--font-weight: 600;
+
+  --text-mobile-link: 14px;
+  --text-mobile-link--line-height: 20px;
+  --text-mobile-link--font-weight: 500;
+
+
+  /* SPACING SYSTEM */
+
+  --spacing-1: 8px;
+  --spacing-2: 16px;
+  --spacing-3: 24px;
+  --spacing-4: 32px;
+  --spacing-5: 48px;
+  --spacing-6: 64px;
+  --spacing-7: 96px;
+  --spacing-8: 120px; 
+
+
+  /* BORDER RADIUS */
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+
+  /* LAYOUT */
+  
+  /* Desktop */
+   --container-main: 1200px;
+
+  --reference-desktop-width: 1440px;
+  --layout-desktop-margin: 120px;
+
+  /* Mobile */
+  --reference-mobile-width: 402px;
+  --layout-mobile-margin: 20px;
+
+
+  /* SHADOWS */
+
+  /* Standard cards and panels */
+  --shadow-default:
+    0 4px 28px rgba(0, 0, 0, 0.08);
+
+  /* Interactive hover state */
+  --shadow-hover:
+    0 16px 40px rgba(0, 0, 0, 0.15);
+
+  /* Primary buttons */
+  --shadow-button:
+    0 3px 6px rgba(0, 0, 0, 0.25);
+
+  --shadow-focus:
+    0 0 0 2px var(--color-accent-gold),
+    0 0 0 4px rgba(0, 0, 0, 0.25);
+
+    /* Glass surfaces */
+--color-header-glass: rgba(0, 0, 0, 0.15);
+--color-header-stroke: rgba(0, 0, 0, 0.25);
+
+    /* OVERLAYS */
+
+  --overlay-card-image:
+    rgba(30, 30, 30, 0.15);
+}
