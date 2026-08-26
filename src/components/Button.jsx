@@ -2,16 +2,17 @@ import { Link } from 'react-router-dom'
 
 const BASE_STYLES = `
   inline-flex
-  h-12
+  h-5
   items-center
   justify-center
-  gap-2
+  gap-1
   rounded-md
-  px-4
+  px-2
+
+  whitespace-nowrap
 
   font-body
   text-button
-  font-medium
 
   transition-[background-color,border-color,color,box-shadow]
   duration-[180ms]
@@ -30,11 +31,11 @@ const VARIANT_STYLES = {
     bg-accent-orange
     text-white
 
-    hover:bg-accent-gold
+    hover:bg-accent-antique
     hover:shadow-button
 
     focus-visible:bg-accent-light
-    focus-visible:shadow-button-focus
+    focus-visible:shadow-focus
   `,
 
   outline: `
@@ -43,13 +44,13 @@ const VARIANT_STYLES = {
     bg-surface
     text-accent-orange
 
-    hover:border-accent-gold
-    hover:text-accent-gold
+    hover:border-accent-antique
+    hover:text-accent-antique
     hover:shadow-button
 
     focus-visible:border-accent-light
     focus-visible:text-accent-light
-    focus-visible:shadow-button-focus
+    focus-visible:shadow-focus
   `,
 
   primary: `
@@ -61,7 +62,7 @@ const VARIANT_STYLES = {
 
     hover:bg-accent-orange
 
-    focus-visible:shadow-button-focus
+    focus-visible:shadow-focus
   `,
 }
 

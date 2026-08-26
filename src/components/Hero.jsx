@@ -5,6 +5,10 @@ import {
   MapPin,
 } from 'lucide-react'
 
+import {
+  useTranslation,
+} from 'react-i18next'
+
 import Button from './Button'
 import FeatureItem from './FeatureItem'
 
@@ -14,27 +18,32 @@ const FEATURES = [
   {
     id: 'recognition',
     icon: Landmark,
-    title: 'Световно признание',
-    description:
-      'Обекти с изключителна универсална стойност.',
+    titleKey:
+      'hero.features.recognition.title',
+    descriptionKey:
+      'hero.features.recognition.description',
   },
   {
     id: 'heritage',
     icon: Heart,
-    title: 'Културна гордост',
-    description:
-      'Открий наследството, което пазим през вековете.',
+    titleKey:
+      'hero.features.heritage.title',
+    descriptionKey:
+      'hero.features.heritage.description',
   },
   {
     id: 'visit',
     icon: MapPin,
-    title: 'Планирай посещение',
-    description:
-      'Всичко необходимо за едно вдъхновяващо пътуване.',
+    titleKey:
+      'hero.features.visit.title',
+    descriptionKey:
+      'hero.features.visit.description',
   },
 ]
 
 function Hero() {
+  const { t } = useTranslation()
+
   return (
     <section
       id="home"
@@ -44,7 +53,7 @@ function Hero() {
         min-h-[530px]
         overflow-hidden
         bg-cover
-        bg-[position:58%_center]
+        bg-[position:50%_center]
 
         lg:h-[550px]
         lg:min-h-0
@@ -78,6 +87,7 @@ function Hero() {
           text-white
 
           md:h-full
+          md:w-[calc(100%-40px)]
           md:px-0
           md:pt-[135px]
         "
@@ -91,18 +101,20 @@ function Hero() {
               font-heading
               text-mobile-h1
 
+              [text-shadow:0_2px_8px_rgba(0,0,0,0.65)]
+
               md:text-h1
             "
           >
-            Пет места. Пет истории.
+            {t('hero.titleFirst')}
 
             <span
               className="
                 mt-1 block
-                text-accent-orange
+                text-white
               "
             >
-              Едно наследство
+              {t('hero.titleSecond')}
             </span>
           </h1>
 
@@ -120,9 +132,7 @@ function Hero() {
               md:text-body-regular
             "
           >
-            Дигитален пътеводител към ПЕТ от най-ценните
-            български обекти, включени в Списъка на
-            световното културно наследство на ЮНЕСКО.
+            {t('hero.description')}
           </p>
 
           {/* CTA */}
@@ -134,7 +144,7 @@ function Hero() {
             iconSize={20}
             className="mt-4 border border-white/70"
           >
-            Отвори интерактивната карта
+            {t('hero.openMap')}
           </Button>
         </div>
 
@@ -157,8 +167,12 @@ function Hero() {
             <FeatureItem
               key={feature.id}
               icon={feature.icon}
-              title={feature.title}
-              description={feature.description}
+              title={t(
+                feature.titleKey
+              )}
+              description={t(
+                feature.descriptionKey
+              )}
             />
           ))}
         </div>

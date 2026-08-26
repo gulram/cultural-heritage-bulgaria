@@ -1,9 +1,18 @@
 import {
+  useState,
+} from 'react'
+
+import {
   ArrowRight,
 } from 'lucide-react'
 
+import {
+  useTranslation,
+} from 'react-i18next'
+
 import DestinationMetadata from './DestinationMetadata'
 import Button from './Button'
+import ImageFallback from './ImageFallback'
 
 function DestinationCard({
   number,
@@ -12,24 +21,39 @@ function DestinationCard({
   location,
   unescoYear,
   image,
-  watermark,
   slug,
   imagePosition = 'left',
 }) {
-  const isImageRight = imagePosition === 'right'
+  const { t } = useTranslation()
+
+  const [
+    failedImage,
+    setFailedImage,
+  ] = useState(null)
+
+  const isImageRight =
+    imagePosition === 'right'
+
+  const hasValidImage =
+    Boolean(image) &&
+    failedImage !== image
 
   return (
     <article
       className={`
         group
         relative
-        flex w-full
+
+        flex
+        w-full
         flex-col
         overflow-hidden
 
         rounded-lg
-        border border-border-light
+        border
+        border-border-light
         bg-background-card
+
         shadow-default
 
         transition-shadow
@@ -40,10 +64,13 @@ function DestinationCard({
         hover:duration-200
         hover:ease-out
 
-        md:h-[260px]
+        md:min-h-[300px]
+
+        lg:h-[300px]
 
         xl:h-[230px]
-        xl:max-w-[1200px]
+        xl:min-h-0
+        xl:max-w-main
 
         ${
           isImageRight
@@ -56,68 +83,98 @@ function DestinationCard({
       <div
         className="
           relative
+
           h-[180px]
           w-full
           shrink-0
           overflow-hidden
 
-          md:h-full
+          rounded-lg
+
+          md:h-auto
           md:w-[45%]
+          md:self-stretch
 
           xl:w-[500px]
         "
       >
-        <img
-          src={image}
-          alt={title}
-          loading="lazy"
-          className="
-            h-full
-            w-full
-            object-cover
+        {hasValidImage ? (
+          <>
+            <img
+              src={image}
+              alt={title}
+              loading="lazy"
+              onError={() =>
+                setFailedImage(image)
+              }
+              className="
+                h-full
+                w-full
+                object-cover
 
-            transition-transform
-            duration-[160ms]
-            ease-in
+                transition-transform
+                duration-[160ms]
+                ease-in
 
-            group-hover:scale-[1.03]
-            group-hover:duration-200
-            group-hover:ease-out
-          "
-        />
+                group-hover:scale-[1.03]
+                group-hover:duration-200
+                group-hover:ease-out
+              "
+            />
 
-        {/* DEFAULT DARK OVERLAY */}
-        <div
-          aria-hidden="true"
-          className="
-            absolute inset-0
-            bg-black/20
+            {/* DEFAULT DARK OVERLAY */}
+            <div
+              aria-hidden="true"
+              className="
+                absolute
+                inset-0
 
-            opacity-100
+                bg-black/20
 
-            transition-opacity
-            duration-[160ms]
-            ease-in
+                opacity-100
 
-            group-hover:opacity-0
-            group-hover:duration-200
-            group-hover:ease-out
-          "
-        />
+                transition-opacity
+                duration-[160ms]
+                ease-in
+
+                group-hover:opacity-0
+                group-hover:duration-200
+                group-hover:ease-out
+              "
+            />
+          </>
+        ) : (
+          <ImageFallback
+            className="
+              h-full
+
+              rounded-none
+              border-0
+
+              p-0
+
+              shadow-none
+            "
+          />
+        )}
 
         {/* DESTINATION NUMBER */}
         <div
           className={`
             absolute
-            top-4
+            top-2
 
-            flex h-[42px] w-[42px]
+            flex
+            h-[42px]
+            w-[42px]
             items-center
             justify-center
 
             rounded-md
-            border border-white
+            border
+            border-white
             bg-accent-orange
+
             shadow-button
 
             font-heading
@@ -139,8 +196,8 @@ function DestinationCard({
 
             ${
               isImageRight
-                ? 'right-4'
-                : 'left-4'
+                ? 'right-2'
+                : 'left-2'
             }
           `}
         >
@@ -152,94 +209,73 @@ function DestinationCard({
       <div
         className="
           relative
+
           flex
           min-w-0
           flex-1
           flex-col
           overflow-hidden
 
-          px-5
-          py-4
+          px-[20px]
+          py-2
 
           md:h-full
           md:flex-1
           md:justify-center
-          md:px-5
-          md:py-5
+          md:px-3
+          md:py-[20px]
 
           xl:w-[700px]
           xl:flex-none
-          xl:px-[30px]
-          xl:py-8
+          xl:px-4
+          xl:py-2
         "
       >
-        {/* WATERMARK */}
-        {watermark && (
-          <img
-            src={watermark}
-            alt=""
-            aria-hidden="true"
-            className={`
-              pointer-events-none
-              absolute
-
-              bottom-[-35px]
-              h-auto
-              w-[550px]
-
-              object-contain
-              opacity-[0.2]
-
-              ${
-                isImageRight
-                  ? 'left-[-45px]'
-                  : 'right-[-85px]'
-              }
-            `}
-          />
-        )}
-
-        {/* TOP CONTENT */}
-        <div className="relative z-10">
-          <h2
+        <div
+          className="
+            relative
+            z-10
+          "
+        >
+          <h3
             className="
               font-heading
               text-mobile-h2
-              font-semibold
               text-text-primary
 
-              md:text-h3
+              lg:text-h3
             "
           >
             {title}
-          </h2>
+          </h3>
 
           <p
             className="
-              mt-2
+              mt-1
               max-w-[560px]
 
               font-body
               text-mobile-body
               text-text-secondary
 
-              md:mt-1.5
-              md:text-body-small
+              md:mt-2
 
-              xl:mt-2
-              
+              lg:text-body-small
+
+              xl:mt-1
             "
           >
             {description}
           </p>
         </div>
 
-        {/* BOTTOM CONTENT */}
         <div
           className="
-            relative z-10
+            relative
+            z-10
 
             mt-3
+
             flex
             flex-col
             gap-3
@@ -249,9 +285,9 @@ function DestinationCard({
             lg:grid
             lg:grid-cols-[1fr_auto]
             lg:items-end
-            lg:gap-4
+            lg:gap-2
 
-            xl:mt-4
+            xl:mt-2
             xl:gap-5
           "
         >
@@ -259,15 +295,24 @@ function DestinationCard({
             location={location}
             unescoYear={unescoYear}
           />
+
           {/* CTA */}
-          <div className="self-end lg:self-auto">
+          <div
+            className="
+              self-end
+
+              lg:self-auto
+            "
+          >
             <Button
               to={`/destinations/${slug}`}
               variant="filled"
               icon={ArrowRight}
               iconSize={16}
             >
-              Разгледай
+              {t(
+                'destinationCard.explore'
+              )}
             </Button>
           </div>
         </div>

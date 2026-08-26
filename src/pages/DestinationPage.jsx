@@ -6,323 +6,457 @@ import {
 import { useParams } from 'react-router-dom'
 
 import {
+  useTranslation,
+} from 'react-i18next'
+
+import {
   ArrowRight,
-  Award,
-  ChevronLeft,
-  ChevronRight,
-  Clock3,
   ExternalLink,
-  Image as ImageIcon,
-  Info,
-  Landmark,
   MapPin,
-  ScrollText,
-  Ticket,
-  Trophy,
-  Users,
-  X,
 } from 'lucide-react'
 
 import Header from '../components/Header'
 import DestinationHero from '../components/DestinationHero'
 import KeyFactCard from '../components/KeyFactCard'
-import InfoRow from '../components/InfoRow'
-import GalleryHeroImage from '../components/GalleryHeroImage'
-import GalleryThumbnail from '../components/GalleryThumbnail'
 import RelatedDestinationCard from '../components/RelatedDestinationCard'
 import InteractiveMapBanner from '../components/InteractiveMapBanner'
 import DestinationMiniMap from '../components/DestinationMiniMap'
+import DestinationGallery from '../components/DestinationGallery'
+import DestinationPracticalInfo from '../components/DestinationPracticalInfo'
+import HistoryModal from '../components/HistoryModal'
 import Button from '../components/Button'
 import Footer from '../components/Footer'
 
-import rilaHero from '../assets/rila-hero.png'
-import rilaImage from '../assets/rila-card.jpeg'
+import FeedbackState from '../components/FeedbackState'
+import NoResultsState from '../components/NoResultsState'
+import LoadingSkeleton from '../components/LoadingSkeleton'
 
-const DESTINATIONS = {
-  'rila-monastery': {
-    title: 'Рилски манастир',
+import {
+  getDestinationBySlug,
+  getDestinations,
+} from '../services/destinationService'
 
-    heroImage: rilaHero,
-
-    location: 'Рила, област Кюстендил',
-
-    coordinates: [42.133297, 23.340186],
-
-    unescoYear: '1983',
-
-    facts: [
-      {
-        id: 'largest',
-        icon: Trophy,
-        value: 'Най-големият',
-        description:
-          'Православен манастир в България',
-      },
-      {
-        id: 'unesco',
-        icon: Landmark,
-        value: 'ЮНЕСКО',
-        description: 'От 1983 г.',
-      },
-      {
-        id: 'history',
-        icon: ScrollText,
-        value: '1000+',
-        description: 'Години история',
-      },
-      {
-        id: 'iconic',
-        icon: Award,
-        value: 'Иконично',
-        description: 'Стенописите',
-      },
-    ],
-
-    about:
-      'Рилският манастир е най-голямата православна обител в България и един от най-значимите духовни и културни символи на страната. Основан през X век от св. Иван Рилски, той се превръща в център на религиозния, книжовния и обществения живот.',
-
-    history:
-      'Рилският манастир е основан през първата половина на X век от свети Йоан Рилски — отшелник и духовник, почитан като небесен закрилник на българския народ. Неговото отшелническо жилище и гроб постепенно се превръщат в свято място, около което възниква манастирският комплекс.',
-
-    historyMore:
-      'През вековете манастирът многократно е преустройван и възстановяван. Днешният му архитектурен облик е оформен основно през Българското възраждане и съчетава духовна, художествена и историческа стойност.',
-
-    practicalInfo: [
-      {
-        id: 'hours',
-        icon: Clock3,
-        title: 'Работно време',
-        lines: [
-          'от периода 1 юни – 30 септември:',
-          '8:30 – 19:30 ч.',
-        ],
-      },
-      {
-        id: 'tickets',
-        icon: Ticket,
-        title: 'Билети',
-        lines: [
-          'От 2,50 €',
-          'Комбиниран: 12 €',
-        ],
-      },
-      {
-        id: 'purchase',
-        icon: Info,
-        title: 'Закупуване',
-        lines: ['Билети само на място'],
-      },
-      {
-        id: 'guide',
-        icon: Users,
-        title: 'Екскурзовод',
-        lines: [
-          'BG / EN / FR',
-          '≈ 50 мин.',
-        ],
-      },
-    ],
-
-    gallery: [
-      {
-        id: 'gallery-1',
-        src: rilaImage,
-        alt: 'Рилски манастир – снимка 1',
-      },
-      {
-        id: 'gallery-2',
-        src: rilaImage,
-        alt: 'Рилски манастир – снимка 2',
-      },
-      {
-        id: 'gallery-3',
-        src: rilaImage,
-        alt: 'Рилски манастир – снимка 3',
-      },
-      {
-        id: 'gallery-4',
-        src: rilaImage,
-        alt: 'Рилски манастир – снимка 4',
-      },
-      {
-        id: 'gallery-5',
-        src: rilaImage,
-        alt: 'Рилски манастир – снимка 5',
-      },
-      {
-        id: 'gallery-6',
-        src: rilaImage,
-        alt: 'Рилски манастир – снимка 6',
-      },
-    ],
-
-    related: [
-      {
-        title: 'Древният Несебър',
-        image: rilaImage,
-        slug: 'old-nesebar',
-      },
-      {
-        title: 'Боянска църква',
-        image: rilaImage,
-        slug: 'boyana-church',
-      },
-      {
-        title: 'Мадарски конник',
-        image: rilaHero,
-        slug: 'madara-rider',
-      },
-      {
-        title: 'Казанлъшка гробница',
-        image: rilaImage,
-        slug: 'kazanlak-tomb',
-      },
-    ],
-  },
-}
+import {
+  getHistoryParagraphs,
+  getHistoryPreview,
+  normalizePracticalInfo,
+  normalizeQuickFacts,
+} from '../utils/destinationUtils'
 
 function DestinationPage() {
   const { slug } = useParams()
 
-  const [isHistoryModalOpen, setIsHistoryModalOpen] =
-    useState(false)
+  const {
+    t,
+    i18n,
+  } = useTranslation()
 
-  const [isGalleryModalOpen, setIsGalleryModalOpen] =
-    useState(false)
+  const locale =
+    i18n.resolvedLanguage === 'en'
+      ? 'en'
+      : 'bg'
 
   const [
-    activeGalleryIndex,
-    setActiveGalleryIndex,
+    destination,
+    setDestination,
+  ] = useState(null)
+
+  const [
+    relatedDestinations,
+    setRelatedDestinations,
+  ] = useState([])
+
+  const [
+    error,
+    setError,
+  ] = useState(null)
+
+  const [
+    retryCount,
+    setRetryCount,
   ] = useState(0)
 
-  const destination =
-    DESTINATIONS[slug] ||
-    DESTINATIONS['rila-monastery']
+  const [
+    resolvedRequest,
+    setResolvedRequest,
+  ] = useState({
+    slug: null,
+    locale: null,
+    retryCount: -1,
+  })
 
-  const galleryLength =
-    destination.gallery.length
+  const [
+    isHistoryModalOpen,
+    setIsHistoryModalOpen,
+  ] = useState(false)
 
-  const openGallery = (index = 0) => {
-    setActiveGalleryIndex(index)
-    setIsGalleryModalOpen(true)
-  }
+  const isLoading =
+    resolvedRequest.slug !== slug ||
+    resolvedRequest.locale !==
+      locale ||
+    resolvedRequest.retryCount !==
+      retryCount
 
-  const closeGallery = () => {
-    setIsGalleryModalOpen(false)
-  }
-
-  const showPreviousImage = () => {
-    setActiveGalleryIndex((currentIndex) =>
-      currentIndex === 0
-        ? galleryLength - 1
-        : currentIndex - 1
-    )
-  }
-
-  const showNextImage = () => {
-    setActiveGalleryIndex((currentIndex) =>
-      currentIndex === galleryLength - 1
-        ? 0
-        : currentIndex + 1
-    )
-  }
-
-  /*
-   * HISTORY MODAL
-   * - затваряне с Escape
-   * - блокиране на scroll-а на страницата
-   */
   useEffect(() => {
-    if (!isHistoryModalOpen) {
-      return
-    }
+    let isCancelled = false
 
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        setIsHistoryModalOpen(false)
-      }
-    }
+    Promise.all([
+      getDestinationBySlug(
+        slug,
+        locale
+      ),
 
-    const previousOverflow =
-      document.body.style.overflow
+      getDestinations(locale),
+    ])
+      .then(
+        ([
+          destinationData,
+          allDestinations,
+        ]) => {
+          if (isCancelled) {
+            return
+          }
 
-    document.body.style.overflow = 'hidden'
+          setError(null)
 
-    window.addEventListener(
-      'keydown',
-      handleKeyDown
-    )
+          if (!destinationData) {
+            setDestination(null)
+            setRelatedDestinations(
+              []
+            )
+            return
+          }
+
+          setDestination(
+            destinationData
+          )
+
+          setRelatedDestinations(
+            allDestinations.filter(
+              (item) =>
+                item.slug !== slug
+            )
+          )
+
+          setIsHistoryModalOpen(
+            false
+          )
+        }
+      )
+      .catch((err) => {
+        console.error(err)
+
+        if (isCancelled) {
+          return
+        }
+
+        setError(err.message)
+      })
+      .finally(() => {
+        if (isCancelled) {
+          return
+        }
+
+        setResolvedRequest({
+          slug,
+          locale,
+          retryCount,
+        })
+      })
 
     return () => {
-      document.body.style.overflow =
-        previousOverflow
-
-      window.removeEventListener(
-        'keydown',
-        handleKeyDown
-      )
-    }
-  }, [isHistoryModalOpen])
-
-  /*
-   * GALLERY MODAL
-   * - Escape затваря галерията
-   * - ArrowLeft / ArrowRight сменят снимките
-   * - блокиране на scroll-а на страницата
-   */
-  useEffect(() => {
-    if (!isGalleryModalOpen) {
-      return
-    }
-
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        setIsGalleryModalOpen(false)
-      }
-
-      if (event.key === 'ArrowLeft') {
-        setActiveGalleryIndex(
-          (currentIndex) =>
-            currentIndex === 0
-              ? galleryLength - 1
-              : currentIndex - 1
-        )
-      }
-
-      if (event.key === 'ArrowRight') {
-        setActiveGalleryIndex(
-          (currentIndex) =>
-            currentIndex ===
-            galleryLength - 1
-              ? 0
-              : currentIndex + 1
-        )
-      }
-    }
-
-    const previousOverflow =
-      document.body.style.overflow
-
-    document.body.style.overflow = 'hidden'
-
-    window.addEventListener(
-      'keydown',
-      handleKeyDown
-    )
-
-    return () => {
-      document.body.style.overflow =
-        previousOverflow
-
-      window.removeEventListener(
-        'keydown',
-        handleKeyDown
-      )
+      isCancelled = true
     }
   }, [
-    isGalleryModalOpen,
-    galleryLength,
+    slug,
+    locale,
+    retryCount,
   ])
+
+  useEffect(() => {
+    if (!destination) {
+      return
+    }
+
+    const siteName =
+      locale === 'en'
+        ? 'UNESCO Bulgaria'
+        : 'ЮНЕСКО България'
+
+    const pageTitle =
+      `${destination.title} | ${siteName}`
+
+    const pageDescription =
+      destination.description || ''
+
+    const pageImage =
+      destination.image || ''
+
+    const previousTitle = document.title
+
+    document.title = pageTitle
+
+    const setMetaTag = (
+      selector,
+      attribute,
+      attributeValue,
+      content
+    ) => {
+      let element =
+        document.querySelector(selector)
+
+      const wasCreated = !element
+
+      if (!element) {
+        element =
+          document.createElement('meta')
+
+        element.setAttribute(
+          attribute,
+          attributeValue
+        )
+
+        document.head.appendChild(element)
+      }
+
+      const previousContent =
+        element.getAttribute('content')
+
+      element.setAttribute(
+        'content',
+        content
+      )
+
+      return () => {
+        if (wasCreated) {
+          element.remove()
+          return
+        }
+
+        element.setAttribute(
+          'content',
+          previousContent || ''
+        )
+      }
+    }
+
+    const cleanupDescription =
+      setMetaTag(
+        'meta[name="description"]',
+        'name',
+        'description',
+        pageDescription
+      )
+
+    const cleanupOgTitle =
+      setMetaTag(
+        'meta[property="og:title"]',
+        'property',
+        'og:title',
+        pageTitle
+      )
+
+    const cleanupOgDescription =
+      setMetaTag(
+        'meta[property="og:description"]',
+        'property',
+        'og:description',
+        pageDescription
+      )
+
+    const cleanupOgImage =
+      setMetaTag(
+        'meta[property="og:image"]',
+        'property',
+        'og:image',
+        pageImage
+      )
+
+    const cleanupOgType =
+      setMetaTag(
+        'meta[property="og:type"]',
+        'property',
+        'og:type',
+        'website'
+      )
+
+    return () => {
+      document.title = previousTitle
+
+      cleanupDescription()
+      cleanupOgTitle()
+      cleanupOgDescription()
+      cleanupOgImage()
+      cleanupOgType()
+    }
+  }, [
+    destination,
+    locale,
+  ])
+
+  useEffect(() => {
+    if (!destination) {
+      return
+    }
+
+    const structuredData = {
+      '@context': 'https://schema.org',
+      '@type': 'TouristAttraction',
+
+      name: destination.title,
+
+      description:
+        destination.description || '',
+
+      image:
+        destination.image || '',
+
+      geo: {
+        '@type': 'GeoCoordinates',
+
+        latitude:
+          destination.coordinates[0],
+
+        longitude:
+          destination.coordinates[1],
+      },
+    }
+
+    const script =
+      document.createElement('script')
+
+    script.type =
+      'application/ld+json'
+
+    script.textContent =
+      JSON.stringify(structuredData)
+
+    document.head.appendChild(script)
+
+    return () => {
+      script.remove()
+    }
+  }, [destination])
+
+  const handleRetry = () => {
+    setRetryCount(
+      (current) => current + 1
+    )
+  }
+
+  const gallery =
+    destination?.gallery ?? []
+
+  const facts =
+    normalizeQuickFacts(
+      destination?.quickFacts ?? []
+    )
+
+  const practicalInfo =
+    normalizePracticalInfo(
+      destination?.practicalInfo ??
+        []
+    )
+
+  const historyPreview =
+    getHistoryPreview(
+      destination?.history
+    )
+
+  const historyParagraphs =
+    getHistoryParagraphs(
+      destination?.history
+    )
+
+  if (isLoading) {
+    return (
+      <>
+        <Header />
+
+        <main>
+          <div
+            className="
+              mx-auto
+              w-full
+              max-w-main
+              px-5
+              py-16
+
+              lg:px-0
+            "
+          >
+            <LoadingSkeleton />
+          </div>
+        </main>
+
+        <Footer />
+      </>
+    )
+  }
+
+  if (error) {
+    return (
+      <>
+        <Header />
+
+        <main>
+          <div
+            className="
+              mx-auto
+              w-full
+              max-w-main
+              px-5
+              py-16
+
+              lg:px-0
+            "
+          >
+            <FeedbackState
+              variant="error"
+              title={t(
+                'feedback.error.title'
+              )}
+              description={t(
+                'feedback.error.description'
+              )}
+              actionLabel={t(
+                'feedback.error.retry'
+              )}
+              onAction={handleRetry}
+            />
+          </div>
+        </main>
+
+        <Footer />
+      </>
+    )
+  }
+
+  if (!destination) {
+    return (
+      <>
+        <Header />
+
+        <main>
+          <div
+            className="
+              mx-auto
+              w-full
+              max-w-main
+              px-5
+              py-16
+
+              lg:px-0
+            "
+          >
+            <NoResultsState />
+          </div>
+        </main>
+
+        <Footer />
+      </>
+    )
+  }
 
   return (
     <>
@@ -332,9 +466,13 @@ function DestinationPage() {
         {/* DESTINATION HERO */}
         <DestinationHero
           title={destination.title}
-          image={destination.heroImage}
-          location={destination.location}
-          unescoYear={destination.unescoYear}
+          image={destination.image}
+          location={
+            destination.location
+          }
+          unescoYear={
+            destination.unescoYear
+          }
         />
 
         {/* PAGE CONTENT */}
@@ -352,57 +490,56 @@ function DestinationPage() {
         >
           {/* KEY FACTS */}
           <section
-            aria-label="Ключови факти"
+            aria-labelledby="key-facts-title"
             className="
               mt-6
               w-full
             "
           >
+            <h2
+              id="key-facts-title"
+              className="sr-only"
+            >
+              {t('destination.keyFacts')}
+            </h2>
             <div
               className="
                 mx-auto
                 w-full
 
-                rounded-[16px]
+                rounded-md
                 border
                 border-border-light
                 bg-background-highlight
 
-                px-5
-                py-5
+                px-4
+                py-4
 
                 shadow-default
 
                 sm:px-6
 
-                lg:flex
-                lg:h-[130px]
-                lg:w-[1003px]
-                lg:max-w-none
-                lg:items-center
-                lg:justify-between
-                lg:gap-4
-                lg:px-5
-                lg:py-5
+                
               "
             >
               <div
                 className="
                   grid
-                  grid-cols-1
+                  grid-cols-[repeat(auto-fit,minmax(180px,1fr))]
+                  items-center
                   gap-5
 
-                  sm:grid-cols-2
-
-                  lg:contents
+                  
                 "
               >
-                {destination.facts.map((fact) => (
+                {facts.map((fact) => (
                   <KeyFactCard
                     key={fact.id}
                     icon={fact.icon}
                     value={fact.value}
-                    description={fact.description}
+                    description={
+                      fact.description
+                    }
                   />
                 ))}
               </div>
@@ -410,13 +547,13 @@ function DestinationPage() {
           </section>
 
           {/* ABOUT + PRACTICAL INFO */}
-          <section
+          <div
             className="
-              mt-12
+              mt-6
 
               grid
               grid-cols-1
-              gap-10
+              gap-4
 
               lg:grid-cols-[1fr_450px]
               lg:items-start
@@ -424,7 +561,14 @@ function DestinationPage() {
             "
           >
             {/* LEFT COLUMN */}
-            <div className="min-w-0">
+            <div
+              className="
+                contents
+
+                lg:block
+                lg:min-w-0
+              "
+            >
               {/* ABOUT */}
               <section
                 aria-labelledby="about-destination-title"
@@ -440,7 +584,7 @@ function DestinationPage() {
                     md:text-h3
                   "
                 >
-                  За обекта
+                  {destination.aboutTitle}
                 </h2>
 
                 <p
@@ -449,8 +593,10 @@ function DestinationPage() {
                     max-w-[750px]
 
                     font-body
-                    text-body-regular
+                    text-mobile-body
                     text-text-secondary
+
+                    md:text-body-regular
                   "
                 >
                   {destination.about}
@@ -461,12 +607,14 @@ function DestinationPage() {
               <section
                 aria-labelledby="history-title"
                 className="
-                  mt-6
+                  mt-0
 
                   border-t
                   border-border-light
 
                   pt-6
+
+                  lg:mt-6
                 "
               >
                 <h2
@@ -480,7 +628,9 @@ function DestinationPage() {
                     md:text-h3
                   "
                 >
-                  История
+                  {t(
+                    'destination.history'
+                  )}
                 </h2>
 
                 <p
@@ -489,11 +639,13 @@ function DestinationPage() {
                     max-w-[750px]
 
                     font-body
-                    text-body-regular
+                    text-mobile-body
                     text-text-secondary
+
+                    md:text-body-regular
                   "
                 >
-                  {destination.history}
+                  {historyPreview}
                 </p>
 
                 <Button
@@ -503,199 +655,57 @@ function DestinationPage() {
                   iconSize={16}
                   className="mt-5"
                   onClick={() =>
-                    setIsHistoryModalOpen(true)
+                    setIsHistoryModalOpen(
+                      true
+                    )
                   }
                 >
-                  Прочети повече
+                  {t(
+                    'destination.readMore'
+                  )}
                 </Button>
               </section>
+
+              {/* GALLERY */}
+              <div
+                className="
+                  order-2
+
+                  lg:order-none
+                "
+              >
+                <DestinationGallery
+                  key={`${destination.slug}-${locale}`}
+                  gallery={gallery}
+                  destinationTitle={
+                    destination.title
+                  }
+                />
+              </div>
             </div>
 
             {/* PRACTICAL INFORMATION */}
-            <aside
-              aria-labelledby="practical-info-title"
-              className="
-                w-full
-                self-start
-
-                rounded-[18px]
-                border
-                border-border-light
-                bg-background-card
-
-                px-6
-                py-4
-
-                shadow-default
-
-                lg:w-[450px]
-              "
-            >
-              <div
-                className="
-                  flex
-                  flex-col
-                  gap-3
-                "
-              >
-                <h2
-                  id="practical-info-title"
-                  className="
-                    font-body
-                    text-section-small
-                    uppercase
-                    tracking-[0.12em]
-                    text-accent-orange
-                  "
-                >
-                  Практическа информация
-                </h2>
-
-                {destination.practicalInfo.map(
-                  (item) => (
-                    <InfoRow
-                      key={item.id}
-                      icon={item.icon}
-                      title={item.title}
-                    >
-                      <div
-                        className="
-                          flex
-                          flex-col
-                          gap-1
-                        "
-                      >
-                        {item.lines.map((line) => (
-                          <p key={line}>
-                            {line}
-                          </p>
-                        ))}
-                      </div>
-                    </InfoRow>
-                  )
-                )}
-              </div>
-            </aside>
-          </section>
-
-          {/* GALLERY */}
-          <section
-            aria-labelledby="gallery-title"
-            className="
-              mt-10
-
-              border-t
-              border-border-light
-
-              pt-10
-            "
-          >
-            <h2
-              id="gallery-title"
-              className="
-                font-heading
-                text-mobile-h2
-                uppercase
-                text-primary
-
-                md:text-h3
-              "
-            >
-              Галерия
-            </h2>
-
-            <div
-              className="
-                mt-6
-
-                grid
-                grid-cols-1
-                gap-4
-
-                sm:grid-cols-2
-
-                lg:grid-cols-4
-              "
-            >
-              {destination.gallery
-                .slice(0, 3)
-                .map((image) => (
-                  <GalleryHeroImage
-                    key={image.id}
-                    src={image.src}
-                    alt={image.alt}
-                    className="
-                      h-[180px]
-
-                      lg:h-[160px]
-                    "
-                  />
-                ))}
-
-              {/* VIEW MORE */}
-              <button
-                type="button"
-                onClick={() => openGallery(0)}
-                className="
-                  flex
-                  min-h-[160px]
-                  flex-col
-                  items-center
-                  justify-center
-                  gap-3
-
-                  rounded-[12px]
-
-                  border
-                  border-border-light
-
-                  bg-background-card
-
-                  px-4
-
-                  shadow-default
-
-                  transition-[border-color,box-shadow]
-                  duration-200
-                  ease-out
-
-                  hover:border-accent-orange
-                  hover:shadow-hover
-
-                  focus-visible:outline-none
-                  focus-visible:shadow-focus
-                "
-              >
-                <ImageIcon
-                  aria-hidden="true"
-                  size={24}
-                  strokeWidth={1.6}
-                  className="text-accent-orange"
-                />
-
-                <span
-                  className="
-                    font-body
-                    text-body-small
-                    font-medium
-                    text-text-primary
-                  "
-                >
-                  Виж всички снимки
-                </span>
-              </button>
-            </div>
-          </section>
+            <DestinationPracticalInfo
+              practicalInfo={practicalInfo}
+              lastVerifiedAt={
+                destination.lastVerifiedAt
+              }
+            />
+          </div>
 
           {/* DIRECTIONS */}
           <section
             aria-labelledby="directions-title"
             className="
-              mt-8
+              order-2
+              mt-6
+
               border-t
               border-border-light
 
               pt-6
+
+              lg:order-none
             "
           >
             <h2
@@ -703,13 +713,16 @@ function DestinationPage() {
               className="
                 font-heading
                 text-mobile-h2
+                uppercase
                 text-primary
 
                 md:text-h3
                 md:uppercase
               "
             >
-              Как да стигнете
+              {t(
+                'destination.directions'
+              )}
             </h2>
 
             <div
@@ -720,9 +733,12 @@ function DestinationPage() {
                 grid-cols-1
                 gap-5
 
-                lg:grid-cols-[300px_1fr]
-                lg:items-stretch
-                lg:gap-6
+                md:grid-cols-[220px_minmax(0,1fr)]
+                md:items-stretch
+                md:gap-3
+
+                xl:grid-cols-[300px_minmax(0,1fr)]
+                xl:gap-3
               "
             >
               {/* LOCATION */}
@@ -739,7 +755,7 @@ function DestinationPage() {
 
                   bg-background-card
 
-                  px-5
+                  px-2
                   py-4
                 "
               >
@@ -747,11 +763,13 @@ function DestinationPage() {
                   className="
                     flex
                     items-center
-                    gap-2
+                    gap-1
 
                     font-body
-                    text-body-small
+                    text-mobile-small
                     text-text-secondary
+
+                    md:text-body-small
                   "
                 >
                   <MapPin
@@ -765,7 +783,9 @@ function DestinationPage() {
                   />
 
                   <span>
-                    {destination.location}
+                    {
+                      destination.location
+                    }
                   </span>
                 </div>
 
@@ -803,7 +823,9 @@ function DestinationPage() {
                     hover:shadow-button
                   "
                 >
-                  Отвори в Google Maps
+                  {t(
+                    'destination.openGoogleMaps'
+                  )}
 
                   <ExternalLink
                     aria-hidden="true"
@@ -815,8 +837,12 @@ function DestinationPage() {
 
               {/* REAL INTERACTIVE MAP */}
               <DestinationMiniMap
-                position={destination.coordinates}
-                title={destination.title}
+                position={
+                  destination.coordinates
+                }
+                title={
+                  destination.title
+                }
               />
             </div>
           </section>
@@ -825,9 +851,9 @@ function DestinationPage() {
           <section
             aria-labelledby="related-title"
             className="
-              mt-10
+              mt-8
 
-              rounded-[18px]
+              rounded-lg
               bg-primary
 
               p-4
@@ -846,7 +872,9 @@ function DestinationPage() {
                 md:uppercase
               "
             >
-              Разгледайте още
+              {t(
+                'destination.exploreMore'
+              )}
             </h2>
 
             <div
@@ -862,8 +890,10 @@ function DestinationPage() {
                 lg:grid-cols-4
               "
             >
-              {destination.related.map(
-                (relatedDestination) => (
+              {relatedDestinations.map(
+                (
+                  relatedDestination
+                ) => (
                   <RelatedDestinationCard
                     key={
                       relatedDestination.slug
@@ -889,469 +919,13 @@ function DestinationPage() {
         </div>
       </main>
 
-      {/* GALLERY MODAL */}
-      {isGalleryModalOpen && (
-        <div
-          className="
-            fixed
-            inset-0
-            z-[9999]
-
-            flex
-            items-center
-            justify-center
-
-            bg-black/35
-
-            px-4
-            py-6
-          "
-          onMouseDown={(event) => {
-            if (
-              event.target === event.currentTarget
-            ) {
-              closeGallery()
-            }
-          }}
-        >
-          <section
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="gallery-modal-title"
-            className="
-              relative
-
-              w-full
-              max-w-[1180px]
-              max-h-[92vh]
-              overflow-y-auto
-
-              rounded-[18px]
-
-              border
-              border-border-light
-
-              bg-background-card
-
-              px-4
-              py-4
-
-              shadow-hover
-
-              md:px-6
-              md:py-4
-            "
-          >
-            {/* GALLERY HEADER */}
-            <div
-              className="
-                flex
-                items-start
-                justify-between
-                gap-6
-              "
-            >
-              <div>
-                <h2
-                  id="gallery-modal-title"
-                  className="
-                    font-heading
-                    text-mobile-h2
-                    text-text-primary
-
-                    md:text-h3
-                  "
-                >
-                  {destination.title}
-                </h2>
-
-                <p
-                  className="
-                    mt-1
-
-                    font-body
-                    text-body-small
-                    text-text-secondary
-                  "
-                >
-                  {activeGalleryIndex + 1} от{' '}
-                  {galleryLength}
-                </p>
-              </div>
-
-              {/* CLOSE */}
-              <button
-                type="button"
-                aria-label="Затвори галерията"
-                onClick={closeGallery}
-                className="
-                  flex
-                  h-9
-                  w-9
-                  shrink-0
-                  items-center
-                  justify-center
-
-                  text-text-primary
-
-                  transition-colors
-                  duration-200
-                  ease-out
-
-                  hover:text-accent-orange
-
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-accent-orange
-                  focus-visible:ring-offset-2
-                "
-              >
-                <X
-                  aria-hidden="true"
-                  size={22}
-                  strokeWidth={1.7}
-                />
-              </button>
-            </div>
-
-            {/* ACTIVE IMAGE */}
-            <div
-              className="
-                relative
-                mt-4
-
-                overflow-hidden
-                rounded-[16px]
-
-                bg-black/5
-              "
-            >
-              <img
-                src={
-                  destination.gallery[
-                    activeGalleryIndex
-                  ].src
-                }
-                alt={
-                  destination.gallery[
-                    activeGalleryIndex
-                  ].alt
-                }
-                className="
-                  h-[250px]
-                  w-full
-                  object-cover
-
-                  sm:h-[380px]
-
-                  lg:h-[460px]
-                "
-              />
-
-              {/* PREVIOUS */}
-              <button
-                type="button"
-                aria-label="Предишна снимка"
-                onClick={showPreviousImage}
-                className="
-                  absolute
-                  left-4
-                  top-1/2
-                  -translate-y-1/2
-
-                  flex
-                  h-11
-                  w-11
-                  items-center
-                  justify-center
-
-                  rounded-full
-
-                  border
-                  border-white/70
-
-                  bg-black/25
-                  text-white
-
-                  backdrop-blur-sm
-
-                  transition-colors
-                  duration-200
-                  ease-out
-
-                  hover:bg-black/45
-                "
-              >
-                <ChevronLeft
-                  aria-hidden="true"
-                  size={28}
-                  strokeWidth={1.7}
-                />
-              </button>
-
-              {/* NEXT */}
-              <button
-                type="button"
-                aria-label="Следваща снимка"
-                onClick={showNextImage}
-                className="
-                  absolute
-                  right-4
-                  top-1/2
-                  -translate-y-1/2
-
-                  flex
-                  h-11
-                  w-11
-                  items-center
-                  justify-center
-
-                  rounded-full
-
-                  border
-                  border-white/70
-
-                  bg-black/25
-                  text-white
-
-                  backdrop-blur-sm
-
-                  transition-colors
-                  duration-200
-                  ease-out
-
-                  hover:bg-black/45
-                "
-              >
-                <ChevronRight
-                  aria-hidden="true"
-                  size={28}
-                  strokeWidth={1.7}
-                />
-              </button>
-            </div>
-
-            {/* THUMBNAILS */}
-            <div
-              className="
-                mt-3
-
-                flex
-                gap-3
-                overflow-x-auto
-
-                pb-1
-
-                lg:justify-center
-              "
-            >
-              {destination.gallery.map(
-                (image, index) => (
-                  <GalleryThumbnail
-                    key={image.id}
-                    src={image.src}
-                    alt={image.alt}
-                    isSelected={
-                      index ===
-                      activeGalleryIndex
-                    }
-                    ariaLabel={`Отвори снимка ${
-                      index + 1
-                    }`}
-                    onClick={() =>
-                      setActiveGalleryIndex(
-                        index
-                      )
-                    }
-                  />
-                )
-              )}
-            </div>
-          </section>
-        </div>
-      )}
-
-      {/* HISTORY MODAL */}
-      {isHistoryModalOpen && (
-        <>
-          {/* Modal animation */}
-          <style>
-            {`
-              @keyframes historyOverlayFadeIn {
-                from {
-                  opacity: 0;
-                }
-
-                to {
-                  opacity: 1;
-                }
-              }
-
-              @keyframes historyModalMoveIn {
-                from {
-                  opacity: 0;
-                  transform: translateY(32px);
-                }
-
-                to {
-                  opacity: 1;
-                  transform: translateY(0);
-                }
-              }
-            `}
-          </style>
-
-          {/* OVERLAY */}
-          <div
-            className="
-              fixed
-              inset-0
-              z-[100]
-
-              flex
-              items-center
-              justify-center
-
-              bg-black/25
-
-              px-5
-              py-8
-            "
-            style={{
-              animation:
-                'historyOverlayFadeIn 300ms ease-out',
-            }}
-            onMouseDown={(event) => {
-              if (
-                event.target ===
-                event.currentTarget
-              ) {
-                setIsHistoryModalOpen(false)
-              }
-            }}
-          >
-            {/* MODAL */}
-            <section
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="history-modal-title"
-              className="
-                relative
-
-                w-full
-                max-w-[760px]
-                max-h-[85vh]
-                overflow-y-auto
-
-                rounded-[18px]
-
-                border
-                border-border-light
-
-                bg-background-card
-
-                px-7
-                py-8
-
-                shadow-hover
-
-                md:px-8
-                md:py-11
-              "
-              style={{
-                animation:
-                  'historyModalMoveIn 300ms ease-out',
-              }}
-            >
-              {/* MODAL HEADER */}
-              <div
-                className="
-                  flex
-                  items-center
-                  justify-between
-                  gap-6
-                "
-              >
-                {/* TITLE */}
-                <h2
-                  id="history-modal-title"
-                  className="
-                    font-heading
-                    text-mobile-h2
-                    uppercase
-                    text-primary
-
-                    md:text-h3
-                    md:whitespace-nowrap
-                  "
-                >
-                  История през вековете
-                </h2>
-
-                {/* CLOSE */}
-                <button
-                  type="button"
-                  aria-label="Затвори"
-                  onClick={() =>
-                    setIsHistoryModalOpen(false)
-                  }
-                  className="
-                    flex
-                    h-9
-                    w-9
-                    shrink-0
-                    items-center
-                    justify-center
-
-                    text-accent-orange
-
-                    transition-colors
-                    duration-200
-                    ease-out
-
-                    hover:text-accent-antique
-
-                    focus-visible:outline-none
-                    focus-visible:ring-2
-                    focus-visible:ring-accent-orange
-                    focus-visible:ring-offset-2
-                  "
-                >
-                  <X
-                    aria-hidden="true"
-                    size={22}
-                    strokeWidth={1.7}
-                  />
-                </button>
-              </div>
-
-              {/* CONTENT */}
-              <div
-                className="
-                  mt-5
-                  w-full
-
-                  flex
-                  flex-col
-                  gap-5
-
-                  font-body
-                  text-body-regular
-                  text-text-secondary
-                "
-              >
-                <p>
-                  {destination.history}
-                </p>
-
-                <p>
-                  {destination.historyMore}
-                </p>
-              </div>
-            </section>
-          </div>
-        </>
-      )}
+      <HistoryModal
+        isOpen={isHistoryModalOpen}
+        onClose={() =>
+          setIsHistoryModalOpen(false)
+        }
+        paragraphs={historyParagraphs}
+      />
 
       <Footer />
     </>

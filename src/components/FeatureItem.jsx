@@ -4,21 +4,28 @@ function FeatureItem({
   description,
 }) {
   return (
-    <article
+    <div
       className="
-        flex items-center gap-3
+        flex
+        items-center
+        gap-3
+
         md:flex-1
       "
     >
-      {/* Icon container */}
+      {/* Icon */}
       <div
         className="
-          flex h-[42px] w-[42px]
+          flex
+          h-[42px]
+          w-[42px]
           shrink-0
-          items-center justify-center
+          items-center
+          justify-center
 
           rounded-sm
-          border border-white/10
+          border
+          border-white/10
           bg-black/25
           text-white
           backdrop-blur-[6px]
@@ -29,7 +36,10 @@ function FeatureItem({
       >
         <Icon
           aria-hidden="true"
-          size={24}
+          className="
+            h-(--icon-size-large)
+            w-(--icon-size-large)
+          "
           strokeWidth={1.5}
         />
       </div>
@@ -42,7 +52,7 @@ function FeatureItem({
             text-mobile-section
             text-white
 
-            md:text-section-small
+            lg:text-section-small
           "
         >
           {title}
@@ -52,20 +62,21 @@ function FeatureItem({
           className="
             mt-0.5
             max-w-[290px]
+
             font-body
             text-mobile-small
             text-white/85
 
             md:mt-1
             md:max-w-none
-            md:text-body-small
-            md:leading-[18px]
+
+            lg:text-body-small
           "
         >
           {description}
         </p>
       </div>
-    </article>
+    </div>
   )
 }
 

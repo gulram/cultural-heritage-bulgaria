@@ -1,12 +1,32 @@
+import {
+  useState,
+} from 'react'
+
 import { ArrowRight } from 'lucide-react'
 
+import {
+  useTranslation,
+} from 'react-i18next'
+
 import Button from './Button'
+import ImageFallback from './ImageFallback'
 
 function RelatedDestinationCard({
   title,
   image,
   slug,
 }) {
+  const { t } = useTranslation()
+
+  const [
+    failedImage,
+    setFailedImage,
+  ] = useState(null)
+
+  const hasValidImage =
+    Boolean(image) &&
+    failedImage !== image
+
   return (
     <article
       className="
@@ -16,7 +36,7 @@ function RelatedDestinationCard({
         w-full
         overflow-hidden
 
-        rounded-[14px]
+        rounded-md
         border
         border-accent-orange
 
@@ -30,25 +50,43 @@ function RelatedDestinationCard({
       "
     >
       {/* Image */}
-      <img
-        src={image}
-        alt={title}
-        loading="lazy"
-        className="
-          absolute
-          inset-0
+      {hasValidImage ? (
+        <img
+          src={image}
+          alt={title}
+          loading="lazy"
+          onError={() =>
+            setFailedImage(image)
+          }
+          className="
+            absolute
+            inset-0
 
-          h-full
-          w-full
-          object-cover
+            h-full
+            w-full
+            object-cover
 
-          transition-transform
-          duration-200
-          ease-out
+            transition-transform
+            duration-200
+            ease-out
 
-          group-hover:scale-[1.03]
-        "
-      />
+            group-hover:scale-[1.03]
+          "
+        />
+      ) : (
+        <ImageFallback
+          compact
+          className="
+            absolute
+            inset-0
+
+            h-full
+            rounded-none
+            border-0
+            shadow-none
+          "
+        />
+      )}
 
       {/* Dark overlay */}
       <div
@@ -83,7 +121,6 @@ function RelatedDestinationCard({
           className="
             font-heading
             text-mobile-h3
-            font-semibold
             text-white
 
             lg:text-h3
@@ -99,7 +136,7 @@ function RelatedDestinationCard({
           iconSize={16}
           className="mt-3"
         >
-          Разгледай
+          {t('destinationCard.explore')}
         </Button>
       </div>
     </article>

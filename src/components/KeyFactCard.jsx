@@ -17,23 +17,20 @@ function KeyFactCard({
       <div
         className="
           flex
-          h-10
-          w-10
+          h-(--spacing-5)
+          w-(--spacing-5)
           shrink-0
           items-center
           justify-center
 
           text-primary
-
-          lg:h-11
-          lg:w-11
         "
       >
         <Icon
           aria-hidden="true"
           className="
-            h-8
-            w-8
+            h-(--spacing-4)
+            w-(--spacing-4)
           "
           strokeWidth={1.4}
         />
@@ -44,6 +41,7 @@ function KeyFactCard({
         <p
           className="
             whitespace-nowrap
+
             font-heading
             text-mobile-h3
             uppercase
@@ -61,9 +59,10 @@ function KeyFactCard({
             max-w-[175px]
 
             font-body
-            text-body-small
-            leading-3
+            text-mobile-small
             text-text-secondary
+
+            lg:text-body-small
           "
         >
           {description}

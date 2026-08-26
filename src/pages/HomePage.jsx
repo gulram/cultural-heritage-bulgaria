@@ -1,5 +1,15 @@
-import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import {
+  useEffect,
+  useState,
+} from 'react'
+
+import {
+  useLocation,
+} from 'react-router-dom'
+
+import {
+  useTranslation,
+} from 'react-i18next'
 
 import Header from '../components/Header'
 import Hero from '../components/Hero'
@@ -7,94 +17,108 @@ import DestinationCard from '../components/DestinationCard'
 import InteractiveMapBanner from '../components/InteractiveMapBanner'
 import Footer from '../components/Footer'
 
-import rilaImage from '../assets/rila-card.jpeg'
-import rilaWatermark from '../assets/rila-watermark.png'
+import FeedbackState from '../components/FeedbackState'
+import NoResultsState from '../components/NoResultsState'
+import LoadingSkeleton from '../components/LoadingSkeleton'
 
-import nessebarImage from '../assets/nessebar-card.png'
-import nessebarWatermark from '../assets/nessebar-watermark.png'
-
-import boyanaImage from '../assets/boyana-card.png'
-import boyanaWatermark from '../assets/boyana-watermark.png'
-
-import madaraImage from '../assets/madara-card.png'
-import madaraWatermark from '../assets/madara-watermark.png'
-
-import kazanlakImage from '../assets/kazanlak-card.png'
-import kazanlakWatermark from '../assets/kazanlak-watermark.png'
-
-const DESTINATIONS = [
-  {
-    number: '1',
-    title: 'Рилски манастир',
-    description:
-      'Най-големият и най-значим православен манастир в България, основан през X век от св. Иван Рилски.',
-    location: 'Рила, област Кюстендил',
-    unescoYear: '1983',
-    image: rilaImage,
-    watermark: rilaWatermark,
-    slug: 'rila-monastery',
-    imagePosition: 'left',
-  },
-  {
-    number: '2',
-    title: 'Старият град Несебър',
-    description:
-      'Един от най-старите градове в Европа, известен със своите средновековни църкви, калдъръмени улици и впечатляваща архитектура.',
-    location: 'Несебър, област Бургас',
-    unescoYear: '1983',
-    image: nessebarImage,
-    watermark: nessebarWatermark,
-    slug: 'old-nessebar',
-    imagePosition: 'right',
-  },
-  {
-    number: '3',
-    title: 'Боянска църква',
-    description:
-      'Средновековна църква, прочута със своите стенописи от XIII век, считани за едни от най-ценните произведения на европейското изкуство.',
-    location: 'Бояна, София',
-    unescoYear: '1979',
-    image: boyanaImage,
-    watermark: boyanaWatermark,
-    slug: 'boyana-church',
-    imagePosition: 'left',
-  },
-  {
-    number: '4',
-    title: 'Мадарски конник',
-    description:
-      'Уникален скален релеф от ранното Средновековие, издълбан на височина в скалите край Мадара и символ на българската история.',
-    location: 'Мадара, област Шумен',
-    unescoYear: '1979',
-    image: madaraImage,
-    watermark: madaraWatermark,
-    slug: 'madara-rider',
-    imagePosition: 'right',
-  },
-  {
-    number: '5',
-    title: 'Казанлъшка гробница',
-    description:
-      'Тракийска гробница от елинистическата епоха, известна със своите изключително добре запазени стенописи.',
-    location: 'Казанлък, област Стара Загора',
-    unescoYear: '1979',
-    image: kazanlakImage,
-    watermark: kazanlakWatermark,
-    slug: 'kazanlak-tomb',
-    imagePosition: 'left',
-  },
-]
+import {
+  getDestinations,
+} from '../services/destinationService'
 
 function HomePage() {
   const location = useLocation()
+
+  const { t, i18n } = useTranslation()
+
+  const locale =
+    i18n.resolvedLanguage === 'en'
+      ? 'en'
+      : 'bg'
+
+  const [
+    destinations,
+    setDestinations,
+  ] = useState([])
+
+  const [
+    error,
+    setError,
+  ] = useState(null)
+
+  const [
+    retryCount,
+    setRetryCount,
+  ] = useState(0)
+
+  const [
+    resolvedRequest,
+    setResolvedRequest,
+  ] = useState({
+    locale: null,
+    retryCount: -1,
+  })
+
+  const isLoading =
+    resolvedRequest.locale !== locale ||
+    resolvedRequest.retryCount !==
+      retryCount
+
+  useEffect(() => {
+    let isCancelled = false
+
+    getDestinations(locale)
+      .then((data) => {
+        if (isCancelled) {
+          return
+        }
+
+        setDestinations(data)
+        setError(null)
+      })
+      .catch((err) => {
+        console.error(err)
+
+        if (isCancelled) {
+          return
+        }
+
+        setError(err.message)
+      })
+      .finally(() => {
+        if (isCancelled) {
+          return
+        }
+
+        setResolvedRequest({
+          locale,
+          retryCount,
+        })
+      })
+
+    return () => {
+      isCancelled = true
+    }
+  }, [
+    locale,
+    retryCount,
+  ])
+
+  const handleRetry = () => {
+    setRetryCount(
+      (current) => current + 1
+    )
+  }
 
   useEffect(() => {
     if (!location.hash) {
       return
     }
 
-    const sectionId = location.hash.replace('#', '')
-    const section = document.getElementById(sectionId)
+    const sectionId =
+      location.hash.replace('#', '')
+
+    const section =
+      document.getElementById(sectionId)
 
     if (!section) {
       return
@@ -108,7 +132,8 @@ function HomePage() {
 
   return (
     <>
-        <Header />
+      <Header />
+
       <main>
         <Hero />
 
@@ -120,8 +145,9 @@ function HomePage() {
             max-w-main
             scroll-mt-20
             px-5
-            py-16
+            py-6
 
+            lg:w-[calc(100%-40px)]
             lg:px-0
           "
         >
@@ -136,7 +162,7 @@ function HomePage() {
                 text-accent-orange
               "
             >
-              ТОП 5
+              {t('home.topFive')}
             </p>
 
             <h2
@@ -150,8 +176,24 @@ function HomePage() {
                 md:text-h2
               "
             >
-              Най-популярните паметници в България
+              {t('home.destinationsTitle')}
             </h2>
+
+            <p
+              className="
+                mt-2
+                max-w-[720px]
+
+                font-body
+                text-mobile-small
+                text-text-secondary
+
+                md:text-body-small
+              "
+            >
+            {t('home.selectionNote')}
+            </p>
+
 
             <div
               aria-hidden="true"
@@ -170,24 +212,323 @@ function HomePage() {
               mt-5
               flex
               flex-col
-              gap-12
+              gap-5
             "
           >
-            {DESTINATIONS.map((destination) => (
-              <DestinationCard
-                key={destination.slug}
-                {...destination}
+            {/* LOADING */}
+            {isLoading && (
+              <LoadingSkeleton />
+            )}
+
+            {/* ERROR */}
+            {!isLoading && error && (
+              <FeedbackState
+                variant="error"
+                title={t(
+                  'feedback.error.title'
+                )}
+                description={t(
+                  'feedback.error.description'
+                )}
+                actionLabel={t(
+                  'feedback.error.retry'
+                )}
+                onAction={handleRetry}
               />
-            ))}
+            )}
+
+            {/* NO RESULTS */}
+            {!isLoading &&
+              !error &&
+              destinations.length ===
+                0 && (
+                <NoResultsState />
+              )}
+
+            {/* DESTINATIONS */}
+            {!isLoading &&
+              !error &&
+              destinations.length > 0 &&
+              destinations.map(
+                (destination) => (
+                  <DestinationCard
+                    key={destination.slug}
+                    number={
+                      destination.number
+                    }
+                    title={
+                      destination.title
+                    }
+                    description={
+                      destination.description
+                    }
+                    location={
+                      destination.location
+                    }
+                    unescoYear={
+                      destination.unescoYear
+                    }
+                    image={
+                      destination.image
+                    }
+                    slug={
+                      destination.slug
+                    }
+                    imagePosition={
+                      destination.number %
+                        2 ===
+                      0
+                        ? 'right'
+                        : 'left'
+                    }
+                  />
+                )
+              )}
           </div>
 
           {/* Interactive map CTA */}
-          <div className="mt-12">
+          <div className="mt-5">
             <InteractiveMapBanner />
           </div>
         </section>
-      </main>
 
+      {/* ABOUT SECTION */}
+      <section
+        id="about"
+        aria-labelledby="about-title"
+        className="
+          scroll-mt-[72px]
+          bg-background-primary
+
+          px-5
+          py-6
+
+          md:px-8
+          lg:px-0
+          lg:py-7
+        "
+      >
+        <div
+          className="
+            mx-auto
+            w-full
+            max-w-main
+
+            lg:w-[calc(100%-40px)]
+          "
+        >
+          {/* SECTION INTRO */}
+          <div
+            className="
+              mx-auto
+              max-w-[760px]
+              text-center
+            "
+          >
+            <p
+              className="
+                font-body
+                text-section-small
+                uppercase
+                tracking-[0.12em]
+                text-accent-orange
+              "
+            >
+              {t('home.aboutLabel')}
+            </p>
+
+            <h2
+              id="about-title"
+              className="
+                mt-3
+
+                font-heading
+                text-mobile-h2
+                text-primary
+
+                md:text-h2
+              "
+            >
+              {t('home.aboutTitle')}
+            </h2>
+
+            <p
+              className="
+                mx-auto
+                mt-4
+                max-w-[680px]
+
+                font-body
+                text-mobile-body
+                text-text-secondary
+
+                md:text-body-regular
+              "
+            >
+              {t('home.aboutDescription')}
+            </p>
+          </div>
+
+          {/* INFORMATION GRID */}
+          <div
+            className="
+              mx-auto
+              mt-5
+
+              grid
+              max-w-[900px]
+              grid-cols-1
+              gap-x-6
+              gap-y-10
+
+              md:grid-cols-2
+            "
+          >
+            {/* GOAL */}
+            <article>
+              <h3
+                className="
+                  border-b
+                  border-accent-gold
+                  pb-2
+
+                  font-body
+                  text-section-small
+                  uppercase
+                  tracking-[0.08em]
+                  text-text-primary
+                "
+              >
+                {t('home.goal.title')}
+              </h3>
+
+              <p
+                className="
+                  mt-3
+
+                  font-body
+                  text-mobile-body
+                  text-text-secondary
+
+                  md:text-body-small
+                "
+              >
+                {t('home.goal.description')}
+              </p>
+            </article>
+
+            {/* INTERACTIVE MAP */}
+            <article>
+              <h3
+                className="
+                  border-b
+                  border-accent-gold
+                  pb-2
+
+                  font-body
+                  text-section-small
+                  uppercase
+                  tracking-[0.08em]
+                  text-text-primary
+                "
+              >
+                {t(
+                  'home.interactiveMap.title'
+                )}
+              </h3>
+
+              <p
+                className="
+                  mt-3
+
+                  font-body
+                  text-mobile-body
+                  text-text-secondary
+
+                  md:text-body-small
+                "
+              >
+                {t(
+                  'home.interactiveMap.description'
+                )}
+              </p>
+            </article>
+
+            {/* CULTURAL HERITAGE */}
+            <article>
+              <h3
+                className="
+                  border-b
+                  border-accent-gold
+                  pb-2
+
+                  font-body
+                  text-section-small
+                  uppercase
+                  tracking-[0.08em]
+                  text-text-primary
+                "
+              >
+                {t('home.heritage.title')}
+              </h3>
+
+              <p
+                className="
+                  mt-3
+
+                  font-body
+                  text-mobile-body
+                  text-text-secondary
+
+                  md:text-body-small
+                "
+              >
+                {t(
+                  'home.heritage.description'
+                )}
+              </p>
+            </article>
+
+            {/* TECHNOLOGIES */}
+            <article>
+              <h3
+                className="
+                  border-b
+                  border-accent-gold
+                  pb-2
+
+                  font-body
+                  text-section-small
+                  uppercase
+                  tracking-[0.08em]
+                  text-text-primary
+                "
+              >
+                {t(
+                  'home.technologies.title'
+                )}
+              </h3>
+
+              <p
+                className="
+                  mt-3
+
+                  font-body
+                  text-mobile-body
+                  text-text-secondary
+
+                  md:text-body-small
+                "
+              >
+                {t(
+                  'home.technologies.description'
+                )}
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+      </main>
       <Footer />
     </>
   )

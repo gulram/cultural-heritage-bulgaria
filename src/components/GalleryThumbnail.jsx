@@ -1,47 +1,75 @@
+import {
+  useState,
+} from 'react'
+
+import ImageFallback from './ImageFallback'
+
 function GalleryThumbnail({
   src,
   alt,
-  isSelected = false,
+  className = '',
   onClick,
-  ariaLabel,
 }) {
+  const [
+    failedImage,
+    setFailedImage,
+  ] = useState(null)
+
+  const hasValidImage =
+    Boolean(src) &&
+    failedImage !== src
+
   return (
     <button
       type="button"
-      aria-label={ariaLabel}
       onClick={onClick}
+      aria-label={alt}
       className={`
-        shrink-0
+        group
+        relative
+        block
         overflow-hidden
+        rounded-md
+        text-left
 
-        rounded-[8px]
+        ${onClick ? 'cursor-pointer' : ''}
 
-        border-2
-
-        transition-[border-color,opacity]
-        duration-200
-        ease-out
-
-        ${
-          isSelected
-            ? 'border-accent-orange opacity-100'
-            : 'border-transparent opacity-75 hover:opacity-100'
-        }
+        ${className}
       `}
     >
-      <img
-        src={src}
-        alt={alt}
-        loading="lazy"
-        className="
-          h-[56px]
-          w-[88px]
-          object-cover
+      {hasValidImage ? (
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          onError={() =>
+            setFailedImage(src)
+          }
+          className="
+            h-full
+            w-full
+            object-cover
 
-          md:h-[60px]
-          md:w-[96px]
-        "
-      />
+            transition-transform
+            duration-300
+            ease-out
+
+            group-hover:scale-[1.04]
+          "
+        />
+      ) : (
+        <ImageFallback
+          compact
+          className="
+            h-full
+            w-full
+
+            rounded-none
+            border-0
+            shadow-none
+          "
+        />
+      )}
     </button>
   )
 }

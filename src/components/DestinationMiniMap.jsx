@@ -17,7 +17,7 @@ function DestinationMiniMap({
         h-[180px]
         w-full
         overflow-hidden
-        rounded-[14px]
+        rounded-md
       "
     >
       <MapContainer
@@ -33,7 +33,16 @@ function DestinationMiniMap({
 
         <Marker position={position}>
           <Popup>
-            {title}
+            <span
+                className="
+                font-body
+                text-mobile-small
+
+                lg:text-body-small
+                "
+            >
+                {title}
+            </span>
           </Popup>
         </Marker>
       </MapContainer>

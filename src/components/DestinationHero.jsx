@@ -1,7 +1,16 @@
+import {
+  useState,
+} from 'react'
+
 import { ArrowLeft } from 'lucide-react'
+
+import {
+  useTranslation,
+} from 'react-i18next'
 
 import Button from './Button'
 import DestinationMetadata from './DestinationMetadata'
+import ImageFallback from './ImageFallback'
 
 function DestinationHero({
   title,
@@ -9,21 +18,62 @@ function DestinationHero({
   location,
   unescoYear,
 }) {
+  const { t } = useTranslation()
+
+  const [
+    failedImage,
+    setFailedImage,
+  ] = useState(null)
+
+  const hasValidImage =
+    Boolean(image) &&
+    failedImage !== image
+
   return (
     <section
       className="
         relative
         min-h-[340px]
         overflow-hidden
-        bg-cover
-        bg-center
 
         md:min-h-[380px]
       "
-      style={{
-        backgroundImage: `url(${image})`,
-      }}
     >
+      {/* Hero image */}
+      {hasValidImage ? (
+        <img
+          src={image}
+          alt=""
+          aria-hidden="true"
+          onError={() =>
+            setFailedImage(image)
+          }
+          className="
+            absolute
+            inset-0
+            h-full
+            w-full
+            object-cover
+            object-center
+          "
+        />
+      ) : (
+        <ImageFallback
+          className="
+            absolute
+            inset-0
+            h-full
+
+            rounded-none
+            border-0
+            shadow-none
+
+            [&_h3]:hidden
+            [&_p]:hidden
+          "
+        />
+      )}
+
       {/* Dark overlay */}
       <div
         aria-hidden="true"
@@ -54,7 +104,7 @@ function DestinationHero({
 
           md:min-h-[380px]
 
-          lg:px-0
+          xl:px-0
         "
       >
         <Button
@@ -65,7 +115,9 @@ function DestinationHero({
           iconSize={16}
           className="mb-5 self-start"
         >
-          Всички дестинации
+          {t(
+            'destinationHero.allDestinations'
+          )}
         </Button>
 
         <h1
@@ -74,7 +126,7 @@ function DestinationHero({
             text-mobile-h1
             text-white
 
-            md:text-h1
+            lg:text-h1
           "
         >
           {title}

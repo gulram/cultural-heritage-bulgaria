@@ -1,26 +1,34 @@
 import { ArrowRight } from 'lucide-react'
 
+import {
+  useTranslation,
+} from 'react-i18next'
+
 import Button from './Button'
 import mapImage from '../assets/bulgaria-map-banner.png'
 import mapRouteIcon from '../assets/map-route.png'
 
 function InteractiveMapBanner() {
+  const { t } = useTranslation()
+
   return (
     <section
       aria-labelledby="map-banner-title"
       className="
         group
         relative
+        
         mx-auto
-        h-[276px]
+        h-[220px]
         w-full
-        max-w-[402px]
+        max-w-none
         overflow-hidden
 
-        rounded-[18px]
+        rounded-lg
         border
         border-border-light
-        bg-background-highlight
+        bg-background-card
+
         shadow-default
 
         transition-shadow
@@ -29,7 +37,7 @@ function InteractiveMapBanner() {
 
         hover:shadow-hover
 
-        lg:h-[205px]
+        md:max-w-none
         lg:max-w-[1094px]
       "
     >
@@ -38,28 +46,31 @@ function InteractiveMapBanner() {
         src={mapImage}
         alt=""
         aria-hidden="true"
+        loading="lazy"
         className="
           pointer-events-none
           absolute
 
           bottom-[-65px]
-          left-[-18px]
+          right-[-50px]
 
-          w-[420px]
+          w-[440px]
           max-w-none
           object-contain
 
-          opacity-[0.4]
+          opacity-[0.6]
 
           transition-opacity
           duration-200
           ease-out
 
+          md:left-auto
+          md:right-[-5px]
+
           lg:bottom-[-65px]
-          lg:left-auto
-          lg:right-[-5px]
-          lg:w-[470px]
-          lg:opacity-[0.65]
+          
+          lg:w-[500px]
+          lg:opacity-[0.6]
 
           lg:group-hover:opacity-[0.9]
         "
@@ -69,13 +80,13 @@ function InteractiveMapBanner() {
       <div
         className="
           absolute
-          left-5
-          top-5
+          left-4
+          top-4
           z-10
 
           flex
           items-start
-          gap-3
+          gap-2
 
           lg:left-10
           lg:top-1/2
@@ -89,6 +100,7 @@ function InteractiveMapBanner() {
           src={mapRouteIcon}
           alt=""
           aria-hidden="true"
+          loading="lazy"
           className="
             h-10
             w-10
@@ -105,24 +117,23 @@ function InteractiveMapBanner() {
           <h2
             id="map-banner-title"
             className="
-              max-w-[245px]
+              max-w-[220px]
 
               font-heading
-              text-mobile-h3
-              font-semibold
+              text-mobile-h2
               text-primary
 
               lg:max-w-none
               lg:text-h3
             "
           >
-            Разгледайте обектите на картата
+            {t('interactiveMapBanner.title')}
           </h2>
 
           <p
             className="
-              mt-3
-              max-w-[230px]
+              mt-1
+              max-w-[220px]
 
               font-body
               text-mobile-small
@@ -133,7 +144,7 @@ function InteractiveMapBanner() {
               lg:text-body-regular
             "
           >
-            Планирайте своето пътуване лесно и удобно.
+            {t('interactiveMapBanner.description')}
           </p>
         </div>
       </div>
@@ -142,7 +153,7 @@ function InteractiveMapBanner() {
       <div
         className="
           absolute
-          bottom-5
+          bottom-3
           left-1/2
           z-20
           -translate-x-1/2
@@ -167,7 +178,7 @@ function InteractiveMapBanner() {
             lg:group-hover:shadow-button
           "
         >
-          Отвори картата
+          {t('interactiveMapBanner.openMap')}
         </Button>
       </div>
     </section>

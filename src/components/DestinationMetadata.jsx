@@ -1,16 +1,19 @@
-// 
-
-
 import {
   MapPin,
   Star,
 } from 'lucide-react'
+
+import {
+  useTranslation,
+} from 'react-i18next'
 
 function DestinationMetadata({
   location,
   unescoYear,
   variant = 'default',
 }) {
+  const { t } = useTranslation()
+
   const isLight = variant === 'light'
 
   return (
@@ -27,10 +30,12 @@ function DestinationMetadata({
         className={`
           flex
           items-center
-          gap-2
+          gap-1
 
           font-body
-          text-body-small
+          text-mobile-small
+
+          lg:text-body-small
 
           ${
             isLight
@@ -42,8 +47,8 @@ function DestinationMetadata({
         <MapPin
           aria-hidden="true"
           className={`
-            h-[15px]
-            w-[15px]
+            h-(--icon-size-small)
+            w-(--icon-size-small)
             shrink-0
 
             ${
@@ -63,10 +68,12 @@ function DestinationMetadata({
         className={`
           flex
           items-start
-          gap-2
+          gap-1
 
           font-body
-          text-body-small
+          text-mobile-small
+
+          lg:text-body-small
 
           ${
             isLight
@@ -79,8 +86,8 @@ function DestinationMetadata({
           aria-hidden="true"
           className={`
             mt-0.5
-            h-[15px]
-            w-[15px]
+            h-(--icon-size-small)
+            w-(--icon-size-small)
             shrink-0
 
             ${
@@ -93,10 +100,12 @@ function DestinationMetadata({
         />
 
         <span>
-          В Списъка на световното наследство на ЮНЕСКО от{' '}
-          <span className="whitespace-nowrap">
-            {unescoYear} г.
-          </span>
+          {t(
+            'destinationMetadata.unescoSince',
+            {
+              year: unescoYear,
+            }
+          )}
         </span>
       </div>
     </div>

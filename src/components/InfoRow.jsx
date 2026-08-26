@@ -8,17 +8,17 @@ function InfoRow({
       className="
         grid
         w-full
-        grid-cols-[24px_minmax(0,1fr)]
+        grid-cols-[var(--spacing-3)_minmax(0,1fr)]
         items-start
-        gap-4
+        gap-2
       "
     >
       {/* Icon */}
       <Icon
         aria-hidden="true"
         className="
-          h-4
-          w-4
+          h-3
+          w-3
           shrink-0
           text-accent-orange
         "
@@ -30,8 +30,10 @@ function InfoRow({
         <h3
           className="
             font-body
-            text-section-small
+            text-mobile-section
             text-text-primary
+
+            lg:text-section-small
           "
         >
           {title}
@@ -41,8 +43,10 @@ function InfoRow({
           className="
             mt-1
             font-body
-            text-body-small
+            text-mobile-small
             text-text-secondary
+
+            lg:text-body-small
           "
         >
           {children}

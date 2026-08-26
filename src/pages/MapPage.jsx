@@ -1,5 +1,443 @@
+import {
+  useEffect,
+  useState,
+} from 'react'
+
+import {
+  useTranslation,
+} from 'react-i18next'
+
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+
+import MapExplorer from '../components/MapExplorer'
+import MapDestinationItem from '../components/MapDestinationItem'
+import SelectedDestinationPanel from '../components/SelectedDestinationPanel'
+
+import FeedbackState from '../components/FeedbackState'
+import NoResultsState from '../components/NoResultsState'
+import LoadingSkeleton from '../components/LoadingSkeleton'
+
+import {
+  getDestinations,
+} from '../services/destinationService'
+
+import heroImage from '../assets/rila-hero.png'
+
 function MapPage() {
-  return <h1>Интерактивна карта</h1>
+  const { t, i18n } = useTranslation()
+
+  const locale =
+    i18n.resolvedLanguage === 'en'
+      ? 'en'
+      : 'bg'
+
+  const [
+    destinations,
+    setDestinations,
+  ] = useState([])
+
+  const [
+    selectedSlug,
+    setSelectedSlug,
+  ] = useState(null)
+
+  const [
+    error,
+    setError,
+  ] = useState(null)
+
+  const [
+    retryCount,
+    setRetryCount,
+  ] = useState(0)
+
+  const [
+    resolvedRequest,
+    setResolvedRequest,
+  ] = useState({
+    locale: null,
+    retryCount: -1,
+  })
+
+  const isLoading =
+    resolvedRequest.locale !== locale ||
+    resolvedRequest.retryCount !==
+      retryCount
+
+  useEffect(() => {
+    let isCancelled = false
+
+    getDestinations(locale)
+      .then((data) => {
+        if (isCancelled) {
+          return
+        }
+
+        setDestinations(data)
+        setError(null)
+      })
+      .catch((err) => {
+        console.error(err)
+
+        if (isCancelled) {
+          return
+        }
+
+        setError(err.message)
+      })
+      .finally(() => {
+        if (isCancelled) {
+          return
+        }
+
+        setResolvedRequest({
+          locale,
+          retryCount,
+        })
+      })
+
+    return () => {
+      isCancelled = true
+    }
+  }, [
+    locale,
+    retryCount,
+  ])
+
+  const selectedDestination =
+    destinations.find(
+      (destination) =>
+        destination.slug === selectedSlug
+    ) || null
+
+  const activeHeroImage =
+    selectedDestination?.image || heroImage
+
+  const handleSelectDestination = (
+    destination
+  ) => {
+    setSelectedSlug(destination.slug)
+  }
+
+  const handleClearSelection = () => {
+    setSelectedSlug(null)
+  }
+
+  const handleRetry = () => {
+    setRetryCount(
+      (current) => current + 1
+    )
+  }
+
+  return (
+    <>
+      <Header />
+
+      <main>
+        {/* MAP HERO */}
+        <section
+          className="
+            relative
+            min-h-[260px]
+            overflow-hidden
+
+            bg-cover
+            bg-center
+
+            md:min-h-[280px]
+          "
+          style={{
+            backgroundImage: `url(${activeHeroImage})`,
+          }}
+        >
+          {/* Overlay */}
+          <div
+            aria-hidden="true"
+            className="
+              absolute
+              inset-0
+              bg-black/40
+            "
+          />
+
+          {/* Hero content */}
+          <div
+            className="
+              relative
+              z-10
+
+              mx-auto
+              flex
+              min-h-[260px]
+              w-full
+              max-w-main
+              items-center
+
+              px-5
+              pt-[72px]
+
+              md:min-h-[280px]
+
+              lg:px-0
+            "
+          >
+            <div
+              className="
+                max-w-[700px]
+                text-white
+              "
+            >
+              <h1
+                className="
+                  font-heading
+                  text-mobile-h1
+
+                  md:text-h1
+                "
+              >
+                {t('mapPage.title')}
+              </h1>
+
+              <p
+                className="
+                  mt-3
+                  max-w-[650px]
+
+                  font-body
+                  text-mobile-body
+
+                  md:text-body-regular
+                "
+              >
+                {t('mapPage.description')}
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* MAP PAGE CONTENT */}
+        <section
+          aria-label={t('mapPage.destinations')}
+          className="
+            mx-auto
+            w-full
+            max-w-map
+
+            px-5
+            py-5
+
+            lg:px-0
+            lg:py-6
+          "
+        >
+          {/* LOADING */}
+          {isLoading && (
+            <LoadingSkeleton />
+          )}
+
+          {/* ERROR */}
+          {!isLoading && error && (
+            <FeedbackState
+              variant="error"
+              title={t(
+                'feedback.error.title'
+              )}
+              description={t(
+                'feedback.error.description'
+              )}
+              actionLabel={t(
+                'feedback.error.retry'
+              )}
+              onAction={handleRetry}
+            />
+          )}
+
+          {/* NO RESULTS */}
+          {!isLoading &&
+            !error &&
+            destinations.length === 0 && (
+              <NoResultsState />
+            )}
+
+          {/* MAP CONTENT */}
+          {!isLoading &&
+            !error &&
+            destinations.length > 0 && (
+              <>
+                {/* MAP + SELECTED DESTINATION */}
+                <div
+                  className={`
+                    grid
+                    w-full
+
+                    ${
+                      selectedDestination
+                        ? `
+                          grid-cols-1
+                          gap-3
+
+                          lg:min-h-[802px]
+                          lg:grid-cols-[minmax(0,658px)_510px]
+
+                          lg:gap-3
+                        `
+                        : `
+                          grid-cols-1
+                        `
+                    }
+                  `}
+                >
+                  {/* MAP */}
+                  <MapExplorer
+                    destinations={destinations}
+                    selectedDestination={selectedDestination}
+                    onSelectDestination={handleSelectDestination }
+                   
+                    className={`
+                      min-w-0
+                      h-[440px]
+
+                      ${
+                        selectedDestination
+                          ? `
+                            lg:h-full
+                            lg:min-h-[802px]
+                          `
+                          : `
+                            lg:mx-auto
+                            lg:h-[520px]
+                            lg:max-w-[1003px]
+                          `
+                      }
+                    `}
+                  />
+
+                  {/* SELECTED DESTINATION PANEL */}
+                  {selectedDestination && (
+                    <SelectedDestinationPanel
+                      destination={
+                        selectedDestination
+                      }
+                      onClose={
+                        handleClearSelection
+                      }
+                    />
+                  )}
+                </div>
+
+                {/* DESTINATION LIST */}
+                <div
+                  className="
+                    mt-6
+
+                    lg:mt-9
+                  "
+                >
+                  <p
+                    className="
+                      font-body
+                      text-section
+
+                      uppercase
+                      tracking-[0.12em]
+                      text-accent-orange
+                    "
+                  >
+                    {t(
+                      'mapPage.destinations'
+                    )}
+                  </p>
+
+                  <h2
+                    id="map-destinations-title"
+                    className="
+                      mt-1
+
+                      font-body
+                      text-body-regular
+                      font-medium
+                      text-text-secondary
+                    "
+                  >
+                    {t(
+                      'mapPage.selectDestination'
+                    )}
+                  </h2>
+
+                  {/* ITEMS */}
+                  <div
+                    className="
+                      mt-4
+
+                      grid
+                      grid-cols-1
+                      gap-3
+
+                      sm:grid-cols-2
+
+                      lg:grid-cols-6
+                    "
+                  >
+                    {destinations.map(
+                      (
+                        destination,
+                        index
+                      ) => {
+                        const isSelected =
+                          selectedSlug ===
+                          destination.slug
+
+                        return (
+                          <div
+                            key={
+                              destination.slug
+                            }
+                            className={`
+                              ${
+                                index < 3
+                                  ? 'lg:col-span-2'
+                                  : ''
+                              }
+
+                              ${
+                                index === 3
+                                  ? 'lg:col-start-2 lg:col-span-2'
+                                  : ''
+                              }
+
+                              ${
+                                index === 4
+                                  ? 'lg:col-span-2'
+                                  : ''
+                              }
+                            `}
+                          >
+                            <MapDestinationItem
+                              destination={
+                                destination
+                              }
+                              isSelected={
+                                isSelected
+                              }
+                              onClick={
+                                handleSelectDestination
+                              }
+                            />
+                          </div>
+                        )
+                      }
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
+        </section>
+      </main>
+
+      <Footer />
+    </>
+  )
 }
 
 export default MapPage
