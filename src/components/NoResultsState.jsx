@@ -50,10 +50,9 @@ function NoResultsState({
       />
 
       {/* TITLE */}
-      <h3
+      <p
         className="
           mt-4
-
           font-body
           text-mobile-h2
           text-text-primary
@@ -62,7 +61,7 @@ function NoResultsState({
         "
       >
         {t('feedback.noResults.title')}
-      </h3>
+      </p>
 
       {/* DESCRIPTION */}
       <p

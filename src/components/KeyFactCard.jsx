@@ -4,7 +4,7 @@ function KeyFactCard({
   description,
 }) {
   return (
-    <article
+    <div
       className="
         flex
         min-w-0
@@ -68,7 +68,7 @@ function KeyFactCard({
           {description}
         </p>
       </div>
-    </article>
+    </div>
   )
 }
 

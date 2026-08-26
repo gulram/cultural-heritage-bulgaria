@@ -22,9 +22,7 @@ function MapDestinationItem({
         gap-2
 
         rounded-md
-
         border
-
         bg-background-card
 
         px-3

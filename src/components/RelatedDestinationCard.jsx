@@ -53,7 +53,7 @@ function RelatedDestinationCard({
       {hasValidImage ? (
         <img
           src={image}
-          alt={title}
+          alt=""
           loading="lazy"
           onError={() =>
             setFailedImage(image)

@@ -269,6 +269,7 @@ function DestinationGallery({
                   font-body
                   text-mobile-small
                   text-text-primary
+
                   md:text-body-small
                 "
               >
@@ -452,7 +453,7 @@ function DestinationGallery({
                     ].alt
                   }
                   className="
-                    h-[250px]
+                    h-[220px]
                     w-full
                     object-contain
 
@@ -478,8 +479,8 @@ function DestinationGallery({
                     -translate-y-1/2
 
                     flex
-                    h-11
-                    w-11
+                    h-10
+                    w-10
                     items-center
                     justify-center
 
@@ -498,6 +499,9 @@ function DestinationGallery({
                     ease-out
 
                     hover:bg-black/45
+
+                    sm:h-11
+                    sm:w-11
                   "
                 >
                   <ChevronLeft
@@ -523,8 +527,8 @@ function DestinationGallery({
                     -translate-y-1/2
 
                     flex
-                    h-11
-                    w-11
+                    h-10
+                    w-10
                     items-center
                     justify-center
 
@@ -543,6 +547,9 @@ function DestinationGallery({
                     ease-out
 
                     hover:bg-black/45
+
+                    sm:h-11
+                    sm:w-11
                   "
                 >
                   <ChevronRight
