@@ -98,11 +98,16 @@ function DestinationHero({
           flex-col
           justify-end
 
-          px-5
+          px-4
           pb-10
           pt-[100px]
 
+          sm:px-6
+
           md:min-h-[380px]
+          md:px-8
+
+          lg:px-5
 
           xl:px-0
         "

@@ -35,13 +35,18 @@ function DestinationPracticalInfo({
         border-border-light
         bg-background-card
 
-        px-5
+        px-4
         py-4
 
         shadow-default
 
+        sm:px-5
+
+        md:px-6
+
         lg:order-none
         lg:w-[450px]
+        lg:px-5
       "
     >
       <div

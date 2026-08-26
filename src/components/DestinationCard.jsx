@@ -216,14 +216,18 @@ function DestinationCard({
           flex-col
           overflow-hidden
 
-          px-[20px]
+          px-4
           py-2
+
+          sm:px-5
 
           md:h-full
           md:flex-1
           md:justify-center
-          md:px-3
+          md:px-4
           md:py-[20px]
+
+          lg:px-5
 
           xl:w-[700px]
           xl:flex-none

@@ -441,12 +441,15 @@ function Header() {
             h-(--spacing-6)
             items-center
             justify-between
-            px-5
+            px-4
 
             border
             border-header-stroke
             bg-header-glass
             backdrop-blur-[3px]
+
+            sm:px-6
+            md:px-8
           "
         >
           <Link
@@ -527,11 +530,14 @@ function Header() {
               border-header-stroke
               bg-header-glass
 
-              px-5
+              px-4
               pb-5
               pt-4
 
               backdrop-blur-[10px]
+
+              sm:px-6
+              md:px-8
             "
           >
             <div

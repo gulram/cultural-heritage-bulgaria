@@ -144,11 +144,14 @@ function HomePage() {
             mx-auto
             max-w-main
             scroll-mt-20
-            px-5
+
+            px-4
             py-6
 
-            lg:w-[calc(100%-40px)]
-            lg:px-0
+            sm:px-6
+            md:px-8
+            lg:px-5
+            xl:px-0
           "
         >
           {/* Section heading */}
@@ -300,12 +303,14 @@ function HomePage() {
           scroll-mt-[72px]
           bg-background-primary
 
-          px-5
+          px-4
           py-6
 
+          sm:px-6
           md:px-8
-          lg:px-0
+          lg:px-5
           lg:py-7
+          xl:px-0
         "
       >
         <div
@@ -313,8 +318,6 @@ function HomePage() {
             mx-auto
             w-full
             max-w-main
-
-            lg:w-[calc(100%-40px)]
           "
         >
           {/* SECTION INTRO */}

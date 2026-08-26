@@ -107,8 +107,14 @@ function HistoryModal({
 
           bg-black/25
 
-          px-6
+          px-4
           py-8
+
+          sm:px-6
+
+          md:px-8
+
+          lg:px-5
         "
         style={{
           animation:
@@ -161,8 +167,8 @@ function HistoryModal({
             onClick={onClose}
             className="
               absolute
-              right-5
-              top-5
+              right-4
+              top-4
               z-20
 
               flex
@@ -186,6 +192,9 @@ function HistoryModal({
               focus-visible:ring-2
               focus-visible:ring-accent-orange
               focus-visible:ring-offset-2
+
+              sm:right-5
+              sm:top-5
             "
           >
             <X
@@ -201,8 +210,10 @@ function HistoryModal({
               max-h-[85vh]
               overflow-y-auto
 
-              px-7
-              py-8
+              px-4
+              py-6
+
+              sm:px-5
 
               md:px-6
               md:py-6
@@ -215,6 +226,8 @@ function HistoryModal({
                 items-center
                 justify-between
                 gap-6
+
+                pr-10
               "
             >
               <h2

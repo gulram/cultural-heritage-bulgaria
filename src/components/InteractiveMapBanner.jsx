@@ -17,17 +17,18 @@ function InteractiveMapBanner() {
       className="
         group
         relative
-        
+
         mx-auto
-        h-[220px]
         w-full
-        max-w-none
         overflow-hidden
 
         rounded-lg
         border
         border-border-light
         bg-background-card
+
+        px-4
+        py-5
 
         shadow-default
 
@@ -37,8 +38,14 @@ function InteractiveMapBanner() {
 
         hover:shadow-hover
 
-        md:max-w-none
-        lg:max-w-[1094px]
+        sm:px-5
+        sm:py-6
+
+        md:px-6
+
+        lg:min-h-[220px]
+        lg:px-10
+        lg:py-8
       "
     >
       {/* Decorative map */}
@@ -51,24 +58,23 @@ function InteractiveMapBanner() {
           pointer-events-none
           absolute
 
-          bottom-[-65px]
-          right-[-50px]
+          hidden
 
-          w-[440px]
           max-w-none
           object-contain
-
-          opacity-[0.6]
 
           transition-opacity
           duration-200
           ease-out
 
-          md:left-auto
-          md:right-[-5px]
+          md:bottom-[-70px]
+          md:right-[-80px]
+          md:block
+          md:w-[430px]
+          md:opacity-[0.35]
 
           lg:bottom-[-65px]
-          
+          lg:right-[-20px]
           lg:w-[500px]
           lg:opacity-[0.6]
 
@@ -79,107 +85,125 @@ function InteractiveMapBanner() {
       {/* Content */}
       <div
         className="
-          absolute
-          left-4
-          top-4
+          relative
           z-10
 
           flex
+          flex-col
           items-start
-          gap-2
+          gap-5
 
-          lg:left-10
-          lg:top-1/2
-          lg:-translate-y-1/2
+          md:max-w-[70%]
+
+          lg:min-h-[156px]
+          lg:max-w-none
+          lg:flex-row
           lg:items-center
-          lg:gap-5
+          lg:justify-between
+          lg:gap-8
         "
       >
-        {/* Icon */}
-        <img
-          src={mapRouteIcon}
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
+        {/* Icon + Text */}
+        <div
           className="
-            h-10
-            w-10
-            shrink-0
-            object-contain
+            flex
+            items-start
+            gap-3
 
-            lg:h-16
-            lg:w-16
-          "
-        />
-
-        {/* Text */}
-        <div>
-          <h2
-            id="map-banner-title"
-            className="
-              max-w-[220px]
-
-              font-heading
-              text-mobile-h2
-              text-primary
-
-              lg:max-w-none
-              lg:text-h3
-            "
-          >
-            {t('interactiveMapBanner.title')}
-          </h2>
-
-          <p
-            className="
-              mt-1
-              max-w-[220px]
-
-              font-body
-              text-mobile-small
-              text-text-secondary
-
-              lg:mt-2
-              lg:max-w-[430px]
-              lg:text-body-regular
-            "
-          >
-            {t('interactiveMapBanner.description')}
-          </p>
-        </div>
-      </div>
-
-      {/* CTA */}
-      <div
-        className="
-          absolute
-          bottom-3
-          left-1/2
-          z-20
-          -translate-x-1/2
-
-          lg:bottom-auto
-          lg:left-auto
-          lg:right-[190px]
-          lg:top-1/2
-          lg:translate-x-0
-          lg:-translate-y-1/2
-        "
-      >
-        <Button
-          to="/map"
-          variant="primary"
-          icon={ArrowRight}
-          iconSize={16}
-          className="
-            whitespace-nowrap
-
-            lg:group-hover:bg-accent-orange
-            lg:group-hover:shadow-button
+            lg:items-center
+            lg:gap-5
           "
         >
-          {t('interactiveMapBanner.openMap')}
-        </Button>
+          {/* Icon */}
+          <img
+            src={mapRouteIcon}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            className="
+              h-10
+              w-10
+              shrink-0
+              object-contain
+
+              sm:h-12
+              sm:w-12
+
+              lg:h-16
+              lg:w-16
+            "
+          />
+
+          {/* Text */}
+          <div>
+            <h3
+              id="map-banner-title"
+              className="
+                max-w-[260px]
+
+                font-heading
+                text-mobile-h2
+                text-primary
+
+                sm:max-w-[340px]
+
+                lg:max-w-[430px]
+                lg:text-h3
+              "
+            >
+              {t(
+                'interactiveMapBanner.title'
+              )}
+            </h3>
+
+            <p
+              className="
+                mt-2
+                max-w-[300px]
+
+                font-body
+                text-mobile-small
+                text-text-secondary
+
+                sm:max-w-[380px]
+
+                lg:max-w-[430px]
+                lg:text-body-regular
+              "
+            >
+              {t(
+                'interactiveMapBanner.description'
+              )}
+            </p>
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div
+          className="
+            self-start
+
+            lg:mr-[180px]
+            lg:shrink-0
+          "
+        >
+          <Button
+            to="/map"
+            variant="primary"
+            icon={ArrowRight}
+            iconSize={16}
+            className="
+              whitespace-nowrap
+
+              lg:group-hover:bg-accent-orange
+              lg:group-hover:shadow-button
+            "
+          >
+            {t(
+              'interactiveMapBanner.openMap'
+            )}
+          </Button>
+        </div>
       </div>
     </section>
   )

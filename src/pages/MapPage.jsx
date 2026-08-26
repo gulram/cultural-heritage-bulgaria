@@ -174,12 +174,17 @@ function MapPage() {
               max-w-main
               items-center
 
-              px-5
+              px-4
               pt-[72px]
 
-              md:min-h-[280px]
+              sm:px-6
 
-              lg:px-0
+              md:min-h-[280px]
+              md:px-8
+
+              lg:px-5
+
+              xl:px-0
             "
           >
             <div
@@ -224,11 +229,14 @@ function MapPage() {
             w-full
             max-w-map
 
-            px-5
-            py-5
+            sm:px-6
 
-            lg:px-0
+            md:px-8
+
+            lg:px-5
             lg:py-6
+
+            xl:px-0
           "
         >
           {/* LOADING */}

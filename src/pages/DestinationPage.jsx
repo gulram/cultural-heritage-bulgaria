@@ -379,10 +379,14 @@ function DestinationPage() {
               mx-auto
               w-full
               max-w-main
-              px-5
+
+              px-4
               py-16
 
-              lg:px-0
+              sm:px-6
+              md:px-8
+              lg:px-5
+              xl:px-0
             "
           >
             <LoadingSkeleton />
@@ -405,10 +409,14 @@ function DestinationPage() {
               mx-auto
               w-full
               max-w-main
-              px-5
+
+              px-4
               py-16
 
-              lg:px-0
+              sm:px-6
+              md:px-8
+              lg:px-5
+               xl:px-0
             "
           >
             <FeedbackState
@@ -443,10 +451,14 @@ function DestinationPage() {
               mx-auto
               w-full
               max-w-main
-              px-5
+
+              px-4
               py-16
 
-              lg:px-0
+              sm:px-6
+              md:px-8
+              lg:px-5
+              xl:px-0
             "
           >
             <NoResultsState />
@@ -482,10 +494,13 @@ function DestinationPage() {
             w-full
             max-w-main
 
-            px-5
+            px-4
             pb-16
 
-            lg:px-0
+            sm:px-6
+            md:px-8
+            lg:px-5
+            xl:px-0
           "
         >
           {/* KEY FACTS */}

@@ -77,19 +77,30 @@ function Hero() {
       {/* Content */}
       <div
         className="
-          relative z-10
-          mx-auto flex
-          w-full max-w-main
+          relative
+          z-10
+
+          mx-auto
+          flex
+          w-full
+          max-w-main
           flex-col
-          px-5
+
+          px-4
           pb-4
           pt-[92px]
+
           text-white
 
+          sm:px-6
+
           md:h-full
-          md:w-[calc(100%-40px)]
-          md:px-0
+          md:px-8
           md:pt-[135px]
+
+          lg:px-5
+
+          xl:px-0
         "
       >
         {/* Main content */}
@@ -110,7 +121,8 @@ function Hero() {
 
             <span
               className="
-                mt-1 block
+                mt-1
+                block
                 text-white
               "
             >
@@ -123,6 +135,7 @@ function Hero() {
             className="
               mt-4
               max-w-[350px]
+
               font-body
               text-mobile-body
               text-white/90
