@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   ArrowRight,
   Clock3,
@@ -8,6 +9,7 @@ import {
 import { useTranslation } from 'react-i18next'
 
 import Button from '../ui/Button'
+import ImageFallback from '../ui/ImageFallback'
 import DestinationMetadata from '../destination/DestinationMetadata'
 import InfoRow from '../destination/InfoRow'
 
@@ -16,10 +18,15 @@ function SelectedDestinationPanel({
   onClose,
 }) {
   const { t } = useTranslation()
+  const [failedImage, setFailedImage] = useState(null)
 
   if (!destination) {
     return null
   }
+
+  const hasValidImage =
+    Boolean(destination.image) &&
+    failedImage !== destination.image
 
   const mapsUrl =
     `https://www.google.com/maps/search/?api=1&query=` +
@@ -128,15 +135,31 @@ function SelectedDestinationPanel({
           lg:mt-0
         "
       >
-        <img
-          src={destination.image}
-          alt={destination.title}
-          className="
-            h-full
-            w-full
-            object-cover
-          "
-        />
+        {hasValidImage ? (
+          <img
+            src={destination.image}
+            alt={destination.title}
+            loading="lazy"
+            onError={() =>
+              setFailedImage(destination.image)
+            }
+            className="
+              h-full
+              w-full
+              object-cover
+            "
+          />
+        ) : (
+          <ImageFallback
+            compact
+            className="
+              h-full
+              rounded-none
+              border-0
+              shadow-none
+            "
+          />
+        )}
       </div>
 
       <h2

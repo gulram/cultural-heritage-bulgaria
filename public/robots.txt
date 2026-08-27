@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ТВОЯТ-VERCEL-ДОМЕЙН/sitemap.xml

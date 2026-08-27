@@ -1,7 +1,16 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+
+import ImageFallback from '../ui/ImageFallback'
 
 function MapHero({ image }) {
   const { t } = useTranslation()
+
+  const [failedImage, setFailedImage] = useState(null)
+
+  const hasValidImage =
+    Boolean(image) &&
+    failedImage !== image
 
   return (
     <section
@@ -10,15 +19,43 @@ function MapHero({ image }) {
         min-h-[260px]
         overflow-hidden
 
-        bg-cover
-        bg-center
-
         md:min-h-[280px]
       "
-      style={{
-        backgroundImage: `url(${image})`,
-      }}
     >
+      {hasValidImage ? (
+        <img
+          src={image}
+          alt=""
+          aria-hidden="true"
+          onError={() =>
+            setFailedImage(image)
+          }
+          className="
+            absolute
+            inset-0
+            h-full
+            w-full
+            object-cover
+            object-center
+          "
+        />
+      ) : (
+        <ImageFallback
+          className="
+            absolute
+            inset-0
+            h-full
+
+            rounded-none
+            border-0
+            shadow-none
+
+            [&_h3]:hidden
+            [&_p]:hidden
+          "
+        />
+      )}
+
       <div
         aria-hidden="true"
         className="

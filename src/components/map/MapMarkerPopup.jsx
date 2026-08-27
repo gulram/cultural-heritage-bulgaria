@@ -1,10 +1,18 @@
+import { useState } from 'react'
 import { ArrowRight, MapPin } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
 import Button from '../ui/Button'
+import ImageFallback from '../ui/ImageFallback'
 
 function MapMarkerPopup({ destination }) {
   const { t } = useTranslation()
+
+  const [failedImage, setFailedImage] = useState(null)
+
+  const hasValidImage =
+    Boolean(destination.image) &&
+    failedImage !== destination.image
 
   return (
     <div
@@ -45,16 +53,31 @@ function MapMarkerPopup({ destination }) {
             md:w-8
           "
         >
-          <img
-            src={destination.image}
-            alt={destination.title}
-            loading="lazy"
-            className="
-              h-full
-              w-full
-              object-cover
-            "
-          />
+          {hasValidImage ? (
+            <img
+              src={destination.image}
+              alt={destination.title}
+              loading="lazy"
+              onError={() =>
+                setFailedImage(destination.image)
+              }
+              className="
+                h-full
+                w-full
+                object-cover
+              "
+            />
+          ) : (
+            <ImageFallback
+              compact
+              className="
+                h-full
+                rounded-none
+                border-0
+                shadow-none
+              "
+            />
+          )}
         </div>
 
         <div
