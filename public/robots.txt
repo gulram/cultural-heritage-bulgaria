@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ТВОЯТ-VERCEL-ДОМЕЙН/sitemap.xml
+Sitemap: https://cultural-heritage-bulgaria.vercel.app/sitemap.xml
