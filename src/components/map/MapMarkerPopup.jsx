@@ -17,8 +17,7 @@ function MapMarkerPopup({
   return (
     <div
       className="
-        h-[190px]
-        w-[207px]
+        w-[190px]
         overflow-hidden
 
         rounded-md
@@ -37,7 +36,8 @@ function MapMarkerPopup({
           flex
           min-w-0
           items-start
-          p-1
+          gap-2
+          p-2
 
           md:contents
         "
@@ -45,8 +45,8 @@ function MapMarkerPopup({
         {/* IMAGE */}
         <div
           className="
-            h-(--spacing-6)
-            w-20
+            h-14
+            w-16
             shrink-0
             overflow-hidden
             rounded-sm
@@ -73,12 +73,11 @@ function MapMarkerPopup({
             min-w-0
             flex-1
 
-            px-1
-            py-1
-
             md:flex
             md:flex-col
             md:justify-center
+            md:px-1
+            md:py-1
           "
         >
           <h3
@@ -143,14 +142,13 @@ function MapMarkerPopup({
       {/* MOBILE LOCATION */}
       <div
         className="
-          mx-3
-          mt-0.5
+          mx-2
+          mt-1
 
           flex
-          min-h-4
           min-w-0
           items-start
-          gap-2
+          gap-1
 
           font-body
           text-mobile-small
@@ -185,9 +183,9 @@ function MapMarkerPopup({
       {/* MOBILE CTA */}
       <div
         className="
-          mx-4
-          mb-4
-          mt-1
+          mx-2
+          mb-2
+          mt-3
 
           md:hidden
         "
@@ -198,8 +196,11 @@ function MapMarkerPopup({
           icon={ArrowRight}
           iconSize={16}
           className="
+            !h-10
             w-full
+            !px-3
             !text-white
+
             [&_svg]:!text-white
           "
         >

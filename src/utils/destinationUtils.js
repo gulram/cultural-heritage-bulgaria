@@ -19,21 +19,14 @@ import {
 const QUICK_FACT_ICON_MAP = {
   period: CalendarDays,
   history: Clock3,
-
   architecture: Landmark,
   church: Church,
-
   art: Palette,
-
   dimensions: Ruler,
   structure: Layers3,
-
   inscription: ScrollText,
-
   discovery: Search,
-
   unique: Award,
-
   house: House,
 }
 
@@ -41,22 +34,18 @@ const PRACTICAL_ICON_MAP = {
   hours: Clock3,
   working_hours: Clock3,
   opening_hours: Clock3,
-
   tickets: Ticket,
   ticket: Ticket,
   prices: Ticket,
   price: Ticket,
   admission: Ticket,
-
   guide: Users,
   guided_tour: Users,
   visitors: Users,
   accessibility: Users,
-
   directions: MapPin,
   transport: MapPin,
   location: MapPin,
-
   purchase: Info,
   contact: Info,
   contacts: Info,
@@ -96,33 +85,29 @@ function getQuickFactIcon(fact) {
   return Info
 }
 
-function normalizeQuickFacts(
-  quickFacts = []
-) {
-  return quickFacts.map(
-    (fact, index) => ({
-      id:
-        fact.id ||
-        fact.type ||
-        fact.key ||
-        `fact-${index}`,
+function normalizeQuickFacts(quickFacts = []) {
+  return quickFacts.map((fact, index) => ({
+    id:
+      fact.id ||
+      fact.type ||
+      fact.key ||
+      `fact-${index}`,
 
-      icon: getQuickFactIcon(fact),
+    icon: getQuickFactIcon(fact),
 
-      value:
-        fact.value ||
-        fact.title ||
-        fact.label ||
-        '',
+    value:
+      fact.value ||
+      fact.title ||
+      fact.label ||
+      '',
 
-      description:
-        fact.description ||
-        fact.subtitle ||
-        fact.text ||
-        fact.summary ||
-        '',
-    })
-  )
+    description:
+      fact.description ||
+      fact.subtitle ||
+      fact.text ||
+      fact.summary ||
+      '',
+  }))
 }
 
 function getPracticalInfoIcon(item) {
@@ -158,9 +143,7 @@ function normalizePracticalInfo(
           lines.push(item.summary)
         }
 
-        if (
-          Array.isArray(item.details)
-        ) {
+        if (Array.isArray(item.details)) {
           lines.push(...item.details)
         } else if (item.details) {
           lines.push(item.details)
@@ -174,8 +157,7 @@ function normalizePracticalInfo(
           item.key ||
           `practical-${index}`,
 
-        icon:
-          getPracticalInfoIcon(item),
+        icon: getPracticalInfoIcon(item),
 
         title:
           item.title ||
@@ -203,21 +185,18 @@ function getHistoryPreview(history) {
   const firstParagraph =
     paragraphs[0] || history
 
-  if (
-    firstParagraph.length <= 650
-  ) {
+  if (firstParagraph.length <= 650) {
     return firstParagraph
   }
 
   const shortened =
     firstParagraph.slice(0, 650)
 
-  const lastSentenceEnd =
-    Math.max(
-      shortened.lastIndexOf('.'),
-      shortened.lastIndexOf('!'),
-      shortened.lastIndexOf('?')
-    )
+  const lastSentenceEnd = Math.max(
+    shortened.lastIndexOf('.'),
+    shortened.lastIndexOf('!'),
+    shortened.lastIndexOf('?')
+  )
 
   if (lastSentenceEnd > 300) {
     return shortened.slice(
@@ -242,9 +221,21 @@ function getHistoryParagraphs(history) {
     .filter(Boolean)
 }
 
+function keepNumberAndUnitTogether(text) {
+  if (!text) {
+    return text
+  }
+
+  return String(text).replace(
+    /(\d+(?:[.,]\d+)?)\s+(г\.|лв\.|лв|евро|€|ч\.|мин\.|км|м|BGN|EUR|h|min)(?=\s|$|[,.!?;:)])/g,
+    '$1\u00A0$2'
+  )
+}
+
 export {
   normalizeQuickFacts,
   normalizePracticalInfo,
   getHistoryPreview,
   getHistoryParagraphs,
+  keepNumberAndUnitTogether,
 }

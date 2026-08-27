@@ -19,7 +19,8 @@ function InteractiveMapBanner() {
         mx-auto
         h-[220px]
         w-full
-        max-w-[322px]
+        w-full
+        max-w-none
         overflow-hidden
 
         rounded-lg

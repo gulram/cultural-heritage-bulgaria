@@ -1,5 +1,9 @@
 import { supabase } from '../lib/supabase'
 
+import {
+  keepNumberAndUnitTogether,
+} from '../utils/destinationUtils'
+
 const IMAGE_BUCKET = 'destination-images'
 
 function getPublicImageUrl(storagePath) {
@@ -12,6 +16,34 @@ function getPublicImageUrl(storagePath) {
     .getPublicUrl(storagePath)
 
   return data.publicUrl
+}
+
+function formatLocalizedValue(value) {
+  if (typeof value === 'string') {
+    return keepNumberAndUnitTogether(value)
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(
+      formatLocalizedValue
+    )
+  }
+
+  if (
+    value &&
+    typeof value === 'object'
+  ) {
+    return Object.fromEntries(
+      Object.entries(value).map(
+        ([key, item]) => [
+          key,
+          formatLocalizedValue(item),
+        ]
+      )
+    )
+  }
+
+  return value
 }
 
 function mapImage(image, locale) {
@@ -48,6 +80,9 @@ function mapDestination(
   images,
   locale
 ) {
+  const localizedTranslation =
+    formatLocalizedValue(translation)
+
   const localizedImages = images
     .map((image) =>
       mapImage(image, locale)
@@ -74,8 +109,11 @@ function mapDestination(
     number: destination.number,
     slug: destination.slug,
 
-    title: translation.title,
-    location: translation.location,
+    title:
+      localizedTranslation.title,
+
+    location:
+      localizedTranslation.location,
 
     unescoYear: String(
       destination.unesco_year
@@ -87,28 +125,31 @@ function mapDestination(
     ],
 
     description:
-      translation.description,
+      localizedTranslation.description,
 
     mapDescription:
-      translation.map_description,
+      localizedTranslation.map_description,
 
     aboutTitle:
-      translation.about_title,
+      localizedTranslation.about_title,
 
     about:
-      translation.about,
+      localizedTranslation.about,
 
     history:
-      translation.history,
+      localizedTranslation.history,
 
     quickFacts:
-      translation.quick_facts ?? [],
+      localizedTranslation.quick_facts ??
+      [],
 
     practicalInfo:
-      translation.practical_info ?? [],
+      localizedTranslation.practical_info ??
+      [],
 
     mapInfo:
-      translation.map_info ?? {},
+      localizedTranslation.map_info ??
+      {},
 
     sources:
       destination.sources ?? [],

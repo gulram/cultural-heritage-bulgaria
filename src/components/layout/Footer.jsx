@@ -128,12 +128,15 @@ function Footer() {
           mx-auto
           max-w-main
 
-          px-5
+          px-4
           py-6
 
-          lg:px-0
+          sm:px-6
+          md:px-4
+          lg:px-5
           lg:pb-6
           lg:pt-4
+          xl:px-0
         "
       >
         {/* MAIN FOOTER CONTENT */}

@@ -1,31 +1,11 @@
-import {
-  useEffect,
-} from 'react'
-
-import {
-  useLocation,
-} from 'react-router-dom'
+import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 
 function ScrollToTop() {
-  const {
-    pathname,
-    hash,
-  } = useLocation()
+  const { pathname, hash } = useLocation()
 
   useEffect(() => {
     if (hash) {
-      const element =
-        document.getElementById(
-          hash.replace('#', '')
-        )
-
-      if (element) {
-        element.scrollIntoView({
-          behavior: 'auto',
-          block: 'start',
-        })
-      }
-
       return
     }
 
@@ -34,10 +14,7 @@ function ScrollToTop() {
       left: 0,
       behavior: 'auto',
     })
-  }, [
-    pathname,
-    hash,
-  ])
+  }, [pathname, hash])
 
   return null
 }

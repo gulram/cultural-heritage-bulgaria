@@ -111,7 +111,7 @@ function HomePage() {
   }
 
   useEffect(() => {
-    if (!location.hash) {
+    if (!location.hash || isLoading) {
       return
     }
 
@@ -125,11 +125,20 @@ function HomePage() {
       return
     }
 
-    section.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
+    const frame = requestAnimationFrame(() => {
+      section.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
     })
-  }, [location.hash])
+
+    return () => {
+      cancelAnimationFrame(frame)
+    }
+  }, [
+   location.hash,
+    isLoading,
+  ])
 
   return (
     <>
