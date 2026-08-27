@@ -4,7 +4,7 @@ const en = {
     destinations: 'Destinations',
 
     allDestinations:
-      'All Destinations',
+      'All destinations',
 
     destinationItems: {
       rilaMonastery:
@@ -24,7 +24,7 @@ const en = {
     },
 
     map: 'Map',
-    about: 'About',
+    about: 'About the project',
 
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
@@ -43,7 +43,7 @@ const en = {
 
   destinationHero: {
     allDestinations:
-      'All Destinations',
+      'All destinations',
   },
 
   destinationCard: {
@@ -55,7 +55,7 @@ const en = {
       'Cultural Heritage Bulgaria',
 
     description:
-      'A digital platform dedicated to five of Bulgaria’s most valuable cultural sites protected by UNESCO.',
+      'A digital platform dedicated to five Bulgarian cultural sites inscribed on the UNESCO World Heritage List.',
 
     navigation:
       'Navigation',
@@ -64,10 +64,10 @@ const en = {
       'Footer navigation',
 
     projectInfo:
-      'About the Project',
+      'About the project',
 
     projectNote:
-      'This website was developed as an educational diploma project and is not an official UNESCO website.',
+      'This website was developed as part of a university graduation project and is not an official UNESCO website.',
 
     copyright:
       '© 2026 Cultural Heritage Bulgaria',
@@ -81,10 +81,10 @@ const en = {
       'One Heritage',
 
     description:
-      'A digital guide to FIVE of Bulgaria’s most valuable sites included in the UNESCO World Heritage List.',
+      'A digital guide to five Bulgarian cultural sites inscribed on the UNESCO World Heritage List.',
 
     openMap:
-      'Open the Interactive Map',
+      'Open the interactive map',
 
     features: {
       recognition: {
@@ -97,7 +97,7 @@ const en = {
 
       heritage: {
         title:
-          'Cultural Pride',
+          'Cultural Heritage',
 
         description:
           'Discover the heritage preserved through the centuries.',
@@ -118,10 +118,10 @@ const en = {
       'Explore the Sites on the Map',
 
     description:
-      'Plan your journey easily and conveniently.',
+      'Plan your trip with ease.',
 
     openMap:
-      'Open the Map',
+      'Open the map',
   },
 
   home: {
@@ -132,16 +132,16 @@ const en = {
       'Five UNESCO World Heritage Sites in Bulgaria',
 
     selectionNote:
-      'The sites were selected for the purposes of the project and are not ranked by popularity.',
+      'The sites were selected for the purposes of this project and are not ranked by popularity.',
 
     aboutLabel:
-      'About the Project',
+      'About the project',
 
     aboutTitle:
       'A Digital Guide to Bulgaria’s Cultural Heritage',
 
     aboutDescription:
-      'The platform presents five of Bulgaria’s most significant cultural sites included in the UNESCO World Heritage List. It combines historical information, practical visitor guidance and an interactive map in a unified and easy-to-use environment.',
+      'The platform presents five Bulgarian cultural sites inscribed on the UNESCO World Heritage List. It combines historical information, practical visitor guidance and an interactive map in a unified and easy-to-use environment.',
 
     goal: {
       title:
@@ -156,7 +156,7 @@ const en = {
         'Interactive Map',
 
       description:
-        'The geographical locations of the sites are presented through an interactive map with markers, information panels and direct access to their detail pages.',
+        'The locations of the sites are presented on an interactive map with markers, information panels and direct access to the individual site pages.',
     },
 
     heritage: {
@@ -164,7 +164,7 @@ const en = {
         'Cultural Heritage',
 
       description:
-        'The platform presents five Bulgarian destinations from the UNESCO World Heritage List through historical, practical and visual information.',
+        'The platform presents five Bulgarian cultural sites inscribed on the UNESCO World Heritage List through historical information, practical visitor guidance and visual content.',
     },
 
     technologies: {
@@ -181,34 +181,34 @@ const en = {
 
   destination: {
     keyFacts:
-      'Key Facts',
+      'Key facts',
 
     about:
-      'About the Site',
+      'About the site',
 
     history:
       'History',
 
     readMore:
-      'Read More',
+      'Read more',
 
     practicalInfo:
-      'Practical Information',
+      'Practical information',
 
     gallery:
       'Gallery',
 
     viewAllPhotos:
-      'View All Photos',
+      'View all photos',
 
     directions:
-      'How to Get There',
+      'How to get there',
 
     openGoogleMaps:
       'Open in Google Maps',
 
     exploreMore:
-      'Explore More',
+      'Explore more',
 
     historyModalTitle:
       'History Through the Centuries',
@@ -240,25 +240,25 @@ const en = {
 
   selectedDestinationPanel: {
     selectedDestination:
-      'Selected Site',
+      'Selected site',
 
     closeAriaLabel:
       'Close site information',
 
     workingHours:
-      'Opening Hours',
+      'Opening hours',
 
     viewPracticalInfo:
       'View practical information',
 
     admission:
-      'Admission Fee',
+      'Admission fee',
 
     viewDestinationInfo:
-      'View site information',
+      'View details',
 
     exploreDestination:
-      'Explore the Site',
+      'Explore the site',
   },
 
   mapPage: {
@@ -266,7 +266,7 @@ const en = {
       'Discover the Sites on the Map',
 
     description:
-      'Discover the locations of Bulgaria’s five UNESCO World Cultural Heritage sites and plan your journey.',
+      'Discover the locations of five selected Bulgarian cultural sites inscribed on the UNESCO World Heritage List and plan your trip.',
 
     instruction:
       'Click a marker or select a destination from the list to view information about the site.',
@@ -275,13 +275,24 @@ const en = {
       'Destinations',
 
     selectDestination:
-      'Choose a Destination',
+      'Choose a destination',
 
     loadError:
       'An error occurred while loading the destinations.',
   },
 
   feedback: {
+    error: {
+      title:
+        'Something went wrong',
+
+      description:
+        'The content could not be loaded. Please try again.',
+
+      retry:
+        'Try again',
+    },
+
     noResults: {
       title:
         'No results found',
@@ -300,12 +311,6 @@ const en = {
       description:
         'The image is not available.',
     },
-
-    error: {
-    title: "Something went wrong",
-    description: "The content could not be loaded. Please try again.",
-    retry: "Try again",
-    }
   },
 }
 
