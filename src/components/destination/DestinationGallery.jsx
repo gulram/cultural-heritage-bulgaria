@@ -403,7 +403,6 @@ function DestinationGallery({
                   relative
 
                   flex
-                  h-[72dvh]
                   w-full
                   items-center
                   justify-center
@@ -412,7 +411,6 @@ function DestinationGallery({
 
                   md:mt-4
                   md:block
-                  md:h-auto
                   md:rounded-lg
                   md:bg-black/5
                 "
@@ -429,11 +427,13 @@ function DestinationGallery({
                     ].alt
                   }
                   className="
-                    h-full
+                    h-auto
+                    max-h-[68dvh]
                     w-full
                     object-contain
 
                     md:h-[380px]
+                    md:max-h-none
 
                     lg:h-[460px]
                   "
