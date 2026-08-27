@@ -242,13 +242,12 @@ function DestinationGallery({
               items-center
               justify-center
 
-              bg-black/35
+              bg-black/85
 
-              px-4
-              py-6
-
-              sm:px-6
+              md:bg-black/35
               md:px-8
+              md:py-6
+
               lg:px-5
             "
             onMouseDown={(event) => {
@@ -268,35 +267,42 @@ function DestinationGallery({
                 relative
 
                 w-full
-                max-w-[1180px]
-                max-h-[92vh]
-                overflow-y-auto
+                max-h-[100dvh]
 
-                rounded-lg
+                bg-transparent
 
-                border
-                border-border-light
+                md:max-w-[1180px]
+                md:max-h-[92vh]
+                md:overflow-y-auto
 
-                bg-background-card
+                md:rounded-lg
 
-                px-4
-                py-4
+                md:border
+                md:border-border-light
 
-                shadow-hover
+                md:bg-background-card
 
                 md:px-6
                 md:py-4
+
+                md:shadow-hover
               "
             >
               <div
                 className="
-                  flex
-                  items-start
-                  justify-between
-                  gap-6
+                  absolute
+                  right-3
+                  top-3
+                  z-20
+
+                  md:static
+                  md:flex
+                  md:items-start
+                  md:justify-between
+                  md:gap-6
                 "
               >
-                <div>
+                <div className="hidden md:block">
                   <h2
                     id="gallery-modal-title"
                     className="
@@ -334,6 +340,13 @@ function DestinationGallery({
                   </p>
                 </div>
 
+                <h2
+                  id="gallery-modal-title-mobile"
+                  className="sr-only md:hidden"
+                >
+                  {destinationTitle}
+                </h2>
+
                 <button
                   type="button"
                   aria-label={t(
@@ -342,24 +355,39 @@ function DestinationGallery({
                   onClick={closeGallery}
                   className="
                     flex
-                    h-9
-                    w-9
+                    h-10
+                    w-10
                     shrink-0
                     items-center
                     justify-center
 
-                    text-text-primary
+                    rounded-full
+
+                    bg-black/35
+                    text-white
+
+                    backdrop-blur-sm
 
                     transition-colors
                     duration-200
                     ease-out
 
-                    hover:text-accent-orange
+                    hover:bg-black/55
 
                     focus-visible:outline-none
                     focus-visible:ring-2
                     focus-visible:ring-accent-orange
                     focus-visible:ring-offset-2
+
+                    md:h-9
+                    md:w-9
+                    md:rounded-none
+                    md:bg-transparent
+                    md:text-text-primary
+                    md:backdrop-blur-none
+
+                    md:hover:bg-transparent
+                    md:hover:text-accent-orange
                   "
                 >
                   <X
@@ -373,12 +401,20 @@ function DestinationGallery({
               <div
                 className="
                   relative
-                  mt-4
+
+                  flex
+                  h-[72dvh]
+                  w-full
+                  items-center
+                  justify-center
 
                   overflow-hidden
-                  rounded-lg
 
-                  bg-black/5
+                  md:mt-4
+                  md:block
+                  md:h-auto
+                  md:rounded-lg
+                  md:bg-black/5
                 "
               >
                 <img
@@ -393,11 +429,11 @@ function DestinationGallery({
                     ].alt
                   }
                   className="
-                    h-[320px]
+                    h-full
                     w-full
                     object-contain
 
-                    sm:h-[380px]
+                    md:h-[380px]
 
                     lg:h-[460px]
                   "
@@ -411,13 +447,13 @@ function DestinationGallery({
                   onClick={showPreviousImage}
                   className="
                     absolute
-                    left-1
+                    left-2
                     top-1/2
                     -translate-y-1/2
 
                     flex
-                    h-10
-                    w-10
+                    h-11
+                    w-11
                     items-center
                     justify-center
 
@@ -426,7 +462,7 @@ function DestinationGallery({
                     border
                     border-white/70
 
-                    bg-black/25
+                    bg-black/35
                     text-white
 
                     backdrop-blur-sm
@@ -435,11 +471,9 @@ function DestinationGallery({
                     duration-200
                     ease-out
 
-                    hover:bg-black/45
+                    hover:bg-black/55
 
-                    sm:left-4
-                    sm:h-11
-                    sm:w-11
+                    md:left-4
                   "
                 >
                   <ChevronLeft
@@ -457,13 +491,13 @@ function DestinationGallery({
                   onClick={showNextImage}
                   className="
                     absolute
-                    right-1
+                    right-2
                     top-1/2
                     -translate-y-1/2
 
                     flex
-                    h-10
-                    w-10
+                    h-11
+                    w-11
                     items-center
                     justify-center
 
@@ -472,7 +506,7 @@ function DestinationGallery({
                     border
                     border-white/70
 
-                    bg-black/25
+                    bg-black/35
                     text-white
 
                     backdrop-blur-sm
@@ -481,11 +515,9 @@ function DestinationGallery({
                     duration-200
                     ease-out
 
-                    hover:bg-black/45
+                    hover:bg-black/55
 
-                    sm:right-4
-                    sm:h-11
-                    sm:w-11
+                    md:right-4
                   "
                 >
                   <ChevronRight
@@ -498,13 +530,21 @@ function DestinationGallery({
 
               <div
                 className="
-                  mt-3
+                  mt-2
 
                   flex
-                  gap-3
+                  justify-center
+                  gap-2
                   overflow-x-auto
 
-                  pb-1
+                  px-3
+                  pb-3
+
+                  md:mt-3
+                  md:justify-start
+                  md:gap-3
+                  md:px-0
+                  md:pb-1
 
                   lg:justify-center
                 "
@@ -521,9 +561,12 @@ function DestinationGallery({
                         )
                       }
                       className="
-                        h-[60px]
-                        w-[96px]
+                        h-[44px]
+                        w-[64px]
                         shrink-0
+
+                        md:h-[60px]
+                        md:w-[96px]
                       "
                     />
                   )
