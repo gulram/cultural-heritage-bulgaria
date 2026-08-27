@@ -4,7 +4,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Image as ImageIcon,
-  X,
 } from 'lucide-react'
 
 import GalleryHeroImage from './GalleryHeroImage'
@@ -288,115 +287,48 @@ function DestinationGallery({
                 md:shadow-hover
               "
             >
-              <div
-                className="
-                  absolute
-                  right-3
-                  top-3
-                  z-20
-
-                  md:static
-                  md:flex
-                  md:items-start
-                  md:justify-between
-                  md:gap-6
-                "
-              >
-                <div className="hidden md:block">
-                  <h2
-                    id="gallery-modal-title"
-                    className="
-                      font-heading
-                      text-mobile-h2
-                      text-text-primary
-
-                      md:text-h3
-                    "
-                  >
-                    {destinationTitle}
-                  </h2>
-
-                  <p
-                    className="
-                      mt-1
-
-                      font-body
-                      text-mobile-small
-                      text-text-secondary
-
-                      md:text-body-small
-                    "
-                  >
-                    {t(
-                      'destination.photoCounter',
-                      {
-                        current:
-                          activeGalleryIndex +
-                          1,
-                        total:
-                          galleryLength,
-                      }
-                    )}
-                  </p>
-                </div>
-
+              <div className="hidden md:block">
                 <h2
-                  id="gallery-modal-title-mobile"
-                  className="sr-only md:hidden"
+                  id="gallery-modal-title"
+                  className="
+                    font-heading
+                    text-mobile-h2
+                    text-text-primary
+
+                    md:text-h3
+                  "
                 >
                   {destinationTitle}
                 </h2>
 
-                <button
-                  type="button"
-                  aria-label={t(
-                    'destination.closeGallery'
-                  )}
-                  onClick={closeGallery}
+                <p
                   className="
-                    flex
-                    h-10
-                    w-10
-                    shrink-0
-                    items-center
-                    justify-center
+                    mt-1
 
-                    rounded-full
+                    font-body
+                    text-mobile-small
+                    text-text-secondary
 
-                    bg-black/35
-                    text-white
-
-                    backdrop-blur-sm
-
-                    transition-colors
-                    duration-200
-                    ease-out
-
-                    hover:bg-black/55
-
-                    focus-visible:outline-none
-                    focus-visible:ring-2
-                    focus-visible:ring-accent-orange
-                    focus-visible:ring-offset-2
-
-                    md:h-9
-                    md:w-9
-                    md:rounded-none
-                    md:bg-transparent
-                    md:text-text-primary
-                    md:backdrop-blur-none
-
-                    md:hover:bg-transparent
-                    md:hover:text-accent-orange
+                    md:text-body-small
                   "
                 >
-                  <X
-                    aria-hidden="true"
-                    size={22}
-                    strokeWidth={1.7}
-                  />
-                </button>
+                  {t(
+                    'destination.photoCounter',
+                    {
+                      current:
+                        activeGalleryIndex + 1,
+                      total:
+                        galleryLength,
+                    }
+                  )}
+                </p>
               </div>
+
+              <h2
+                className="sr-only md:hidden"
+              >
+                {destinationTitle}
+              </h2>
 
               <div
                 className="
