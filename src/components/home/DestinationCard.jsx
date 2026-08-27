@@ -10,9 +10,9 @@ import {
   useTranslation,
 } from 'react-i18next'
 
-import DestinationMetadata from './DestinationMetadata'
-import Button from './Button'
-import ImageFallback from './ImageFallback'
+import DestinationMetadata from '../destination/DestinationMetadata'
+import Button from '../ui/Button'
+import ImageFallback from '../ui/ImageFallback'
 
 function DestinationCard({
   number,

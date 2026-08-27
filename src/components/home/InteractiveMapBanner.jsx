@@ -1,12 +1,10 @@
 import { ArrowRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
-import {
-  useTranslation,
-} from 'react-i18next'
+import Button from '../ui/Button'
 
-import Button from './Button'
-import mapImage from '../assets/bulgaria-map-banner.png'
-import mapRouteIcon from '../assets/map-route.png'
+import mapImage from '../../assets/bulgaria-map-banner.png'
+import mapRouteIcon from '../../assets/map-route.png'
 
 function InteractiveMapBanner() {
   const { t } = useTranslation()
@@ -21,12 +19,13 @@ function InteractiveMapBanner() {
         mx-auto
         h-[220px]
         w-full
+        max-w-[322px]
         overflow-hidden
 
         rounded-lg
         border
         border-border-light
-        bg-background-card
+        bg-background-highlight
 
         shadow-default
 
@@ -35,6 +34,8 @@ function InteractiveMapBanner() {
         ease-out
 
         hover:shadow-hover
+
+        sm:max-w-none
       "
     >
       {/* Decorative map */}
@@ -47,11 +48,11 @@ function InteractiveMapBanner() {
           pointer-events-none
           absolute
 
-          bottom-[-65px]
+          bottom-[-42px]
           left-1/2
           -translate-x-1/2
 
-          w-[440px]
+          w-[310px]
           max-w-none
           object-contain
 
@@ -61,9 +62,12 @@ function InteractiveMapBanner() {
           duration-200
           ease-out
 
+          sm:w-[390px]
+
           md:left-auto
           md:right-[-5px]
           md:translate-x-0
+          md:w-[460px]
           md:opacity-[0.45]
 
           lg:bottom-[-65px]
@@ -78,17 +82,18 @@ function InteractiveMapBanner() {
       <div
         className="
           absolute
-          left-4
-          top-5
+          left-[18px]
+          right-[18px]
+          top-[18px]
           z-10
 
           flex
           items-start
-          gap-3
-
-          sm:left-5
+          gap-2
 
           md:left-6
+          md:right-auto
+          md:top-5
 
           lg:left-10
           lg:top-1/2
@@ -97,7 +102,6 @@ function InteractiveMapBanner() {
           lg:gap-5
         "
       >
-        {/* Icon */}
         <img
           src={mapRouteIcon}
           alt=""
@@ -114,12 +118,11 @@ function InteractiveMapBanner() {
           "
         />
 
-        {/* Text */}
         <div>
           <h3
             id="map-banner-title"
             className="
-              max-w-[230px]
+              max-w-[215px]
 
               font-heading
               text-mobile-h2
@@ -139,7 +142,7 @@ function InteractiveMapBanner() {
           <p
             className="
               mt-2
-              max-w-[230px]
+              max-w-[210px]
 
               font-body
               text-mobile-small
@@ -147,7 +150,6 @@ function InteractiveMapBanner() {
 
               sm:max-w-[320px]
 
-              lg:mt-2
               lg:max-w-[430px]
               lg:text-body-regular
             "
@@ -163,7 +165,7 @@ function InteractiveMapBanner() {
       <div
         className="
           absolute
-          bottom-4
+          bottom-[18px]
           left-1/2
           z-20
           -translate-x-1/2

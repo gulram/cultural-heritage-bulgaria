@@ -11,15 +11,16 @@ import {
   useTranslation,
 } from 'react-i18next'
 
-import Header from '../components/Header'
-import Hero from '../components/Hero'
-import DestinationCard from '../components/DestinationCard'
-import InteractiveMapBanner from '../components/InteractiveMapBanner'
-import Footer from '../components/Footer'
+import Header from '../components/layout/Header'
+import Footer from '../components/layout/Footer'
 
-import FeedbackState from '../components/FeedbackState'
-import NoResultsState from '../components/NoResultsState'
-import LoadingSkeleton from '../components/LoadingSkeleton'
+import Hero from '../components/home/Hero'
+import DestinationCard from '../components/home/DestinationCard'
+import InteractiveMapBanner from '../components/home/InteractiveMapBanner'
+
+import FeedbackState from '../components/ui/FeedbackState'
+import NoResultsState from '../components/ui/NoResultsState'
+import LoadingSkeleton from '../components/ui/LoadingSkeleton'
 
 import {
   getDestinations,
@@ -149,7 +150,7 @@ function HomePage() {
             py-6
 
             sm:px-6
-            md:px-8
+            md:px-4
             lg:px-5
             xl:px-0
           "
@@ -307,7 +308,7 @@ function HomePage() {
           py-6
 
           sm:px-6
-          md:px-8
+          md:px-4
           lg:px-5
           lg:py-7
           xl:px-0

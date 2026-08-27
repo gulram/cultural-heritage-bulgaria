@@ -300,6 +300,12 @@ const en = {
       description:
         'The image is not available.',
     },
+
+    error: {
+    title: "Something went wrong",
+    description: "The content could not be loaded. Please try again.",
+    retry: "Try again",
+    }
   },
 }
 

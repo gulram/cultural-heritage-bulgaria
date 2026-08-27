@@ -2,7 +2,7 @@ import {
   useState,
 } from 'react'
 
-import ImageFallback from './ImageFallback'
+import ImageFallback from '../ui/ImageFallback'
 
 function GalleryThumbnail({
   src,

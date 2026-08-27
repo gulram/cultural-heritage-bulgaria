@@ -7,7 +7,7 @@ import {
   useTranslation,
 } from 'react-i18next'
 
-import Button from './Button'
+import Button from '../ui/Button'
 
 function MapMarkerPopup({
   destination,
@@ -87,7 +87,7 @@ function MapMarkerPopup({
               max-w-full
 
               whitespace-normal
-              wrap-break-words
+              wrap-break-word
 
               font-heading
               text-mobile-h3
@@ -175,7 +175,7 @@ function MapMarkerPopup({
           className="
             min-w-0
             whitespace-normal
-            wrap-break-words
+            wrap-break-word
           "
         >
           {destination.location}

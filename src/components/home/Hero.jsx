@@ -5,39 +5,31 @@ import {
   MapPin,
 } from 'lucide-react'
 
-import {
-  useTranslation,
-} from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
-import Button from './Button'
+import Button from '../ui/Button'
 import FeatureItem from './FeatureItem'
 
-import heroImage from '../assets/rila-hero.png'
+import heroImage from '../../assets/rila-hero.png'
 
 const FEATURES = [
   {
     id: 'recognition',
     icon: Landmark,
-    titleKey:
-      'hero.features.recognition.title',
-    descriptionKey:
-      'hero.features.recognition.description',
+    titleKey: 'hero.features.recognition.title',
+    descriptionKey: 'hero.features.recognition.description',
   },
   {
     id: 'heritage',
     icon: Heart,
-    titleKey:
-      'hero.features.heritage.title',
-    descriptionKey:
-      'hero.features.heritage.description',
+    titleKey: 'hero.features.heritage.title',
+    descriptionKey: 'hero.features.heritage.description',
   },
   {
     id: 'visit',
     icon: MapPin,
-    titleKey:
-      'hero.features.visit.title',
-    descriptionKey:
-      'hero.features.visit.description',
+    titleKey: 'hero.features.visit.title',
+    descriptionKey: 'hero.features.visit.description',
   },
 ]
 
@@ -50,31 +42,36 @@ function Hero() {
       aria-labelledby="hero-title"
       className="
         relative
-        min-h-[530px]
+        min-h-[580px]
         overflow-hidden
+
         bg-cover
         bg-[position:50%_center]
 
+        sm:min-h-[560px]
+
+        md:min-h-[540px]
+        md:bg-center
+
         lg:h-[550px]
         lg:min-h-0
-        lg:bg-center
       "
       style={{
         backgroundImage: `url(${heroImage})`,
       }}
     >
-      {/* Dark overlay */}
       <div
         aria-hidden="true"
         className="
-          absolute inset-0
+          absolute
+          inset-0
+
           bg-black/40
 
-          md:bg-black/30
+          md:bg-black/40
         "
       />
 
-      {/* Content */}
       <div
         className="
           relative
@@ -82,12 +79,13 @@ function Hero() {
 
           mx-auto
           flex
+          min-h-[580px]
           w-full
           max-w-main
           flex-col
 
           px-4
-          pb-4
+          pb-5
           pt-[92px]
 
           text-white
@@ -95,17 +93,15 @@ function Hero() {
           sm:px-6
 
           md:h-full
-          md:px-8
+          md:px-4
           md:pt-[135px]
 
           lg:px-5
 
-          xl:px-0
+          xl:px-0 
         "
       >
-        {/* Main content */}
         <div className="max-w-[620px]">
-          {/* Title */}
           <h1
             id="hero-title"
             className="
@@ -130,7 +126,6 @@ function Hero() {
             </span>
           </h1>
 
-          {/* Description */}
           <p
             className="
               mt-4
@@ -140,6 +135,8 @@ function Hero() {
               text-mobile-body
               text-white/90
 
+              sm:max-w-[430px]
+
               md:mt-3
               md:max-w-[570px]
               md:text-body-regular
@@ -148,7 +145,6 @@ function Hero() {
             {t('hero.description')}
           </p>
 
-          {/* CTA */}
           <Button
             to="/map"
             variant="primary"
@@ -161,31 +157,31 @@ function Hero() {
           </Button>
         </div>
 
-        {/* Features */}
         <div
           className="
-            mt-5
+            mt-6
+
             flex
             flex-col
             gap-3
 
+            sm:mt-7
+
             md:mt-auto
             md:max-w-[1080px]
             md:flex-row
-            md:gap-8
+            md:gap-6
             md:pb-3
+
+            lg:gap-8
           "
         >
           {FEATURES.map((feature) => (
             <FeatureItem
               key={feature.id}
               icon={feature.icon}
-              title={t(
-                feature.titleKey
-              )}
-              description={t(
-                feature.descriptionKey
-              )}
+              title={t(feature.titleKey)}
+              description={t(feature.descriptionKey)}
             />
           ))}
         </div>

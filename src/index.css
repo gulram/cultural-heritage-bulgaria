@@ -3,7 +3,43 @@
 
 body {
   margin: 0;
-  background-color: var(--color-background);
-  color: var(--color-text);
+
+  background-color: var(--color-background-primary);
+
+  color: var(--color-text-primary);
+
   font-family: var(--font-body);
+}
+
+
+/* History modal animations */
+
+@keyframes historyOverlayFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes historyModalMoveIn {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-history-overlay {
+  animation: historyOverlayFadeIn 300ms ease-out;
+}
+
+.animate-history-modal {
+  animation: historyModalMoveIn 300ms ease-out;
 }

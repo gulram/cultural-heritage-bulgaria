@@ -2,21 +2,19 @@ import {
   useState,
 } from 'react'
 
-import { ArrowLeft } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 import {
   useTranslation,
 } from 'react-i18next'
 
-import Button from './Button'
-import DestinationMetadata from './DestinationMetadata'
-import ImageFallback from './ImageFallback'
+import Button from '../ui/Button'
+import ImageFallback from '../ui/ImageFallback'
 
-function DestinationHero({
+function RelatedDestinationCard({
   title,
   image,
-  location,
-  unescoYear,
+  slug,
 }) {
   const { t } = useTranslation()
 
@@ -30,46 +28,62 @@ function DestinationHero({
     failedImage !== image
 
   return (
-    <section
+    <article
       className="
+        group
         relative
-        min-h-[340px]
+        min-h-[220px]
+        w-full
         overflow-hidden
 
-        md:min-h-[380px]
+        rounded-md
+        border
+        border-accent-orange
+
+        shadow-default
+
+        transition-shadow
+        duration-200
+        ease-out
+
+        hover:shadow-hover
       "
     >
-      {/* Hero image */}
+      {/* Image */}
       {hasValidImage ? (
         <img
           src={image}
           alt=""
-          aria-hidden="true"
+          loading="lazy"
           onError={() =>
             setFailedImage(image)
           }
           className="
             absolute
             inset-0
+
             h-full
             w-full
             object-cover
-            object-center
+
+            transition-transform
+            duration-200
+            ease-out
+
+            group-hover:scale-[1.03]
           "
         />
       ) : (
         <ImageFallback
+          compact
           className="
             absolute
             inset-0
-            h-full
 
+            h-full
             rounded-none
             border-0
             shadow-none
-
-            [&_h3]:hidden
-            [&_p]:hidden
           "
         />
       )}
@@ -80,7 +94,11 @@ function DestinationHero({
         className="
           absolute
           inset-0
-          bg-black/45
+
+          bg-gradient-to-t
+          from-black/75
+          via-black/25
+          to-black/5
         "
       />
 
@@ -90,63 +108,39 @@ function DestinationHero({
           relative
           z-10
 
-          mx-auto
           flex
-          min-h-[340px]
-          w-full
-          max-w-main
+          min-h-[220px]
           flex-col
+          items-start
           justify-end
 
-          px-4
-          pb-10
-          pt-[100px]
-
-          sm:px-6
-
-          md:min-h-[380px]
-          md:px-8
-
-          lg:px-5
-
-          xl:px-0
+          p-4
         "
       >
-        <Button
-          to="/#destinations"
-          variant="filled"
-          icon={ArrowLeft}
-          iconPosition="left"
-          iconSize={16}
-          className="mb-5 self-start"
-        >
-          {t(
-            'destinationHero.allDestinations'
-          )}
-        </Button>
-
-        <h1
+        <h3
           className="
             font-heading
-            text-mobile-h1
+            text-mobile-h3
             text-white
 
-            lg:text-h1
+            lg:text-h3
           "
         >
           {title}
-        </h1>
+        </h3>
 
-        <div className="mt-4">
-          <DestinationMetadata
-            location={location}
-            unescoYear={unescoYear}
-            variant="light"
-          />
-        </div>
+        <Button
+          to={`/destinations/${slug}`}
+          variant="filled"
+          icon={ArrowRight}
+          iconSize={16}
+          className="mt-3"
+        >
+          {t('destinationCard.explore')}
+        </Button>
       </div>
-    </section>
+    </article>
   )
 }
 
-export default DestinationHero
+export default RelatedDestinationCard

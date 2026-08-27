@@ -10,9 +10,9 @@ import {
   useTranslation,
 } from 'react-i18next'
 
-import Button from './Button'
-import DestinationMetadata from './DestinationMetadata'
-import InfoRow from './InfoRow'
+import Button from '../ui/Button'
+import DestinationMetadata from '../destination/DestinationMetadata'
+import InfoRow from '../destination/InfoRow'
 
 function SelectedDestinationPanel({
   destination,

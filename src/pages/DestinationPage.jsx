@@ -15,21 +15,23 @@ import {
   MapPin,
 } from 'lucide-react'
 
-import Header from '../components/Header'
-import DestinationHero from '../components/DestinationHero'
-import KeyFactCard from '../components/KeyFactCard'
-import RelatedDestinationCard from '../components/RelatedDestinationCard'
-import InteractiveMapBanner from '../components/InteractiveMapBanner'
-import DestinationMiniMap from '../components/DestinationMiniMap'
-import DestinationGallery from '../components/DestinationGallery'
-import DestinationPracticalInfo from '../components/DestinationPracticalInfo'
-import HistoryModal from '../components/HistoryModal'
-import Button from '../components/Button'
-import Footer from '../components/Footer'
+import Header from '../components/layout/Header'
+import Footer from '../components/layout/Footer'
 
-import FeedbackState from '../components/FeedbackState'
-import NoResultsState from '../components/NoResultsState'
-import LoadingSkeleton from '../components/LoadingSkeleton'
+import DestinationHero from '../components/destination/DestinationHero'
+import KeyFactCard from '../components/destination/KeyFactCard'
+import RelatedDestinationCard from '../components/destination/RelatedDestinationCard'
+import DestinationMiniMap from '../components/destination/DestinationMiniMap'
+import DestinationGallery from '../components/destination/DestinationGallery'
+import DestinationPracticalInfo from '../components/destination/DestinationPracticalInfo'
+import HistoryModal from '../components/destination/HistoryModal'
+
+import InteractiveMapBanner from '../components/home/InteractiveMapBanner'
+
+import Button from '../components/ui/Button'
+import FeedbackState from '../components/ui/FeedbackState'
+import NoResultsState from '../components/ui/NoResultsState'
+import LoadingSkeleton from '../components/ui/LoadingSkeleton'
 
 import {
   getDestinationBySlug,
@@ -92,10 +94,8 @@ function DestinationPage() {
 
   const isLoading =
     resolvedRequest.slug !== slug ||
-    resolvedRequest.locale !==
-      locale ||
-    resolvedRequest.retryCount !==
-      retryCount
+    resolvedRequest.locale !== locale ||
+    resolvedRequest.retryCount !== retryCount
 
   useEffect(() => {
     let isCancelled = false
@@ -121,15 +121,11 @@ function DestinationPage() {
 
           if (!destinationData) {
             setDestination(null)
-            setRelatedDestinations(
-              []
-            )
+            setRelatedDestinations([])
             return
           }
 
-          setDestination(
-            destinationData
-          )
+          setDestination(destinationData)
 
           setRelatedDestinations(
             allDestinations.filter(
@@ -138,9 +134,7 @@ function DestinationPage() {
             )
           )
 
-          setIsHistoryModalOpen(
-            false
-          )
+          setIsHistoryModalOpen(false)
         }
       )
       .catch((err) => {
@@ -354,8 +348,7 @@ function DestinationPage() {
 
   const practicalInfo =
     normalizePracticalInfo(
-      destination?.practicalInfo ??
-        []
+      destination?.practicalInfo ?? []
     )
 
   const historyPreview =
@@ -384,7 +377,7 @@ function DestinationPage() {
               py-16
 
               sm:px-6
-              md:px-8
+              md:px-4
               lg:px-5
               xl:px-0
             "
@@ -414,9 +407,9 @@ function DestinationPage() {
               py-16
 
               sm:px-6
-              md:px-8
+              md:px-4
               lg:px-5
-               xl:px-0
+              xl:px-0
             "
           >
             <FeedbackState
@@ -456,7 +449,7 @@ function DestinationPage() {
               py-16
 
               sm:px-6
-              md:px-8
+              md:px-4
               lg:px-5
               xl:px-0
             "
@@ -498,7 +491,7 @@ function DestinationPage() {
             pb-16
 
             sm:px-6
-            md:px-8
+            md:px-4
             lg:px-5
             xl:px-0
           "
@@ -517,6 +510,7 @@ function DestinationPage() {
             >
               {t('destination.keyFacts')}
             </h2>
+
             <div
               className="
                 mx-auto
@@ -533,8 +527,6 @@ function DestinationPage() {
                 shadow-default
 
                 sm:px-6
-
-                
               "
             >
               <div
@@ -543,8 +535,6 @@ function DestinationPage() {
                   grid-cols-[repeat(auto-fit,minmax(180px,1fr))]
                   items-center
                   gap-5
-
-                  
                 "
               >
                 {facts.map((fact) => (
@@ -798,9 +788,7 @@ function DestinationPage() {
                   />
 
                   <span>
-                    {
-                      destination.location
-                    }
+                    {destination.location}
                   </span>
                 </div>
 

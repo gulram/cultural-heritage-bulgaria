@@ -8,10 +8,10 @@ import {
   useTranslation,
 } from 'react-i18next'
 
-import logoBg from '../assets/logo-light.svg'
-import logoEn from '../assets/logo-light-en.svg'
+import logoBg from '../../assets/logo-light.svg'
+import logoEn from '../../assets/logo-light-en.svg'
 
-import useActiveSection from '../hooks/useActiveSection'
+import useActiveSection from '../../hooks/useActiveSection'
 
 const HOME_SECTIONS = [
   'home',
@@ -42,11 +42,6 @@ function Footer() {
 
   const isHomePage =
     location.pathname === '/'
-
-  const projectNote =
-    locale === 'en'
-      ? 'This website was developed as an educational diploma project and is not an official UNESCO website.'
-      : 'Уебсайтът е разработен като образователен дипломен проект и не е официален уебсайт на ЮНЕСКО.'
 
   const getSectionLinkClass = (
     section
@@ -314,7 +309,7 @@ function Footer() {
                 lg:text-body-small
               "
             >
-              {projectNote}
+              {t('footer.projectNote')}
             </p>
           </div>
         </div>

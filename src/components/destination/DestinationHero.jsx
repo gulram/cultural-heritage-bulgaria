@@ -2,19 +2,21 @@ import {
   useState,
 } from 'react'
 
-import { ArrowRight } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 
 import {
   useTranslation,
 } from 'react-i18next'
 
-import Button from './Button'
-import ImageFallback from './ImageFallback'
+import Button from '../ui/Button'
+import DestinationMetadata from './DestinationMetadata'
+import ImageFallback from '../ui/ImageFallback'
 
-function RelatedDestinationCard({
+function DestinationHero({
   title,
   image,
-  slug,
+  location,
+  unescoYear,
 }) {
   const { t } = useTranslation()
 
@@ -28,62 +30,46 @@ function RelatedDestinationCard({
     failedImage !== image
 
   return (
-    <article
+    <section
       className="
-        group
         relative
-        min-h-[220px]
-        w-full
+        min-h-[340px]
         overflow-hidden
 
-        rounded-md
-        border
-        border-accent-orange
-
-        shadow-default
-
-        transition-shadow
-        duration-200
-        ease-out
-
-        hover:shadow-hover
+        md:min-h-[380px]
       "
     >
-      {/* Image */}
+      {/* Hero image */}
       {hasValidImage ? (
         <img
           src={image}
           alt=""
-          loading="lazy"
+          aria-hidden="true"
           onError={() =>
             setFailedImage(image)
           }
           className="
             absolute
             inset-0
-
             h-full
             w-full
             object-cover
-
-            transition-transform
-            duration-200
-            ease-out
-
-            group-hover:scale-[1.03]
+            object-center
           "
         />
       ) : (
         <ImageFallback
-          compact
           className="
             absolute
             inset-0
-
             h-full
+
             rounded-none
             border-0
             shadow-none
+
+            [&_h3]:hidden
+            [&_p]:hidden
           "
         />
       )}
@@ -94,11 +80,7 @@ function RelatedDestinationCard({
         className="
           absolute
           inset-0
-
-          bg-gradient-to-t
-          from-black/75
-          via-black/25
-          to-black/5
+          bg-black/45
         "
       />
 
@@ -108,39 +90,63 @@ function RelatedDestinationCard({
           relative
           z-10
 
+          mx-auto
           flex
-          min-h-[220px]
+          min-h-[340px]
+          w-full
+          max-w-main
           flex-col
-          items-start
           justify-end
 
-          p-4
+          px-4
+          pb-10
+          pt-[100px]
+
+          sm:px-6
+
+          md:min-h-[380px]
+          md:px-8
+
+          lg:px-5
+
+          xl:px-0
         "
       >
-        <h3
+        <Button
+          to="/#destinations"
+          variant="filled"
+          icon={ArrowLeft}
+          iconPosition="left"
+          iconSize={16}
+          className="mb-5 self-start"
+        >
+          {t(
+            'destinationHero.allDestinations'
+          )}
+        </Button>
+
+        <h1
           className="
             font-heading
-            text-mobile-h3
+            text-mobile-h1
             text-white
 
-            lg:text-h3
+            lg:text-h1
           "
         >
           {title}
-        </h3>
+        </h1>
 
-        <Button
-          to={`/destinations/${slug}`}
-          variant="filled"
-          icon={ArrowRight}
-          iconSize={16}
-          className="mt-3"
-        >
-          {t('destinationCard.explore')}
-        </Button>
+        <div className="mt-4">
+          <DestinationMetadata
+            location={location}
+            unescoYear={unescoYear}
+            variant="light"
+          />
+        </div>
       </div>
-    </article>
+    </section>
   )
 }
 
-export default RelatedDestinationCard
+export default DestinationHero

@@ -1,14 +1,6 @@
-import {
-  useEffect,
-} from 'react'
-
-import {
-  useTranslation,
-} from 'react-i18next'
-
-import {
-  X,
-} from 'lucide-react'
+import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { X } from 'lucide-react'
 
 function HistoryModal({
   isOpen,
@@ -17,50 +9,28 @@ function HistoryModal({
 }) {
   const { t } = useTranslation()
 
-  /*
-   * HISTORY MODAL
-   * - затваряне с Escape
-   * - блокиране на scroll-а на страницата
-   */
   useEffect(() => {
     if (!isOpen) {
       return
     }
 
-    const handleKeyDown = (
-      event
-    ) => {
-      if (
-        event.key === 'Escape'
-      ) {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
         onClose()
       }
     }
 
-    const previousOverflow =
-      document.body.style.overflow
+    const previousOverflow = document.body.style.overflow
 
-    document.body.style.overflow =
-      'hidden'
+    document.body.style.overflow = 'hidden'
 
-    window.addEventListener(
-      'keydown',
-      handleKeyDown
-    )
+    window.addEventListener('keydown', handleKeyDown)
 
     return () => {
-      document.body.style.overflow =
-        previousOverflow
-
-      window.removeEventListener(
-        'keydown',
-        handleKeyDown
-      )
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [
-    isOpen,
-    onClose,
-  ])
+  }, [isOpen, onClose])
 
   if (!isOpen) {
     return null
@@ -68,33 +38,6 @@ function HistoryModal({
 
   return (
     <>
-      <style>
-        {`
-          @keyframes historyOverlayFadeIn {
-            from {
-              opacity: 0;
-            }
-
-            to {
-              opacity: 1;
-            }
-          }
-
-          @keyframes historyModalMoveIn {
-            from {
-              opacity: 0;
-              transform: translateY(32px);
-            }
-
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-        `}
-      </style>
-
-      {/* OVERLAY */}
       <div
         className="
           fixed
@@ -110,28 +53,20 @@ function HistoryModal({
           px-4
           py-8
 
+          animate-history-overlay
+
           sm:px-6
 
           md:px-8
 
           lg:px-5
         "
-        style={{
-          animation:
-            'historyOverlayFadeIn 300ms ease-out',
-        }}
-        onMouseDown={(
-          event
-        ) => {
-          if (
-            event.target ===
-            event.currentTarget
-          ) {
+        onMouseDown={(event) => {
+          if (event.target === event.currentTarget) {
             onClose()
           }
         }}
       >
-        {/* MODAL */}
         <section
           role="dialog"
           aria-modal="true"
@@ -152,18 +87,13 @@ function HistoryModal({
             bg-background-card
 
             shadow-hover
+
+            animate-history-modal
           "
-          style={{
-            animation:
-              'historyModalMoveIn 300ms ease-out',
-          }}
         >
-          {/* CLOSE BUTTON */}
           <button
             type="button"
-            aria-label={t(
-              'common.close'
-            )}
+            aria-label={t('common.close')}
             onClick={onClose}
             className="
               absolute
@@ -204,7 +134,6 @@ function HistoryModal({
             />
           </button>
 
-          {/* SCROLLABLE CONTENT */}
           <div
             className="
               max-h-[85vh]
@@ -219,7 +148,6 @@ function HistoryModal({
               md:py-6
             "
           >
-            {/* MODAL HEADER */}
             <div
               className="
                 flex
@@ -242,13 +170,10 @@ function HistoryModal({
                   md:whitespace-nowrap
                 "
               >
-                {t(
-                  'destination.historyModalTitle'
-                )}
+                {t('destination.historyModalTitle')}
               </h2>
             </div>
 
-            {/* CONTENT */}
             <div
               className="
                 mt-5
@@ -265,16 +190,11 @@ function HistoryModal({
                 md:text-body-regular
               "
             >
-              {paragraphs.map(
-                (
-                  paragraph,
-                  index
-                ) => (
-                  <p key={index}>
-                    {paragraph}
-                  </p>
-                )
-              )}
+              {paragraphs.map((paragraph, index) => (
+                <p key={index}>
+                  {paragraph}
+                </p>
+              ))}
             </div>
           </div>
         </section>

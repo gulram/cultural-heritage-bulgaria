@@ -66,7 +66,6 @@ function DestinationPracticalInfo({
             text-accent-orange
 
             lg:text-section-small
-            md:tracking-[0.12em]
           "
         >
           {t(

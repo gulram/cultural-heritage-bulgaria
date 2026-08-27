@@ -18,10 +18,10 @@ import {
   useTranslation,
 } from 'react-i18next'
 
-import logoBg from '../assets/logo-light.svg'
-import logoEn from '../assets/logo-light-en.svg'
+import logoBg from '../../assets/logo-light.svg'
+import logoEn from '../../assets/logo-light-en.svg'
 
-import useActiveSection from '../hooks/useActiveSection'
+import useActiveSection from '../../hooks/useActiveSection'
 
 const HOME_SECTIONS = [
   'home',
@@ -172,7 +172,7 @@ function Header() {
           border border-header-stroke
           bg-header-glass
           backdrop-blur-[3px]
-          lg:block
+          md:block
         "
       >
         <div
@@ -433,7 +433,7 @@ function Header() {
       </div>
 
       {/* MOBILE */}
-      <div className="lg:hidden">
+      <div className="md:hidden">
         {/* Mobile top bar */}
         <div
           className="

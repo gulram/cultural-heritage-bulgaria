@@ -7,16 +7,16 @@ import {
   useTranslation,
 } from 'react-i18next'
 
-import Header from '../components/Header'
-import Footer from '../components/Footer'
+import Header from '../components/layout/Header'
+import Footer from '../components/layout/Footer'
 
-import MapExplorer from '../components/MapExplorer'
-import MapDestinationItem from '../components/MapDestinationItem'
-import SelectedDestinationPanel from '../components/SelectedDestinationPanel'
+import MapExplorer from '../components/map/MapExplorer'
+import MapDestinationList from '../components/map/MapDestinationList'
+import SelectedDestinationPanel from '../components/map/SelectedDestinationPanel'
 
-import FeedbackState from '../components/FeedbackState'
-import NoResultsState from '../components/NoResultsState'
-import LoadingSkeleton from '../components/LoadingSkeleton'
+import FeedbackState from '../components/ui/FeedbackState'
+import NoResultsState from '../components/ui/NoResultsState'
+import LoadingSkeleton from '../components/ui/LoadingSkeleton'
 
 import {
   getDestinations,
@@ -180,7 +180,7 @@ function MapPage() {
               sm:px-6
 
               md:min-h-[280px]
-              md:px-8
+              md:px-4
 
               lg:px-5
 
@@ -229,9 +229,11 @@ function MapPage() {
             w-full
             max-w-map
 
-            sm:px-6
+            px-4
+            py-4
 
-            md:px-8
+            sm:px-6
+            md:px-4
 
             lg:px-5
             lg:py-6
@@ -287,7 +289,6 @@ function MapPage() {
 
                           lg:min-h-[802px]
                           lg:grid-cols-[minmax(0,658px)_510px]
-
                           lg:gap-3
                         `
                         : `
@@ -298,10 +299,15 @@ function MapPage() {
                 >
                   {/* MAP */}
                   <MapExplorer
-                    destinations={destinations}
-                    selectedDestination={selectedDestination}
-                    onSelectDestination={handleSelectDestination }
-                   
+                    destinations={
+                      destinations
+                    }
+                    selectedDestination={
+                      selectedDestination
+                    }
+                    onSelectDestination={
+                      handleSelectDestination
+                    }
                     className={`
                       min-w-0
                       h-[440px]
@@ -334,110 +340,13 @@ function MapPage() {
                   )}
                 </div>
 
-                {/* DESTINATION LIST */}
-                <div
-                  className="
-                    mt-6
-
-                    lg:mt-9
-                  "
-                >
-                  <p
-                    className="
-                      font-body
-                      text-section
-
-                      uppercase
-                      tracking-[0.12em]
-                      text-accent-orange
-                    "
-                  >
-                    {t(
-                      'mapPage.destinations'
-                    )}
-                  </p>
-
-                  <h2
-                    id="map-destinations-title"
-                    className="
-                      mt-1
-
-                      font-body
-                      text-body-regular
-                      font-medium
-                      text-text-secondary
-                    "
-                  >
-                    {t(
-                      'mapPage.selectDestination'
-                    )}
-                  </h2>
-
-                  {/* ITEMS */}
-                  <div
-                    className="
-                      mt-4
-
-                      grid
-                      grid-cols-1
-                      gap-3
-
-                      sm:grid-cols-2
-
-                      lg:grid-cols-6
-                    "
-                  >
-                    {destinations.map(
-                      (
-                        destination,
-                        index
-                      ) => {
-                        const isSelected =
-                          selectedSlug ===
-                          destination.slug
-
-                        return (
-                          <div
-                            key={
-                              destination.slug
-                            }
-                            className={`
-                              ${
-                                index < 3
-                                  ? 'lg:col-span-2'
-                                  : ''
-                              }
-
-                              ${
-                                index === 3
-                                  ? 'lg:col-start-2 lg:col-span-2'
-                                  : ''
-                              }
-
-                              ${
-                                index === 4
-                                  ? 'lg:col-span-2'
-                                  : ''
-                              }
-                            `}
-                          >
-                            <MapDestinationItem
-                              destination={
-                                destination
-                              }
-                              isSelected={
-                                isSelected
-                              }
-                              onClick={
-                                handleSelectDestination
-                              }
-                            />
-                          </div>
-                        )
-                      }
-                    )}
-                  </div>
-                </div>
+                <MapDestinationList
+                  destinations={destinations}
+                  selectedSlug={selectedSlug}
+                  onSelectDestination={
+                    handleSelectDestination
+                  }
+                />
               </>
             )}
         </section>
