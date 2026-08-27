@@ -18,6 +18,7 @@ function DestinationGallery({
 
   const [isGalleryModalOpen, setIsGalleryModalOpen] =
     useState(false)
+
   const [activeGalleryIndex, setActiveGalleryIndex] =
     useState(0)
 
@@ -222,9 +223,7 @@ function DestinationGallery({
                   md:text-body-small
                 "
               >
-                {t(
-                  'destination.viewAllPhotos'
-                )}
+                {t('destination.viewAllPhotos')}
               </span>
             </button>
           )}
@@ -394,7 +393,7 @@ function DestinationGallery({
                     ].alt
                   }
                   className="
-                    h-[220px]
+                    h-[320px]
                     w-full
                     object-contain
 
@@ -412,7 +411,7 @@ function DestinationGallery({
                   onClick={showPreviousImage}
                   className="
                     absolute
-                    left-4
+                    left-1
                     top-1/2
                     -translate-y-1/2
 
@@ -438,6 +437,7 @@ function DestinationGallery({
 
                     hover:bg-black/45
 
+                    sm:left-4
                     sm:h-11
                     sm:w-11
                   "
@@ -457,7 +457,7 @@ function DestinationGallery({
                   onClick={showNextImage}
                   className="
                     absolute
-                    right-4
+                    right-1
                     top-1/2
                     -translate-y-1/2
 
@@ -483,6 +483,7 @@ function DestinationGallery({
 
                     hover:bg-black/45
 
+                    sm:right-4
                     sm:h-11
                     sm:w-11
                   "

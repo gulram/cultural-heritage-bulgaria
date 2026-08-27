@@ -306,7 +306,8 @@ function DestinationPage() {
               max-w-main
 
               px-4
-              py-16
+              pb-16
+              pt-[96px]
 
               sm:px-6
               md:px-4
@@ -336,7 +337,8 @@ function DestinationPage() {
               max-w-main
 
               px-4
-              py-16
+              pb-16
+              pt-[96px]
 
               sm:px-6
               md:px-4
@@ -376,7 +378,8 @@ function DestinationPage() {
               max-w-main
 
               px-4
-              py-16
+              pb-16
+              pt-[96px]
 
               sm:px-6
               md:px-4
