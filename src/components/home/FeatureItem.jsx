@@ -13,7 +13,6 @@ function FeatureItem({
         md:flex-1
       "
     >
-      {/* Icon */}
       <div
         className="
           flex
@@ -44,7 +43,6 @@ function FeatureItem({
         />
       </div>
 
-      {/* Content */}
       <div className="min-w-0">
         <h2
           className="

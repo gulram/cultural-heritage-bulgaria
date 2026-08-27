@@ -1,6 +1,4 @@
-import {
-  useTranslation,
-} from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 import InfoRow from './InfoRow'
 
@@ -9,8 +7,7 @@ function formatVerifiedDate(date) {
     return ''
   }
 
-  const [year, month, day] =
-    date.split('-')
+  const [year, month, day] = date.split('-')
 
   return `${day}.${month}.${year}`
 }
@@ -68,41 +65,30 @@ function DestinationPracticalInfo({
             lg:text-section-small
           "
         >
-          {t(
-            'destination.practicalInfo'
-          )}
+          {t('destination.practicalInfo')}
         </h2>
 
-        {practicalInfo.map(
-          (item) => (
-            <InfoRow
-              key={item.id}
-              icon={item.icon}
-              title={item.title}
+        {practicalInfo.map((item) => (
+          <InfoRow
+            key={item.id}
+            icon={item.icon}
+            title={item.title}
+          >
+            <div
+              className="
+                flex
+                flex-col
+                gap-1
+              "
             >
-              <div
-                className="
-                  flex
-                  flex-col
-                  gap-1
-                "
-              >
-                {item.lines.map(
-                  (
-                    line,
-                    index
-                  ) => (
-                    <p
-                      key={`${item.id}-${index}`}
-                    >
-                      {line}
-                    </p>
-                  )
-                )}
-              </div>
-            </InfoRow>
-          )
-        )}
+              {item.lines.map((line, index) => (
+                <p key={`${item.id}-${index}`}>
+                  {line}
+                </p>
+              ))}
+            </div>
+          </InfoRow>
+        ))}
 
         {lastVerifiedAt && (
           <div
@@ -122,15 +108,9 @@ function DestinationPracticalInfo({
                 md:text-body-small
               "
             >
-              {t(
-                'destination.updated',
-                {
-                  date:
-                    formatVerifiedDate(
-                      lastVerifiedAt
-                    ),
-                }
-              )}
+              {t('destination.updated', {
+                date: formatVerifiedDate(lastVerifiedAt),
+              })}
             </p>
           </div>
         )}

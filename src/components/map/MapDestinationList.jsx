@@ -1,6 +1,4 @@
-import {
-  useTranslation,
-} from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 import MapDestinationItem from './MapDestinationItem'
 
@@ -30,9 +28,7 @@ function MapDestinationList({
           text-accent-orange
         "
       >
-        {t(
-          'mapPage.destinations'
-        )}
+        {t('mapPage.destinations')}
       </p>
 
       <h2
@@ -42,16 +38,12 @@ function MapDestinationList({
 
           font-body
           text-body-regular
-          font-medium
           text-text-secondary
         "
       >
-        {t(
-          'mapPage.selectDestination'
-        )}
+        {t('mapPage.selectDestination')}
       </h2>
 
-      {/* ITEMS */}
       <div
         className="
           mt-4
@@ -65,55 +57,41 @@ function MapDestinationList({
           lg:grid-cols-6
         "
       >
-        {destinations.map(
-          (
-            destination,
-            index
-          ) => {
-            const isSelected =
-              selectedSlug ===
-              destination.slug
+        {destinations.map((destination, index) => {
+          const isSelected =
+            selectedSlug === destination.slug
 
-            return (
-              <div
-                key={
-                  destination.slug
+          return (
+            <div
+              key={destination.slug}
+              className={`
+                ${
+                  index < 3
+                    ? 'lg:col-span-2'
+                    : ''
                 }
-                className={`
-                  ${
-                    index < 3
-                      ? 'lg:col-span-2'
-                      : ''
-                  }
 
-                  ${
-                    index === 3
-                      ? 'lg:col-start-2 lg:col-span-2'
-                      : ''
-                  }
+                ${
+                  index === 3
+                    ? 'lg:col-start-2 lg:col-span-2'
+                    : ''
+                }
 
-                  ${
-                    index === 4
-                      ? 'lg:col-span-2'
-                      : ''
-                  }
-                `}
-              >
-                <MapDestinationItem
-                  destination={
-                    destination
-                  }
-                  isSelected={
-                    isSelected
-                  }
-                  onClick={
-                    onSelectDestination
-                  }
-                />
-              </div>
-            )
-          }
-        )}
+                ${
+                  index === 4
+                    ? 'lg:col-span-2'
+                    : ''
+                }
+              `}
+            >
+              <MapDestinationItem
+                destination={destination}
+                isSelected={isSelected}
+                onClick={onSelectDestination}
+              />
+            </div>
+          )
+        })}
       </div>
     </section>
   )

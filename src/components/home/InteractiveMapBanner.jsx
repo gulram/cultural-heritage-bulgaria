@@ -19,7 +19,6 @@ function InteractiveMapBanner() {
         mx-auto
         h-[220px]
         w-full
-        w-full
         max-w-none
         overflow-hidden
 
@@ -39,7 +38,6 @@ function InteractiveMapBanner() {
         sm:max-w-none
       "
     >
-      {/* Decorative map */}
       <img
         src={mapImage}
         alt=""
@@ -79,7 +77,6 @@ function InteractiveMapBanner() {
         "
       />
 
-      {/* Content */}
       <div
         className="
           absolute
@@ -135,9 +132,7 @@ function InteractiveMapBanner() {
               lg:text-h3
             "
           >
-            {t(
-              'interactiveMapBanner.title'
-            )}
+            {t('interactiveMapBanner.title')}
           </h3>
 
           <p
@@ -155,14 +150,11 @@ function InteractiveMapBanner() {
               lg:text-body-regular
             "
           >
-            {t(
-              'interactiveMapBanner.description'
-            )}
+            {t('interactiveMapBanner.description')}
           </p>
         </div>
       </div>
 
-      {/* CTA */}
       <div
         className="
           absolute
@@ -191,9 +183,7 @@ function InteractiveMapBanner() {
             lg:group-hover:shadow-button
           "
         >
-          {t(
-            'interactiveMapBanner.openMap'
-          )}
+          {t('interactiveMapBanner.openMap')}
         </Button>
       </div>
     </section>

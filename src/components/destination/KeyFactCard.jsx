@@ -13,7 +13,6 @@ function KeyFactCard({
         gap-2
       "
     >
-      {/* Icon */}
       <div
         className="
           flex
@@ -36,7 +35,6 @@ function KeyFactCard({
         />
       </div>
 
-      {/* Text */}
       <div className="min-w-0">
         <p
           className="

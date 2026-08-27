@@ -1,11 +1,5 @@
-import {
-  ArrowRight,
-  Search,
-} from 'lucide-react'
-
-import {
-  useTranslation,
-} from 'react-i18next'
+import { ArrowRight, Search } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 import Button from './Button'
 
@@ -37,7 +31,6 @@ function NoResultsState({
         ${className}
       `}
     >
-      {/* ICON */}
       <Search
         aria-hidden="true"
         className="
@@ -49,10 +42,10 @@ function NoResultsState({
         strokeWidth={1.5}
       />
 
-      {/* TITLE */}
       <p
         className="
           mt-4
+
           font-body
           text-mobile-h2
           text-text-primary
@@ -63,7 +56,6 @@ function NoResultsState({
         {t('feedback.noResults.title')}
       </p>
 
-      {/* DESCRIPTION */}
       <p
         className="
           mt-2
@@ -76,12 +68,9 @@ function NoResultsState({
           md:text-body-regular
         "
       >
-        {t(
-          'feedback.noResults.description'
-        )}
+        {t('feedback.noResults.description')}
       </p>
 
-      {/* CTA */}
       <Button
         to="/map"
         variant="filled"
@@ -90,9 +79,7 @@ function NoResultsState({
         iconSize={16}
         className="mt-4"
       >
-        {t(
-          'feedback.noResults.openMap'
-        )}
+        {t('feedback.noResults.openMap')}
       </Button>
     </div>
   )

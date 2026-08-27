@@ -1,12 +1,6 @@
-import {
-  useState,
-} from 'react'
-
+import { useState } from 'react'
 import { ArrowLeft } from 'lucide-react'
-
-import {
-  useTranslation,
-} from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 import Button from '../ui/Button'
 import DestinationMetadata from './DestinationMetadata'
@@ -19,11 +13,7 @@ function DestinationHero({
   unescoYear,
 }) {
   const { t } = useTranslation()
-
-  const [
-    failedImage,
-    setFailedImage,
-  ] = useState(null)
+  const [failedImage, setFailedImage] = useState(null)
 
   const hasValidImage =
     Boolean(image) &&
@@ -39,7 +29,6 @@ function DestinationHero({
         md:min-h-[380px]
       "
     >
-      {/* Hero image */}
       {hasValidImage ? (
         <img
           src={image}
@@ -74,7 +63,6 @@ function DestinationHero({
         />
       )}
 
-      {/* Dark overlay */}
       <div
         aria-hidden="true"
         className="
@@ -84,7 +72,6 @@ function DestinationHero({
         "
       />
 
-      {/* Content */}
       <div
         className="
           relative
@@ -105,7 +92,7 @@ function DestinationHero({
           sm:px-6
 
           md:min-h-[380px]
-          md:px-8
+          md:px-4
 
           lg:px-5
 
@@ -120,9 +107,7 @@ function DestinationHero({
           iconSize={16}
           className="mb-5 self-start"
         >
-          {t(
-            'destinationHero.allDestinations'
-          )}
+          {t('destinationHero.allDestinations')}
         </Button>
 
         <h1

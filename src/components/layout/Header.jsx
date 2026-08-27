@@ -1,22 +1,15 @@
-import {
-  useState,
-} from 'react'
-
+import { useState } from 'react'
 import {
   Link,
   NavLink,
   useLocation,
 } from 'react-router-dom'
-
 import {
   ChevronDown,
   Menu,
   X,
 } from 'lucide-react'
-
-import {
-  useTranslation,
-} from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 import logoBg from '../../assets/logo-light.svg'
 import logoEn from '../../assets/logo-light-en.svg'
@@ -58,10 +51,8 @@ const DESTINATION_LINKS = [
 ]
 
 function Header() {
-  const [
-    isMenuOpen,
-    setIsMenuOpen,
-  ] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] =
+    useState(false)
 
   const [
     isDestinationsOpen,
@@ -69,11 +60,7 @@ function Header() {
   ] = useState(false)
 
   const location = useLocation()
-
-  const {
-    t,
-    i18n,
-  } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const locale =
     i18n.resolvedLanguage === 'en'
@@ -91,9 +78,7 @@ function Header() {
   const isHomePage =
     location.pathname === '/'
 
-  const getSectionLinkClass = (
-    section
-  ) => {
+  const getSectionLinkClass = (section) => {
     const isActive =
       isHomePage &&
       (
@@ -152,9 +137,7 @@ function Header() {
     setIsDestinationsOpen(false)
   }
 
-  const handleLanguageChange = (
-    language
-  ) => {
+  const handleLanguageChange = (language) => {
     i18n.changeLanguage(language)
 
     localStorage.setItem(
@@ -165,7 +148,7 @@ function Header() {
 
   return (
     <header className="absolute left-0 top-0 z-[2000] w-full">
-      {/* DESKTOP */}
+      {/* Desktop */}
       <div
         className="
           hidden w-full
@@ -188,7 +171,6 @@ function Header() {
             xl:px-0
           "
         >
-          {/* Logo */}
           <Link
             to="/#home"
             className="shrink-0"
@@ -200,9 +182,10 @@ function Header() {
             />
           </Link>
 
-          {/* Navigation */}
           <nav
-            aria-label="Основна навигация"
+            aria-label={t(
+              'navigation.mainNavigationAriaLabel'
+            )}
             className="
               flex
               items-center
@@ -211,14 +194,12 @@ function Header() {
           >
             <Link
               to="/#home"
-              className={getSectionLinkClass(
-                'home'
-              )}
+              className={getSectionLinkClass('home')}
             >
               {t('navigation.home')}
             </Link>
 
-            {/* DESTINATIONS DROPDOWN */}
+            {/* Destinations Dropdown */}
             <div
               className="
                 group
@@ -238,9 +219,7 @@ function Header() {
                     'destinations'
                   )}
                 >
-                  {t(
-                    'navigation.destinations'
-                  )}
+                  {t('navigation.destinations')}
                 </Link>
 
                 <ChevronDown
@@ -262,7 +241,6 @@ function Header() {
                 />
               </div>
 
-              {/* DROPDOWN */}
               <div
                 className="
                   invisible
@@ -307,9 +285,7 @@ function Header() {
                   {DESTINATION_LINKS.map(
                     (destination) => (
                       <NavLink
-                        key={
-                          destination.slug
-                        }
+                        key={destination.slug}
                         to={`/destinations/${destination.slug}`}
                         className={({
                           isActive,
@@ -349,9 +325,7 @@ function Header() {
                           focus-visible:ring-inset
                         `}
                       >
-                        {t(
-                          destination.labelKey
-                        )}
+                        {t(destination.labelKey)}
                       </NavLink>
                     )
                   )}
@@ -368,24 +342,19 @@ function Header() {
 
             <Link
               to="/#about"
-              className={getSectionLinkClass(
-                'about'
-              )}
+              className={getSectionLinkClass('about')}
             >
               {t('navigation.about')}
             </Link>
           </nav>
 
-          {/* Language */}
           <div className="flex items-center font-body text-body-small">
             <button
               type="button"
               onClick={() =>
                 handleLanguageChange('bg')
               }
-              aria-pressed={
-                locale === 'bg'
-              }
+              aria-pressed={locale === 'bg'}
               className={`
                 transition-colors
                 duration-200
@@ -412,9 +381,7 @@ function Header() {
               onClick={() =>
                 handleLanguageChange('en')
               }
-              aria-pressed={
-                locale === 'en'
-              }
+              aria-pressed={locale === 'en'}
               className={`
                 transition-colors
                 duration-200
@@ -432,9 +399,8 @@ function Header() {
         </div>
       </div>
 
-      {/* MOBILE */}
+      {/* Mobile */}
       <div className="md:hidden">
-        {/* Mobile top bar */}
         <div
           className="
             flex
@@ -467,20 +433,14 @@ function Header() {
             type="button"
             aria-label={
               isMenuOpen
-                ? t(
-                    'navigation.closeMenu'
-                  )
-                : t(
-                    'navigation.openMenu'
-                  )
+                ? t('navigation.closeMenu')
+                : t('navigation.openMenu')
             }
-            aria-expanded={
-              isMenuOpen
-            }
+            aria-expanded={isMenuOpen}
             aria-controls="mobile-navigation"
             onClick={() =>
               setIsMenuOpen(
-                (prev) => !prev
+                (current) => !current
               )
             }
             className="
@@ -512,7 +472,6 @@ function Header() {
           </button>
         </div>
 
-        {/* Mobile menu */}
         {isMenuOpen && (
           <div
             id="mobile-navigation"
@@ -550,9 +509,7 @@ function Header() {
             >
               <Link
                 to="/#home"
-                onClick={
-                  closeMobileMenu
-                }
+                onClick={closeMobileMenu}
               >
                 <img
                   src={currentLogo}
@@ -566,9 +523,7 @@ function Header() {
                 aria-label={t(
                   'navigation.closeMenu'
                 )}
-                onClick={
-                  closeMobileMenu
-                }
+                onClick={closeMobileMenu}
                 className="
                   flex
                   h-10
@@ -589,7 +544,9 @@ function Header() {
             </div>
 
             <nav
-              aria-label="Мобилна навигация"
+              aria-label={t(
+                'navigation.mobileNavigationAriaLabel'
+              )}
               className="
                 flex
                 flex-col
@@ -604,14 +561,12 @@ function Header() {
             >
               <Link
                 to="/#home"
-                onClick={
-                  closeMobileMenu
-                }
+                onClick={closeMobileMenu}
               >
                 {t('navigation.home')}
               </Link>
 
-              {/* MOBILE DESTINATIONS */}
+              {/* Mobile destinations */}
               <div
                 className="
                   flex
@@ -624,13 +579,10 @@ function Header() {
                   type="button"
                   onClick={() =>
                     setIsDestinationsOpen(
-                      (current) =>
-                        !current
+                      (current) => !current
                     )
                   }
-                  aria-expanded={
-                    isDestinationsOpen
-                  }
+                  aria-expanded={isDestinationsOpen}
                   aria-controls="mobile-destinations-submenu"
                   className="
                     flex
@@ -647,9 +599,7 @@ function Header() {
                     focus-visible:ring-offset-2
                   "
                 >
-                  {t(
-                    'navigation.destinations'
-                  )}
+                  {t('navigation.destinations')}
 
                   <ChevronDown
                     aria-hidden="true"
@@ -693,12 +643,9 @@ function Header() {
                       p-[6px]
                     "
                   >
-                    {/* All destinations */}
                     <Link
                       to="/#destinations"
-                      onClick={
-                        closeMobileMenu
-                      }
+                      onClick={closeMobileMenu}
                       className="
                         rounded-sm
 
@@ -729,17 +676,11 @@ function Header() {
                     </Link>
 
                     {DESTINATION_LINKS.map(
-                      (
-                        destination
-                      ) => (
+                      (destination) => (
                         <NavLink
-                          key={
-                            destination.slug
-                          }
+                          key={destination.slug}
                           to={`/destinations/${destination.slug}`}
-                          onClick={
-                            closeMobileMenu
-                          }
+                          onClick={closeMobileMenu}
                           className={({
                             isActive,
                           }) => `
@@ -775,9 +716,7 @@ function Header() {
                             focus-visible:ring-inset
                           `}
                         >
-                          {t(
-                            destination.labelKey
-                          )}
+                          {t(destination.labelKey)}
                         </NavLink>
                       )
                     )}
@@ -787,34 +726,25 @@ function Header() {
 
               <NavLink
                 to="/map"
-                onClick={
-                  closeMobileMenu
-                }
+                onClick={closeMobileMenu}
               >
                 {t('navigation.map')}
               </NavLink>
 
               <Link
                 to="/#about"
-                onClick={
-                  closeMobileMenu
-                }
+                onClick={closeMobileMenu}
               >
                 {t('navigation.about')}
               </Link>
 
-              {/* MOBILE LANGUAGE */}
               <div className="flex items-center font-body text-body-small">
                 <button
                   type="button"
                   onClick={() =>
-                    handleLanguageChange(
-                      'bg'
-                    )
+                    handleLanguageChange('bg')
                   }
-                  aria-pressed={
-                    locale === 'bg'
-                  }
+                  aria-pressed={locale === 'bg'}
                   className={
                     locale === 'bg'
                       ? 'font-semibold text-white'
@@ -834,13 +764,9 @@ function Header() {
                 <button
                   type="button"
                   onClick={() =>
-                    handleLanguageChange(
-                      'en'
-                    )
+                    handleLanguageChange('en')
                   }
-                  aria-pressed={
-                    locale === 'en'
-                  }
+                  aria-pressed={locale === 'en'}
                   className={
                     locale === 'en'
                       ? 'font-semibold text-white'

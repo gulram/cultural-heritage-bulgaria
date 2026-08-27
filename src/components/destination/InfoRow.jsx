@@ -13,7 +13,6 @@ function InfoRow({
         gap-2
       "
     >
-      {/* Icon */}
       <Icon
         aria-hidden="true"
         className="
@@ -25,7 +24,6 @@ function InfoRow({
         strokeWidth={1.5}
       />
 
-      {/* Text */}
       <div className="min-w-0">
         <h3
           className="

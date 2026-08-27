@@ -4,9 +4,7 @@ import {
   useLocation,
 } from 'react-router-dom'
 
-import {
-  useTranslation,
-} from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 import logoBg from '../../assets/logo-light.svg'
 import logoEn from '../../assets/logo-light-en.svg'
@@ -21,11 +19,7 @@ const HOME_SECTIONS = [
 
 function Footer() {
   const location = useLocation()
-
-  const {
-    t,
-    i18n,
-  } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const locale =
     i18n.resolvedLanguage === 'en'
@@ -43,9 +37,7 @@ function Footer() {
   const isHomePage =
     location.pathname === '/'
 
-  const getSectionLinkClass = (
-    section
-  ) => {
+  const getSectionLinkClass = (section) => {
     const isActive =
       isHomePage &&
       (
@@ -139,7 +131,6 @@ function Footer() {
           xl:px-0
         "
       >
-        {/* MAIN FOOTER CONTENT */}
         <div
           className="
             grid
@@ -149,7 +140,6 @@ function Footer() {
             lg:pb-3
           "
         >
-          {/* BRAND */}
           <div
             className="
               flex
@@ -195,7 +185,6 @@ function Footer() {
             </p>
           </div>
 
-          {/* NAVIGATION */}
           <div
             className="
               border-t
@@ -223,9 +212,7 @@ function Footer() {
             </h2>
 
             <nav
-              aria-label={t(
-                'footer.navigationAriaLabel'
-              )}
+              aria-label={t('footer.navigationAriaLabel')}
               className="
                 mt-4
 
@@ -237,9 +224,7 @@ function Footer() {
             >
               <Link
                 to="/#home"
-                className={getSectionLinkClass(
-                  'home'
-                )}
+                className={getSectionLinkClass('home')}
               >
                 {t('navigation.home')}
               </Link>
@@ -250,9 +235,7 @@ function Footer() {
                   'destinations'
                 )}
               >
-                {t(
-                  'navigation.destinations'
-                )}
+                {t('navigation.destinations')}
               </Link>
 
               <NavLink
@@ -264,16 +247,13 @@ function Footer() {
 
               <Link
                 to="/#about"
-                className={getSectionLinkClass(
-                  'about'
-                )}
+                className={getSectionLinkClass('about')}
               >
                 {t('navigation.about')}
               </Link>
             </nav>
           </div>
 
-          {/* PROJECT INFORMATION */}
           <div
             className="
               border-t
@@ -297,7 +277,7 @@ function Footer() {
                 text-white
               "
             >
-              {t('navigation.about')}
+              {t('footer.projectInfo')}
             </h2>
 
             <p
@@ -317,7 +297,6 @@ function Footer() {
           </div>
         </div>
 
-        {/* BOTTOM FOOTER */}
         <div
           className="
             border-t

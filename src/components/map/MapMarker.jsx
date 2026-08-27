@@ -1,14 +1,6 @@
-import {
-  useMemo,
-  useState,
-} from 'react'
-
+import { useMemo, useState } from 'react'
 import { divIcon } from 'leaflet'
-
-import {
-  Marker,
-  Tooltip,
-} from 'react-leaflet'
+import { Marker, Tooltip } from 'react-leaflet'
 
 import MapMarkerPopup from './MapMarkerPopup'
 
@@ -17,15 +9,10 @@ function MapMarker({
   isSelected = false,
   onSelect,
 }) {
-  const [isHovered, setIsHovered] =
-    useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
-  const isActive =
-    isHovered || isSelected
-
-  const markerNumber = Number(
-    destination.number
-  )
+  const isActive = isHovered || isSelected
+  const markerNumber = Number(destination.number)
 
   const icon = useMemo(() => {
     const backgroundColor = isActive
@@ -34,11 +21,8 @@ function MapMarker({
 
     return divIcon({
       className: '',
-
       iconSize: [46, 54],
-
       iconAnchor: [23, 54],
-
       tooltipAnchor: [0, -52],
 
       html: `
@@ -97,9 +81,7 @@ function MapMarker({
               "
             >
               ${
-                Number.isFinite(
-                  markerNumber
-                )
+                Number.isFinite(markerNumber)
                   ? markerNumber
                   : ''
               }
@@ -108,37 +90,28 @@ function MapMarker({
         </div>
       `,
     })
-  }, [
-    isActive,
-    markerNumber,
-  ])
+  }, [isActive, markerNumber])
 
   return (
     <Marker
-      position={
-        destination.coordinates
-      }
+      position={destination.coordinates}
       icon={icon}
       title={destination.title}
       alt={destination.title}
-      zIndexOffset={
-        isSelected ? 1000 : 0
-      }
+      zIndexOffset={isSelected ? 1000 : 0}
       eventHandlers={{
         mouseover: () => {
           setIsHovered(true)
         },
-
         mouseout: () => {
           setIsHovered(false)
         },
-
         click: () => {
           onSelect?.(destination)
         },
       }}
     >
-      {(isHovered || isSelected) && (
+      {isActive && (
         <Tooltip
           permanent
           interactive
@@ -147,9 +120,7 @@ function MapMarker({
           opacity={1}
           className="destination-map-tooltip"
         >
-          <MapMarkerPopup
-            destination={destination}
-          />
+          <MapMarkerPopup destination={destination} />
         </Tooltip>
       )}
     </Marker>

@@ -1,7 +1,4 @@
-import {
-  Search,
-  TriangleAlert,
-} from 'lucide-react'
+import { Search, TriangleAlert } from 'lucide-react'
 
 import Button from './Button'
 
@@ -9,7 +6,6 @@ const VARIANTS = {
   error: {
     icon: TriangleAlert,
   },
-
   empty: {
     icon: Search,
   },
@@ -25,8 +21,7 @@ function FeedbackState({
   className = '',
 }) {
   const { icon: Icon } =
-    VARIANTS[variant] ??
-    VARIANTS.error
+    VARIANTS[variant] ?? VARIANTS.error
 
   return (
     <div
@@ -50,7 +45,6 @@ function FeedbackState({
         ${className}
       `}
     >
-      {/* Icon */}
       <div
         className="
           flex
@@ -74,7 +68,6 @@ function FeedbackState({
         />
       </div>
 
-      {/* Title */}
       <p
         className="
           mt-3
@@ -89,7 +82,6 @@ function FeedbackState({
         {title}
       </p>
 
-      {/* Description */}
       {description && (
         <p
           className="
@@ -107,7 +99,6 @@ function FeedbackState({
         </p>
       )}
 
-      {/* Action */}
       {actionLabel && (onAction || to) && (
         <Button
           to={to}

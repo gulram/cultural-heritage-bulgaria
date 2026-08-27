@@ -1,10 +1,5 @@
-import {
-  LoaderCircle,
-} from 'lucide-react'
-
-import {
-  useTranslation,
-} from 'react-i18next'
+import { LoaderCircle } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 function PageLoader() {
   const { t } = useTranslation()

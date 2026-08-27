@@ -1,12 +1,6 @@
-import {
-  useState,
-} from 'react'
-
+import { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
-
-import {
-  useTranslation,
-} from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 import Button from '../ui/Button'
 import ImageFallback from '../ui/ImageFallback'
@@ -17,11 +11,7 @@ function RelatedDestinationCard({
   slug,
 }) {
   const { t } = useTranslation()
-
-  const [
-    failedImage,
-    setFailedImage,
-  ] = useState(null)
+  const [failedImage, setFailedImage] = useState(null)
 
   const hasValidImage =
     Boolean(image) &&
@@ -49,15 +39,12 @@ function RelatedDestinationCard({
         hover:shadow-hover
       "
     >
-      {/* Image */}
       {hasValidImage ? (
         <img
           src={image}
           alt=""
           loading="lazy"
-          onError={() =>
-            setFailedImage(image)
-          }
+          onError={() => setFailedImage(image)}
           className="
             absolute
             inset-0
@@ -88,7 +75,6 @@ function RelatedDestinationCard({
         />
       )}
 
-      {/* Dark overlay */}
       <div
         aria-hidden="true"
         className="
@@ -102,7 +88,6 @@ function RelatedDestinationCard({
         "
       />
 
-      {/* Content */}
       <div
         className="
           relative

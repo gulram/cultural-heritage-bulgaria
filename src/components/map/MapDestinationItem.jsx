@@ -8,9 +8,7 @@ function MapDestinationItem({
   return (
     <button
       type="button"
-      onClick={() =>
-        onClick?.(destination)
-      }
+      onClick={() => onClick?.(destination)}
       aria-pressed={isSelected}
       className={`
         group
@@ -57,7 +55,6 @@ function MapDestinationItem({
         }
       `}
     >
-      {/* NUMBER */}
       <span
         className={`
           flex
@@ -87,7 +84,6 @@ function MapDestinationItem({
         {destination.number}
       </span>
 
-      {/* TEXT */}
       <span
         className="
           min-w-0

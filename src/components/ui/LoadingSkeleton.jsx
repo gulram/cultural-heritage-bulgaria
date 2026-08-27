@@ -1,8 +1,5 @@
 import { MapPin } from 'lucide-react'
-
-import {
-  useTranslation,
-} from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 function LoadingSkeleton({
   className = '',
@@ -29,7 +26,6 @@ function LoadingSkeleton({
         ${className}
       `}
     >
-      {/* IMAGE PLACEHOLDER */}
       <div
         className="
           flex
@@ -56,7 +52,6 @@ function LoadingSkeleton({
         />
       </div>
 
-      {/* TEXT PLACEHOLDERS */}
       <div
         className="
           mt-4
@@ -118,7 +113,6 @@ function LoadingSkeleton({
         />
       </div>
 
-      {/* BUTTON PLACEHOLDER */}
       <div
         aria-hidden="true"
         className="

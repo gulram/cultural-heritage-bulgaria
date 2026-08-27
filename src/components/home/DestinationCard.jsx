@@ -1,14 +1,6 @@
-import {
-  useState,
-} from 'react'
-
-import {
-  ArrowRight,
-} from 'lucide-react'
-
-import {
-  useTranslation,
-} from 'react-i18next'
+import { useState } from 'react'
+import { ArrowRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 import DestinationMetadata from '../destination/DestinationMetadata'
 import Button from '../ui/Button'
@@ -25,11 +17,7 @@ function DestinationCard({
   imagePosition = 'left',
 }) {
   const { t } = useTranslation()
-
-  const [
-    failedImage,
-    setFailedImage,
-  ] = useState(null)
+  const [failedImage, setFailedImage] = useState(null)
 
   const isImageRight =
     imagePosition === 'right'
@@ -79,7 +67,6 @@ function DestinationCard({
         }
       `}
     >
-      {/* IMAGE */}
       <div
         className="
           relative
@@ -104,9 +91,7 @@ function DestinationCard({
               src={image}
               alt={title}
               loading="lazy"
-              onError={() =>
-                setFailedImage(image)
-              }
+              onError={() => setFailedImage(image)}
               className="
                 h-full
                 w-full
@@ -122,7 +107,6 @@ function DestinationCard({
               "
             />
 
-            {/* DEFAULT DARK OVERLAY */}
             <div
               aria-hidden="true"
               className="
@@ -158,7 +142,6 @@ function DestinationCard({
           />
         )}
 
-        {/* DESTINATION NUMBER */}
         <div
           className={`
             absolute
@@ -205,7 +188,6 @@ function DestinationCard({
         </div>
       </div>
 
-      {/* CONTENT */}
       <div
         className="
           relative
@@ -300,7 +282,6 @@ function DestinationCard({
             unescoYear={unescoYear}
           />
 
-          {/* CTA */}
           <div
             className="
               self-end
@@ -314,9 +295,7 @@ function DestinationCard({
               icon={ArrowRight}
               iconSize={16}
             >
-              {t(
-                'destinationCard.explore'
-              )}
+              {t('destinationCard.explore')}
             </Button>
           </div>
         </div>

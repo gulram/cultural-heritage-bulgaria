@@ -1,10 +1,5 @@
-import {
-  ImageOff,
-} from 'lucide-react'
-
-import {
-  useTranslation,
-} from 'react-i18next'
+import { ImageOff } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 function ImageFallback({
   className = '',
@@ -30,16 +25,11 @@ function ImageFallback({
 
         shadow-default
 
-        ${
-          compact
-            ? 'p-2'
-            : 'p-5'
-        }
+        ${compact ? 'p-2' : 'p-5'}
 
         ${className}
       `}
     >
-      {/* ICON */}
       <div
         className={`
           flex
@@ -76,7 +66,6 @@ function ImageFallback({
 
       {!compact && (
         <>
-          {/* TITLE */}
           <p
             className="
               mt-4
@@ -88,12 +77,9 @@ function ImageFallback({
               md:text-h3
             "
           >
-            {t(
-              'feedback.noImage.title'
-            )}
+            {t('feedback.noImage.title')}
           </p>
 
-          {/* DESCRIPTION */}
           <p
             className="
               mt-2
@@ -106,9 +92,7 @@ function ImageFallback({
               md:text-body-regular
             "
           >
-            {t(
-              'feedback.noImage.description'
-            )}
+            {t('feedback.noImage.description')}
           </p>
         </>
       )}

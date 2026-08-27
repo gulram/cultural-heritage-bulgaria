@@ -34,14 +34,14 @@ function DestinationMiniMap({
         <Marker position={position}>
           <Popup>
             <span
-                className="
+              className="
                 font-body
                 text-mobile-small
 
                 lg:text-body-small
-                "
+              "
             >
-                {title}
+              {title}
             </span>
           </Popup>
         </Marker>

@@ -1,12 +1,12 @@
 @theme {
   /* COLORS */
 
-   /* Brand */
-  --color-primary: #123B2E;              /* Forest Green */
-  --color-accent-orange: #9A6200;        /* Orange Gold */
-  --color-accent-antique: #7F4D00;          /* Antique Gold */
-  --color-accent-light: #A85F00;         /* Light Orange */
-  --color-accent-terracotta: #891E1E;    /* Terracotta Red */
+  /* Brand */
+  --color-primary: #123B2E; /* Forest Green */
+  --color-accent-orange: #9A6200; /* Orange Gold */
+  --color-accent-antique: #7F4D00; /* Antique Gold */
+  --color-accent-light: #A85F00; /* Light Orange */
+  --color-accent-terracotta: #891E1E; /* Terracotta Red */
 
   /* Backgrounds */
   --color-background-primary: #F9F8F6;
@@ -28,10 +28,16 @@
   --color-white: #FFFFFF;
   --color-black: #000000;
 
+  /* Glass surfaces */
+  --color-header-glass: rgba(0, 0, 0, 0.15);
+  --color-header-stroke: rgba(0, 0, 0, 0.25);
 
-  /* FONT FAMILIES*/
+
+  /* FONT FAMILIES */
+
   --font-heading: "Playfair Display", serif;
   --font-body: "Inter", sans-serif;
+
 
   /* DESKTOP TYPOGRAPHY */
 
@@ -81,7 +87,8 @@
   --text-button--line-height: 24px;
   --text-button--font-weight: 500;
 
-/* MOBILE TYPOGRAPHY */
+
+  /* MOBILE TYPOGRAPHY */
 
   /* Headings */
   --text-mobile-h1: 26px;
@@ -123,7 +130,7 @@
   --spacing-5: 48px;
   --spacing-6: 64px;
   --spacing-7: 96px;
-  --spacing-8: 120px; 
+  --spacing-8: 120px;
 
 
   /* BORDER RADIUS */
@@ -134,16 +141,35 @@
 
 
   /* LAYOUT */
-  
-  /* Desktop */
-   --container-main: 1200px;
 
+  /* Desktop */
+  --container-main: 1200px;
   --reference-desktop-width: 1440px;
   --layout-desktop-margin: 120px;
 
   /* Mobile */
   --reference-mobile-width: 402px;
   --layout-mobile-margin: 20px;
+
+  /* Map */
+  --container-map: 1003px;
+  --map-panel-width: 510px;
+  --map-panel-height: 802px;
+
+
+  /* HEADER */
+
+  --header-height-desktop: 72px;
+  --logo-width-desktop: 150px;
+  --logo-width-mobile: 105px;
+  --nav-gap-desktop: 40px;
+
+
+  /* ICONS */
+
+  --icon-size-small: 15px;
+  --icon-size-medium: 20px;
+  --icon-size-large: 24px;
 
 
   /* SHADOWS */
@@ -160,32 +186,14 @@
   --shadow-button:
     0 3px 6px rgba(0, 0, 0, 0.25);
 
+  /* Focus state */
   --shadow-focus:
     0 0 0 2px var(--color-accent-antique),
     0 0 0 4px rgba(0, 0, 0, 0.25);
 
-    /* Glass surfaces */
-  --color-header-glass: rgba(0, 0, 0, 0.15);
-  --color-header-stroke: rgba(0, 0, 0, 0.25);
 
-    /* OVERLAYS */
+  /* OVERLAYS */
 
   --overlay-card-image:
     rgba(30, 30, 30, 0.15);
-
-    /* Header */
-  --header-height-desktop: 72px;
-  --logo-width-desktop: 150px;
-  --logo-width-mobile: 105px;
-  --nav-gap-desktop: 40px;
-
-  /* Map */
-  --container-map: 1003px;
-  --map-panel-width: 510px;
-  --map-panel-height: 802px;
-
-  /* Icons */
-  --icon-size-small: 15px;
-  --icon-size-medium: 20px;
-  --icon-size-large: 24px;
 }

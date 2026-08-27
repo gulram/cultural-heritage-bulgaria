@@ -1,11 +1,5 @@
-import {
-  MapPin,
-  Star,
-} from 'lucide-react'
-
-import {
-  useTranslation,
-} from 'react-i18next'
+import { MapPin, Star } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 function DestinationMetadata({
   location,
@@ -13,7 +7,6 @@ function DestinationMetadata({
   variant = 'default',
 }) {
   const { t } = useTranslation()
-
   const isLight = variant === 'light'
 
   return (
@@ -25,7 +18,6 @@ function DestinationMetadata({
         gap-1
       "
     >
-      {/* Location */}
       <div
         className={`
           flex
@@ -63,7 +55,6 @@ function DestinationMetadata({
         <span>{location}</span>
       </div>
 
-      {/* UNESCO */}
       <div
         className={`
           flex
@@ -100,12 +91,9 @@ function DestinationMetadata({
         />
 
         <span>
-          {t(
-            'destinationMetadata.unescoSince',
-            {
-              year: unescoYear,
-            }
-          )}
+          {t('destinationMetadata.unescoSince', {
+            year: unescoYear,
+          })}
         </span>
       </div>
     </div>

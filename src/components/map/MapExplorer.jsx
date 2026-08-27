@@ -1,23 +1,16 @@
 import { useEffect } from 'react'
-
 import {
   MapContainer,
   TileLayer,
   useMap,
 } from 'react-leaflet'
-
-import {
-  useTranslation,
-} from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 import 'leaflet/dist/leaflet.css'
 
 import MapMarker from './MapMarker'
 
-const BULGARIA_CENTER = [
-  42.7339,
-  25.4858,
-]
+const BULGARIA_CENTER = [42.7339, 25.4858]
 
 const BULGARIA_BOUNDS = [
   [41.2, 22.3],
@@ -41,16 +34,12 @@ function MapViewController({
         duration: 0.8,
       }
     )
-  }, [
-    map,
-    selectedDestination,
-  ])
+  }, [map, selectedDestination])
 
   return null
 }
 
-/* Keeps Leaflet correctly sized
-   when the map container changes size */
+// Keeps Leaflet correctly sized when the container changes.
 function MapResizeHandler() {
   const map = useMap()
 
@@ -156,33 +145,25 @@ function MapExplorer({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {/* Recalculate Leaflet size */}
         <MapResizeHandler />
 
         <MapViewController
-          selectedDestination={
-            selectedDestination
-          }
+          selectedDestination={selectedDestination}
         />
 
-        {destinations.map(
-          (destination) => (
-            <MapMarker
-              key={destination.slug}
-              destination={destination}
-              isSelected={
-                selectedDestination?.slug ===
-                destination.slug
-              }
-              onSelect={
-                onSelectDestination
-              }
-            />
-          )
-        )}
+        {destinations.map((destination) => (
+          <MapMarker
+            key={destination.slug}
+            destination={destination}
+            isSelected={
+              selectedDestination?.slug ===
+              destination.slug
+            }
+            onSelect={onSelectDestination}
+          />
+        ))}
       </MapContainer>
 
-      {/* MAP INSTRUCTION */}
       <div
         className="
           absolute

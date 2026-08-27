@@ -1,6 +1,4 @@
-import {
-  useState,
-} from 'react'
+import { useState } from 'react'
 
 import ImageFallback from '../ui/ImageFallback'
 
@@ -11,10 +9,7 @@ function GalleryHeroImage({
   className = '',
   onClick,
 }) {
-  const [
-    failedImage,
-    setFailedImage,
-  ] = useState(null)
+  const [failedImage, setFailedImage] = useState(null)
 
   const hasValidImage =
     Boolean(src) &&
@@ -42,9 +37,7 @@ function GalleryHeroImage({
           src={src}
           alt={alt}
           loading="lazy"
-          onError={() =>
-            setFailedImage(src)
-          }
+          onError={() => setFailedImage(src)}
           className="
             h-full
             w-full

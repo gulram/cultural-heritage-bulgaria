@@ -5,10 +5,7 @@ import {
   Ticket,
   X,
 } from 'lucide-react'
-
-import {
-  useTranslation,
-} from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 import Button from '../ui/Button'
 import DestinationMetadata from '../destination/DestinationMetadata'
@@ -26,8 +23,7 @@ function SelectedDestinationPanel({
 
   const mapsUrl =
     `https://www.google.com/maps/search/?api=1&query=` +
-    `${destination.coordinates[0]},` +
-    `${destination.coordinates[1]}`
+    `${destination.coordinates[0]},${destination.coordinates[1]}`
 
   return (
     <aside
@@ -54,7 +50,6 @@ function SelectedDestinationPanel({
         lg:p-3
       "
     >
-      {/* HEADER */}
       <div
         className="
           flex
@@ -99,7 +94,7 @@ function SelectedDestinationPanel({
             text-accent-orange
 
             transition-colors
-            duration-400
+            duration-200
             ease-out
 
             hover:text-accent-antique
@@ -121,7 +116,6 @@ function SelectedDestinationPanel({
         </button>
       </div>
 
-      {/* IMAGE */}
       <div
         className="
           mt-1
@@ -145,7 +139,6 @@ function SelectedDestinationPanel({
         />
       </div>
 
-      {/* TITLE */}
       <h2
         id="selected-destination-title"
         className="
@@ -162,7 +155,6 @@ function SelectedDestinationPanel({
         {destination.title}
       </h2>
 
-      {/* METADATA */}
       <div
         className="
           mt-1
@@ -176,10 +168,10 @@ function SelectedDestinationPanel({
         />
       </div>
 
-      {/* DESCRIPTION */}
       <p
         className="
           mt-2
+
           font-body
           text-mobile-body
           text-text-secondary
@@ -193,7 +185,7 @@ function SelectedDestinationPanel({
           destination.about}
       </p>
 
-      {/* QUICK INFO ROWS */}
+      {/* QUICK INFO */}
       <div
         className="
           mt-2

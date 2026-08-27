@@ -65,10 +65,7 @@ function Hero() {
         className="
           absolute
           inset-0
-
           bg-black/40
-
-          md:bg-black/40
         "
       />
 
@@ -98,7 +95,7 @@ function Hero() {
 
           lg:px-5
 
-          xl:px-0 
+          xl:px-0
         "
       >
         <div className="max-w-[620px]">

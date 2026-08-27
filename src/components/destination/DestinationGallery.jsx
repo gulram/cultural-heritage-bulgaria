@@ -1,12 +1,5 @@
-import {
-  useEffect,
-  useState,
-} from 'react'
-
-import {
-  useTranslation,
-} from 'react-i18next'
-
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   ChevronLeft,
   ChevronRight,
@@ -23,22 +16,14 @@ function DestinationGallery({
 }) {
   const { t } = useTranslation()
 
-  const [
-    isGalleryModalOpen,
-    setIsGalleryModalOpen,
-  ] = useState(false)
+  const [isGalleryModalOpen, setIsGalleryModalOpen] =
+    useState(false)
+  const [activeGalleryIndex, setActiveGalleryIndex] =
+    useState(0)
 
-  const [
-    activeGalleryIndex,
-    setActiveGalleryIndex,
-  ] = useState(0)
+  const galleryLength = gallery.length
 
-  const galleryLength =
-    gallery.length
-
-  const openGallery = (
-    index = 0
-  ) => {
+  const openGallery = (index = 0) => {
     if (galleryLength === 0) {
       return
     }
@@ -56,11 +41,10 @@ function DestinationGallery({
       return
     }
 
-    setActiveGalleryIndex(
-      (currentIndex) =>
-        currentIndex === 0
-          ? galleryLength - 1
-          : currentIndex - 1
+    setActiveGalleryIndex((currentIndex) =>
+      currentIndex === 0
+        ? galleryLength - 1
+        : currentIndex - 1
     )
   }
 
@@ -69,21 +53,13 @@ function DestinationGallery({
       return
     }
 
-    setActiveGalleryIndex(
-      (currentIndex) =>
-        currentIndex ===
-        galleryLength - 1
-          ? 0
-          : currentIndex + 1
+    setActiveGalleryIndex((currentIndex) =>
+      currentIndex === galleryLength - 1
+        ? 0
+        : currentIndex + 1
     )
   }
 
-  /*
-   * GALLERY MODAL
-   * - Escape затваря галерията
-   * - ArrowLeft / ArrowRight сменят снимките
-   * - блокиране на scroll-а на страницата
-   */
   useEffect(() => {
     if (
       !isGalleryModalOpen ||
@@ -92,37 +68,24 @@ function DestinationGallery({
       return
     }
 
-    const handleKeyDown = (
-      event
-    ) => {
-      if (
-        event.key === 'Escape'
-      ) {
-        setIsGalleryModalOpen(
-          false
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setIsGalleryModalOpen(false)
+      }
+
+      if (event.key === 'ArrowLeft') {
+        setActiveGalleryIndex((currentIndex) =>
+          currentIndex === 0
+            ? galleryLength - 1
+            : currentIndex - 1
         )
       }
 
-      if (
-        event.key === 'ArrowLeft'
-      ) {
-        setActiveGalleryIndex(
-          (currentIndex) =>
-            currentIndex === 0
-              ? galleryLength - 1
-              : currentIndex - 1
-        )
-      }
-
-      if (
-        event.key === 'ArrowRight'
-      ) {
-        setActiveGalleryIndex(
-          (currentIndex) =>
-            currentIndex ===
-            galleryLength - 1
-              ? 0
-              : currentIndex + 1
+      if (event.key === 'ArrowRight') {
+        setActiveGalleryIndex((currentIndex) =>
+          currentIndex === galleryLength - 1
+            ? 0
+            : currentIndex + 1
         )
       }
     }
@@ -130,8 +93,7 @@ function DestinationGallery({
     const previousOverflow =
       document.body.style.overflow
 
-    document.body.style.overflow =
-      'hidden'
+    document.body.style.overflow = 'hidden'
 
     window.addEventListener(
       'keydown',
@@ -154,7 +116,6 @@ function DestinationGallery({
 
   return (
     <>
-      {/* GALLERY */}
       <section
         aria-labelledby="gallery-title"
         className="
@@ -177,9 +138,7 @@ function DestinationGallery({
             md:text-h3
           "
         >
-          {t(
-            'destination.gallery'
-          )}
+          {t('destination.gallery')}
         </h2>
 
         <div
@@ -197,36 +156,26 @@ function DestinationGallery({
         >
           {gallery
             .slice(0, 3)
-            .map(
-              (
-                image,
-                index
-              ) => (
-                <GalleryHeroImage
-                  key={image.id}
-                  src={image.url}
-                  alt={image.alt}
-                  onClick={() =>
-                    openGallery(
-                      index
-                    )
-                  }
-                  className="
-                    h-[180px]
+            .map((image, index) => (
+              <GalleryHeroImage
+                key={image.id}
+                src={image.url}
+                alt={image.alt}
+                onClick={() =>
+                  openGallery(index)
+                }
+                className="
+                  h-[180px]
 
-                    lg:h-[160px]
-                  "
-                />
-              )
-            )}
+                  lg:h-[160px]
+                "
+              />
+            ))}
 
-          {/* VIEW MORE */}
           {galleryLength > 0 && (
             <button
               type="button"
-              onClick={() =>
-                openGallery(0)
-              }
+              onClick={() => openGallery(0)}
               className="
                 flex
                 min-h-[160px]
@@ -282,7 +231,6 @@ function DestinationGallery({
         </div>
       </section>
 
-      {/* GALLERY MODAL */}
       {isGalleryModalOpen &&
         galleryLength > 0 && (
           <div
@@ -304,9 +252,7 @@ function DestinationGallery({
               md:px-8
               lg:px-5
             "
-            onMouseDown={(
-              event
-            ) => {
+            onMouseDown={(event) => {
               if (
                 event.target ===
                 event.currentTarget
@@ -343,7 +289,6 @@ function DestinationGallery({
                 md:py-4
               "
             >
-              {/* GALLERY HEADER */}
               <div
                 className="
                   flex
@@ -390,15 +335,12 @@ function DestinationGallery({
                   </p>
                 </div>
 
-                {/* CLOSE */}
                 <button
                   type="button"
                   aria-label={t(
                     'destination.closeGallery'
                   )}
-                  onClick={
-                    closeGallery
-                  }
+                  onClick={closeGallery}
                   className="
                     flex
                     h-9
@@ -429,7 +371,6 @@ function DestinationGallery({
                 </button>
               </div>
 
-              {/* ACTIVE IMAGE */}
               <div
                 className="
                   relative
@@ -463,15 +404,12 @@ function DestinationGallery({
                   "
                 />
 
-                {/* PREVIOUS */}
                 <button
                   type="button"
                   aria-label={t(
                     'destination.previousPhoto'
                   )}
-                  onClick={
-                    showPreviousImage
-                  }
+                  onClick={showPreviousImage}
                   className="
                     absolute
                     left-4
@@ -511,15 +449,12 @@ function DestinationGallery({
                   />
                 </button>
 
-                {/* NEXT */}
                 <button
                   type="button"
                   aria-label={t(
                     'destination.nextPhoto'
                   )}
-                  onClick={
-                    showNextImage
-                  }
+                  onClick={showNextImage}
                   className="
                     absolute
                     right-4
@@ -560,7 +495,6 @@ function DestinationGallery({
                 </button>
               </div>
 
-              {/* THUMBNAILS */}
               <div
                 className="
                   mt-3
@@ -575,10 +509,7 @@ function DestinationGallery({
                 "
               >
                 {gallery.map(
-                  (
-                    image,
-                    index
-                  ) => (
+                  (image, index) => (
                     <GalleryThumbnail
                       key={image.id}
                       src={image.url}

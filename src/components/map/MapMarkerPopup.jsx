@@ -1,17 +1,9 @@
-import {
-  ArrowRight,
-  MapPin,
-} from 'lucide-react'
-
-import {
-  useTranslation,
-} from 'react-i18next'
+import { ArrowRight, MapPin } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 import Button from '../ui/Button'
 
-function MapMarkerPopup({
-  destination,
-}) {
+function MapMarkerPopup({ destination }) {
   const { t } = useTranslation()
 
   return (
@@ -30,7 +22,6 @@ function MapMarkerPopup({
         md:p-0
       "
     >
-      {/* MOBILE TOP ROW */}
       <div
         className="
           flex
@@ -42,7 +33,6 @@ function MapMarkerPopup({
           md:contents
         "
       >
-        {/* IMAGE */}
         <div
           className="
             h-14
@@ -67,7 +57,6 @@ function MapMarkerPopup({
           />
         </div>
 
-        {/* CONTENT */}
         <div
           className="
             min-w-0
@@ -98,7 +87,6 @@ function MapMarkerPopup({
             {destination.title}
           </h3>
 
-          {/* DESKTOP LOCATION */}
           <div
             className="
               mt-1
@@ -139,7 +127,6 @@ function MapMarkerPopup({
         </div>
       </div>
 
-      {/* MOBILE LOCATION */}
       <div
         className="
           mx-2
@@ -180,7 +167,6 @@ function MapMarkerPopup({
         </span>
       </div>
 
-      {/* MOBILE CTA */}
       <div
         className="
           mx-2

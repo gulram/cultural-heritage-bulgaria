@@ -1,10 +1,6 @@
-import {
-  useTranslation,
-} from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
-function MapHero({
-  image,
-}) {
+function MapHero({ image }) {
   const { t } = useTranslation()
 
   return (
@@ -23,7 +19,6 @@ function MapHero({
         backgroundImage: `url(${image})`,
       }}
     >
-      {/* Overlay */}
       <div
         aria-hidden="true"
         className="
@@ -33,7 +28,6 @@ function MapHero({
         "
       />
 
-      {/* Content */}
       <div
         className="
           relative
@@ -52,7 +46,7 @@ function MapHero({
           sm:px-6
 
           md:min-h-[280px]
-          md:px-8
+          md:px-4
 
           lg:px-5
 
@@ -73,9 +67,7 @@ function MapHero({
               md:text-h1
             "
           >
-            {t(
-              'mapPage.title'
-            )}
+            {t('mapPage.title')}
           </h1>
 
           <p
@@ -89,9 +81,7 @@ function MapHero({
               md:text-body-regular
             "
           >
-            {t(
-              'mapPage.description'
-            )}
+            {t('mapPage.description')}
           </p>
         </div>
       </div>

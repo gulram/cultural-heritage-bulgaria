@@ -1,15 +1,6 @@
-import {
-  useEffect,
-  useState,
-} from 'react'
-
-import {
-  useLocation,
-} from 'react-router-dom'
-
-import {
-  useTranslation,
-} from 'react-i18next'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import Header from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
@@ -22,13 +13,10 @@ import FeedbackState from '../components/ui/FeedbackState'
 import NoResultsState from '../components/ui/NoResultsState'
 import LoadingSkeleton from '../components/ui/LoadingSkeleton'
 
-import {
-  getDestinations,
-} from '../services/destinationService'
+import { getDestinations } from '../services/destinationService'
 
 function HomePage() {
   const location = useLocation()
-
   const { t, i18n } = useTranslation()
 
   const locale =
@@ -36,33 +24,19 @@ function HomePage() {
       ? 'en'
       : 'bg'
 
-  const [
-    destinations,
-    setDestinations,
-  ] = useState([])
+  const [destinations, setDestinations] = useState([])
+  const [error, setError] = useState(null)
+  const [retryCount, setRetryCount] = useState(0)
 
-  const [
-    error,
-    setError,
-  ] = useState(null)
-
-  const [
-    retryCount,
-    setRetryCount,
-  ] = useState(0)
-
-  const [
-    resolvedRequest,
-    setResolvedRequest,
-  ] = useState({
-    locale: null,
-    retryCount: -1,
-  })
+  const [resolvedRequest, setResolvedRequest] =
+    useState({
+      locale: null,
+      retryCount: -1,
+    })
 
   const isLoading =
     resolvedRequest.locale !== locale ||
-    resolvedRequest.retryCount !==
-      retryCount
+    resolvedRequest.retryCount !== retryCount
 
   useEffect(() => {
     let isCancelled = false
@@ -99,10 +73,7 @@ function HomePage() {
     return () => {
       isCancelled = true
     }
-  }, [
-    locale,
-    retryCount,
-  ])
+  }, [locale, retryCount])
 
   const handleRetry = () => {
     setRetryCount(
@@ -135,10 +106,7 @@ function HomePage() {
     return () => {
       cancelAnimationFrame(frame)
     }
-  }, [
-   location.hash,
-    isLoading,
-  ])
+  }, [location.hash, isLoading])
 
   return (
     <>
@@ -147,6 +115,7 @@ function HomePage() {
       <main>
         <Hero />
 
+        {/* DESTINATIONS */}
         <section
           id="destinations"
           aria-labelledby="destinations-title"
@@ -164,7 +133,6 @@ function HomePage() {
             xl:px-0
           "
         >
-          {/* Section heading */}
           <div>
             <p
               className="
@@ -182,6 +150,7 @@ function HomePage() {
               id="destinations-title"
               className="
                 mt-2
+
                 font-heading
                 text-mobile-h2
                 text-text-primary
@@ -204,9 +173,8 @@ function HomePage() {
                 md:text-body-small
               "
             >
-            {t('home.selectionNote')}
+              {t('home.selectionNote')}
             </p>
-
 
             <div
               aria-hidden="true"
@@ -219,27 +187,23 @@ function HomePage() {
             />
           </div>
 
-          {/* Destination cards */}
           <div
             className="
               mt-5
+
               flex
               flex-col
               gap-5
             "
           >
-            {/* LOADING */}
             {isLoading && (
               <LoadingSkeleton />
             )}
 
-            {/* ERROR */}
             {!isLoading && error && (
               <FeedbackState
                 variant="error"
-                title={t(
-                  'feedback.error.title'
-                )}
+                title={t('feedback.error.title')}
                 description={t(
                   'feedback.error.description'
                 )}
@@ -250,298 +214,269 @@ function HomePage() {
               />
             )}
 
-            {/* NO RESULTS */}
             {!isLoading &&
               !error &&
-              destinations.length ===
-                0 && (
+              destinations.length === 0 && (
                 <NoResultsState />
               )}
 
-            {/* DESTINATIONS */}
             {!isLoading &&
               !error &&
               destinations.length > 0 &&
-              destinations.map(
-                (destination) => (
-                  <DestinationCard
-                    key={destination.slug}
-                    number={
-                      destination.number
-                    }
-                    title={
-                      destination.title
-                    }
-                    description={
-                      destination.description
-                    }
-                    location={
-                      destination.location
-                    }
-                    unescoYear={
-                      destination.unescoYear
-                    }
-                    image={
-                      destination.image
-                    }
-                    slug={
-                      destination.slug
-                    }
-                    imagePosition={
-                      destination.number %
-                        2 ===
-                      0
-                        ? 'right'
-                        : 'left'
-                    }
-                  />
-                )
-              )}
+              destinations.map((destination) => (
+                <DestinationCard
+                  key={destination.slug}
+                  number={destination.number}
+                  title={destination.title}
+                  description={
+                    destination.description
+                  }
+                  location={destination.location}
+                  unescoYear={
+                    destination.unescoYear
+                  }
+                  image={destination.image}
+                  slug={destination.slug}
+                  imagePosition={
+                    destination.number % 2 === 0
+                      ? 'right'
+                      : 'left'
+                  }
+                />
+              ))}
           </div>
 
-          {/* Interactive map CTA */}
           <div className="mt-5">
             <InteractiveMapBanner />
           </div>
         </section>
 
-      {/* ABOUT SECTION */}
-      <section
-        id="about"
-        aria-labelledby="about-title"
-        className="
-          scroll-mt-[72px]
-          bg-background-primary
-
-          px-4
-          py-6
-
-          sm:px-6
-          md:px-4
-          lg:px-5
-          lg:py-7
-          xl:px-0
-        "
-      >
-        <div
+        {/* ABOUT */}
+        <section
+          id="about"
+          aria-labelledby="about-title"
           className="
-            mx-auto
-            w-full
-            max-w-main
+            scroll-mt-[72px]
+            bg-background-primary
+
+            px-4
+            py-6
+
+            sm:px-6
+            md:px-4
+            lg:px-5
+            lg:py-7
+            xl:px-0
           "
         >
-          {/* SECTION INTRO */}
           <div
             className="
               mx-auto
-              max-w-[760px]
-              text-center
+              w-full
+              max-w-main
             "
           >
-            <p
-              className="
-                font-body
-                text-section-small
-                uppercase
-                tracking-[0.12em]
-                text-accent-orange
-              "
-            >
-              {t('home.aboutLabel')}
-            </p>
-
-            <h2
-              id="about-title"
-              className="
-                mt-3
-
-                font-heading
-                text-mobile-h2
-                text-primary
-
-                md:text-h2
-              "
-            >
-              {t('home.aboutTitle')}
-            </h2>
-
-            <p
+            <div
               className="
                 mx-auto
-                mt-4
-                max-w-[680px]
-
-                font-body
-                text-mobile-body
-                text-text-secondary
-
-                md:text-body-regular
+                max-w-[760px]
+                text-center
               "
             >
-              {t('home.aboutDescription')}
-            </p>
+              <p
+                className="
+                  font-body
+                  text-section-small
+                  uppercase
+                  tracking-[0.12em]
+                  text-accent-orange
+                "
+              >
+                {t('home.aboutLabel')}
+              </p>
+
+              <h2
+                id="about-title"
+                className="
+                  mt-3
+
+                  font-heading
+                  text-mobile-h2
+                  text-primary
+
+                  md:text-h2
+                "
+              >
+                {t('home.aboutTitle')}
+              </h2>
+
+              <p
+                className="
+                  mx-auto
+                  mt-4
+                  max-w-[680px]
+
+                  font-body
+                  text-mobile-body
+                  text-text-secondary
+
+                  md:text-body-regular
+                "
+              >
+                {t('home.aboutDescription')}
+              </p>
+            </div>
+
+            <div
+              className="
+                mx-auto
+                mt-5
+
+                grid
+                max-w-[900px]
+                grid-cols-1
+                gap-x-6
+                gap-y-10
+
+                md:grid-cols-2
+              "
+            >
+              <article>
+                <h3
+                  className="
+                    border-b
+                    border-border-light
+                    pb-2
+
+                    font-body
+                    text-section-small
+                    uppercase
+                    tracking-[0.08em]
+                    text-text-primary
+                  "
+                >
+                  {t('home.goal.title')}
+                </h3>
+
+                <p
+                  className="
+                    mt-3
+
+                    font-body
+                    text-mobile-body
+                    text-text-secondary
+
+                    md:text-body-small
+                  "
+                >
+                  {t('home.goal.description')}
+                </p>
+              </article>
+
+              <article>
+                <h3
+                  className="
+                    border-b
+                    border-border-light
+                    pb-2
+
+                    font-body
+                    text-section-small
+                    uppercase
+                    tracking-[0.08em]
+                    text-text-primary
+                  "
+                >
+                  {t('home.interactiveMap.title')}
+                </h3>
+
+                <p
+                  className="
+                    mt-3
+
+                    font-body
+                    text-mobile-body
+                    text-text-secondary
+
+                    md:text-body-small
+                  "
+                >
+                  {t(
+                    'home.interactiveMap.description'
+                  )}
+                </p>
+              </article>
+
+              <article>
+                <h3
+                  className="
+                    border-b
+                    border-border-light
+                    pb-2
+
+                    font-body
+                    text-section-small
+                    uppercase
+                    tracking-[0.08em]
+                    text-text-primary
+                  "
+                >
+                  {t('home.heritage.title')}
+                </h3>
+
+                <p
+                  className="
+                    mt-3
+
+                    font-body
+                    text-mobile-body
+                    text-text-secondary
+
+                    md:text-body-small
+                  "
+                >
+                  {t('home.heritage.description')}
+                </p>
+              </article>
+
+              <article>
+                <h3
+                  className="
+                    border-b
+                    border-border-light
+                    pb-2
+
+                    font-body
+                    text-section-small
+                    uppercase
+                    tracking-[0.08em]
+                    text-text-primary
+                  "
+                >
+                  {t('home.technologies.title')}
+                </h3>
+
+                <p
+                  className="
+                    mt-3
+
+                    font-body
+                    text-mobile-body
+                    text-text-secondary
+
+                    md:text-body-small
+                  "
+                >
+                  {t(
+                    'home.technologies.description'
+                  )}
+                </p>
+              </article>
+            </div>
           </div>
-
-          {/* INFORMATION GRID */}
-          <div
-            className="
-              mx-auto
-              mt-5
-
-              grid
-              max-w-[900px]
-              grid-cols-1
-              gap-x-6
-              gap-y-10
-
-              md:grid-cols-2
-            "
-          >
-            {/* GOAL */}
-            <article>
-              <h3
-                className="
-                  border-b
-                  border-accent-gold
-                  pb-2
-
-                  font-body
-                  text-section-small
-                  uppercase
-                  tracking-[0.08em]
-                  text-text-primary
-                "
-              >
-                {t('home.goal.title')}
-              </h3>
-
-              <p
-                className="
-                  mt-3
-
-                  font-body
-                  text-mobile-body
-                  text-text-secondary
-
-                  md:text-body-small
-                "
-              >
-                {t('home.goal.description')}
-              </p>
-            </article>
-
-            {/* INTERACTIVE MAP */}
-            <article>
-              <h3
-                className="
-                  border-b
-                  border-accent-gold
-                  pb-2
-
-                  font-body
-                  text-section-small
-                  uppercase
-                  tracking-[0.08em]
-                  text-text-primary
-                "
-              >
-                {t(
-                  'home.interactiveMap.title'
-                )}
-              </h3>
-
-              <p
-                className="
-                  mt-3
-
-                  font-body
-                  text-mobile-body
-                  text-text-secondary
-
-                  md:text-body-small
-                "
-              >
-                {t(
-                  'home.interactiveMap.description'
-                )}
-              </p>
-            </article>
-
-            {/* CULTURAL HERITAGE */}
-            <article>
-              <h3
-                className="
-                  border-b
-                  border-accent-gold
-                  pb-2
-
-                  font-body
-                  text-section-small
-                  uppercase
-                  tracking-[0.08em]
-                  text-text-primary
-                "
-              >
-                {t('home.heritage.title')}
-              </h3>
-
-              <p
-                className="
-                  mt-3
-
-                  font-body
-                  text-mobile-body
-                  text-text-secondary
-
-                  md:text-body-small
-                "
-              >
-                {t(
-                  'home.heritage.description'
-                )}
-              </p>
-            </article>
-
-            {/* TECHNOLOGIES */}
-            <article>
-              <h3
-                className="
-                  border-b
-                  border-accent-gold
-                  pb-2
-
-                  font-body
-                  text-section-small
-                  uppercase
-                  tracking-[0.08em]
-                  text-text-primary
-                "
-              >
-                {t(
-                  'home.technologies.title'
-                )}
-              </h3>
-
-              <p
-                className="
-                  mt-3
-
-                  font-body
-                  text-mobile-body
-                  text-text-secondary
-
-                  md:text-body-small
-                "
-              >
-                {t(
-                  'home.technologies.description'
-                )}
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
+        </section>
       </main>
+
       <Footer />
     </>
   )

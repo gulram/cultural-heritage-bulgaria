@@ -1,14 +1,6 @@
-import {
-  useEffect,
-  useState,
-} from 'react'
-
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-
-import {
-  useTranslation,
-} from 'react-i18next'
-
+import { useTranslation } from 'react-i18next'
 import {
   ArrowRight,
   ExternalLink,
@@ -47,45 +39,27 @@ import {
 
 function DestinationPage() {
   const { slug } = useParams()
-
-  const {
-    t,
-    i18n,
-  } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const locale =
     i18n.resolvedLanguage === 'en'
       ? 'en'
       : 'bg'
 
-  const [
-    destination,
-    setDestination,
-  ] = useState(null)
-
+  const [destination, setDestination] = useState(null)
   const [
     relatedDestinations,
     setRelatedDestinations,
   ] = useState([])
+  const [error, setError] = useState(null)
+  const [retryCount, setRetryCount] = useState(0)
 
-  const [
-    error,
-    setError,
-  ] = useState(null)
-
-  const [
-    retryCount,
-    setRetryCount,
-  ] = useState(0)
-
-  const [
-    resolvedRequest,
-    setResolvedRequest,
-  ] = useState({
-    slug: null,
-    locale: null,
-    retryCount: -1,
-  })
+  const [resolvedRequest, setResolvedRequest] =
+    useState({
+      slug: null,
+      locale: null,
+      retryCount: -1,
+    })
 
   const [
     isHistoryModalOpen,
@@ -101,42 +75,32 @@ function DestinationPage() {
     let isCancelled = false
 
     Promise.all([
-      getDestinationBySlug(
-        slug,
-        locale
-      ),
-
+      getDestinationBySlug(slug, locale),
       getDestinations(locale),
     ])
-      .then(
-        ([
-          destinationData,
-          allDestinations,
-        ]) => {
-          if (isCancelled) {
-            return
-          }
-
-          setError(null)
-
-          if (!destinationData) {
-            setDestination(null)
-            setRelatedDestinations([])
-            return
-          }
-
-          setDestination(destinationData)
-
-          setRelatedDestinations(
-            allDestinations.filter(
-              (item) =>
-                item.slug !== slug
-            )
-          )
-
-          setIsHistoryModalOpen(false)
+      .then(([destinationData, allDestinations]) => {
+        if (isCancelled) {
+          return
         }
-      )
+
+        setError(null)
+
+        if (!destinationData) {
+          setDestination(null)
+          setRelatedDestinations([])
+          return
+        }
+
+        setDestination(destinationData)
+
+        setRelatedDestinations(
+          allDestinations.filter(
+            (item) => item.slug !== slug
+          )
+        )
+
+        setIsHistoryModalOpen(false)
+      })
       .catch((err) => {
         console.error(err)
 
@@ -161,11 +125,7 @@ function DestinationPage() {
     return () => {
       isCancelled = true
     }
-  }, [
-    slug,
-    locale,
-    retryCount,
-  ])
+  }, [slug, locale, retryCount])
 
   useEffect(() => {
     if (!destination) {
@@ -202,8 +162,7 @@ function DestinationPage() {
       const wasCreated = !element
 
       if (!element) {
-        element =
-          document.createElement('meta')
+        element = document.createElement('meta')
 
         element.setAttribute(
           attribute,
@@ -216,10 +175,7 @@ function DestinationPage() {
       const previousContent =
         element.getAttribute('content')
 
-      element.setAttribute(
-        'content',
-        content
-      )
+      element.setAttribute('content', content)
 
       return () => {
         if (wasCreated) {
@@ -234,45 +190,40 @@ function DestinationPage() {
       }
     }
 
-    const cleanupDescription =
-      setMetaTag(
-        'meta[name="description"]',
-        'name',
-        'description',
-        pageDescription
-      )
+    const cleanupDescription = setMetaTag(
+      'meta[name="description"]',
+      'name',
+      'description',
+      pageDescription
+    )
 
-    const cleanupOgTitle =
-      setMetaTag(
-        'meta[property="og:title"]',
-        'property',
-        'og:title',
-        pageTitle
-      )
+    const cleanupOgTitle = setMetaTag(
+      'meta[property="og:title"]',
+      'property',
+      'og:title',
+      pageTitle
+    )
 
-    const cleanupOgDescription =
-      setMetaTag(
-        'meta[property="og:description"]',
-        'property',
-        'og:description',
-        pageDescription
-      )
+    const cleanupOgDescription = setMetaTag(
+      'meta[property="og:description"]',
+      'property',
+      'og:description',
+      pageDescription
+    )
 
-    const cleanupOgImage =
-      setMetaTag(
-        'meta[property="og:image"]',
-        'property',
-        'og:image',
-        pageImage
-      )
+    const cleanupOgImage = setMetaTag(
+      'meta[property="og:image"]',
+      'property',
+      'og:image',
+      pageImage
+    )
 
-    const cleanupOgType =
-      setMetaTag(
-        'meta[property="og:type"]',
-        'property',
-        'og:type',
-        'website'
-      )
+    const cleanupOgType = setMetaTag(
+      'meta[property="og:type"]',
+      'property',
+      'og:type',
+      'website'
+    )
 
     return () => {
       document.title = previousTitle
@@ -283,10 +234,7 @@ function DestinationPage() {
       cleanupOgImage()
       cleanupOgType()
     }
-  }, [
-    destination,
-    locale,
-  ])
+  }, [destination, locale])
 
   useEffect(() => {
     if (!destination) {
@@ -296,32 +244,20 @@ function DestinationPage() {
     const structuredData = {
       '@context': 'https://schema.org',
       '@type': 'TouristAttraction',
-
       name: destination.title,
-
-      description:
-        destination.description || '',
-
-      image:
-        destination.image || '',
-
+      description: destination.description || '',
+      image: destination.image || '',
       geo: {
         '@type': 'GeoCoordinates',
-
-        latitude:
-          destination.coordinates[0],
-
-        longitude:
-          destination.coordinates[1],
+        latitude: destination.coordinates[0],
+        longitude: destination.coordinates[1],
       },
     }
 
     const script =
       document.createElement('script')
 
-    script.type =
-      'application/ld+json'
-
+    script.type = 'application/ld+json'
     script.textContent =
       JSON.stringify(structuredData)
 
@@ -341,25 +277,21 @@ function DestinationPage() {
   const gallery =
     destination?.gallery ?? []
 
-  const facts =
-    normalizeQuickFacts(
-      destination?.quickFacts ?? []
-    )
+  const facts = normalizeQuickFacts(
+    destination?.quickFacts ?? []
+  )
 
-  const practicalInfo =
-    normalizePracticalInfo(
-      destination?.practicalInfo ?? []
-    )
+  const practicalInfo = normalizePracticalInfo(
+    destination?.practicalInfo ?? []
+  )
 
-  const historyPreview =
-    getHistoryPreview(
-      destination?.history
-    )
+  const historyPreview = getHistoryPreview(
+    destination?.history
+  )
 
-  const historyParagraphs =
-    getHistoryParagraphs(
-      destination?.history
-    )
+  const historyParagraphs = getHistoryParagraphs(
+    destination?.history
+  )
 
   if (isLoading) {
     return (
@@ -414,9 +346,7 @@ function DestinationPage() {
           >
             <FeedbackState
               variant="error"
-              title={t(
-                'feedback.error.title'
-              )}
+              title={t('feedback.error.title')}
               description={t(
                 'feedback.error.description'
               )}
@@ -468,19 +398,13 @@ function DestinationPage() {
       <Header />
 
       <main>
-        {/* DESTINATION HERO */}
         <DestinationHero
           title={destination.title}
           image={destination.image}
-          location={
-            destination.location
-          }
-          unescoYear={
-            destination.unescoYear
-          }
+          location={destination.location}
+          unescoYear={destination.unescoYear}
         />
 
-        {/* PAGE CONTENT */}
         <div
           className="
             mx-auto
@@ -542,9 +466,7 @@ function DestinationPage() {
                     key={fact.id}
                     icon={fact.icon}
                     value={fact.value}
-                    description={
-                      fact.description
-                    }
+                    description={fact.description}
                   />
                 ))}
               </div>
@@ -565,7 +487,6 @@ function DestinationPage() {
               lg:gap-8
             "
           >
-            {/* LEFT COLUMN */}
             <div
               className="
                 contents
@@ -574,7 +495,6 @@ function DestinationPage() {
                 lg:min-w-0
               "
             >
-              {/* ABOUT */}
               <section
                 aria-labelledby="about-destination-title"
               >
@@ -608,7 +528,6 @@ function DestinationPage() {
                 </p>
               </section>
 
-              {/* HISTORY */}
               <section
                 aria-labelledby="history-title"
                 className="
@@ -633,9 +552,7 @@ function DestinationPage() {
                     md:text-h3
                   "
                 >
-                  {t(
-                    'destination.history'
-                  )}
+                  {t('destination.history')}
                 </h2>
 
                 <p
@@ -660,18 +577,13 @@ function DestinationPage() {
                   iconSize={16}
                   className="mt-5"
                   onClick={() =>
-                    setIsHistoryModalOpen(
-                      true
-                    )
+                    setIsHistoryModalOpen(true)
                   }
                 >
-                  {t(
-                    'destination.readMore'
-                  )}
+                  {t('destination.readMore')}
                 </Button>
               </section>
 
-              {/* GALLERY */}
               <div
                 className="
                   order-2
@@ -689,7 +601,6 @@ function DestinationPage() {
               </div>
             </div>
 
-            {/* PRACTICAL INFORMATION */}
             <DestinationPracticalInfo
               practicalInfo={practicalInfo}
               lastVerifiedAt={
@@ -725,9 +636,7 @@ function DestinationPage() {
                 md:uppercase
               "
             >
-              {t(
-                'destination.directions'
-              )}
+              {t('destination.directions')}
             </h2>
 
             <div
@@ -746,7 +655,6 @@ function DestinationPage() {
                 xl:gap-3
               "
             >
-              {/* LOCATION */}
               <div
                 className="
                   flex
@@ -826,9 +734,7 @@ function DestinationPage() {
                     hover:shadow-button
                   "
                 >
-                  {t(
-                    'destination.openGoogleMaps'
-                  )}
+                  {t('destination.openGoogleMaps')}
 
                   <ExternalLink
                     aria-hidden="true"
@@ -838,14 +744,9 @@ function DestinationPage() {
                 </a>
               </div>
 
-              {/* REAL INTERACTIVE MAP */}
               <DestinationMiniMap
-                position={
-                  destination.coordinates
-                }
-                title={
-                  destination.title
-                }
+                position={destination.coordinates}
+                title={destination.title}
               />
             </div>
           </section>
@@ -875,9 +776,7 @@ function DestinationPage() {
                 md:uppercase
               "
             >
-              {t(
-                'destination.exploreMore'
-              )}
+              {t('destination.exploreMore')}
             </h2>
 
             <div
@@ -894,22 +793,12 @@ function DestinationPage() {
               "
             >
               {relatedDestinations.map(
-                (
-                  relatedDestination
-                ) => (
+                (relatedDestination) => (
                   <RelatedDestinationCard
-                    key={
-                      relatedDestination.slug
-                    }
-                    title={
-                      relatedDestination.title
-                    }
-                    image={
-                      relatedDestination.image
-                    }
-                    slug={
-                      relatedDestination.slug
-                    }
+                    key={relatedDestination.slug}
+                    title={relatedDestination.title}
+                    image={relatedDestination.image}
+                    slug={relatedDestination.slug}
                   />
                 )
               )}
