@@ -7,59 +7,47 @@ function ImageFallback({
 }) {
   const { t } = useTranslation()
 
+  const containerPadding = compact ? 'p-2' : 'p-5'
+
+  const iconContainerSize = compact
+    ? 'h-[36px] w-[36px]'
+    : 'h-(--spacing-6) w-(--spacing-6)'
+
+  const iconSize = compact
+    ? 'h-[18px] w-[18px]'
+    : 'h-(--icon-size-large) w-(--icon-size-large)'
+
   return (
     <div
       className={`
-        flex
-        w-full
-        flex-col
-        items-center
-        justify-center
+        flex w-full flex-col
+        items-center justify-center
 
         rounded-lg
-        border
-        border-border-light
+        border border-border-light
         bg-surface
-
         text-center
-
         shadow-default
 
-        ${compact ? 'p-2' : 'p-5'}
-
+        ${containerPadding}
         ${className}
       `}
     >
       <div
         className={`
-          flex
-          shrink-0
-          items-center
-          justify-center
+          flex shrink-0
+          items-center justify-center
 
           rounded-full
           bg-accent-orange/20
           text-accent-orange
 
-          ${
-            compact
-              ? 'h-[36px] w-[36px]'
-              : 'h-(--spacing-6) w-(--spacing-6)'
-          }
+          ${iconContainerSize}
         `}
       >
         <ImageOff
           aria-hidden="true"
-          className={`
-            ${
-              compact
-                ? 'h-[18px] w-[18px]'
-                : `
-                  h-(--icon-size-large)
-                  w-(--icon-size-large)
-                `
-            }
-          `}
+          className={iconSize}
           strokeWidth={1.6}
         />
       </div>
@@ -82,8 +70,7 @@ function ImageFallback({
 
           <p
             className="
-              mt-2
-              max-w-[280px]
+              mt-2 max-w-[280px]
 
               font-body
               text-mobile-body

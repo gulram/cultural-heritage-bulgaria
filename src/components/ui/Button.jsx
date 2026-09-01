@@ -1,33 +1,25 @@
 import { Link } from 'react-router-dom'
 
 const BASE_STYLES = `
-  inline-flex
-  h-5
-  items-center
-  justify-center
-  gap-1
+  inline-flex h-5
+  items-center justify-center gap-1
+
   rounded-md
   px-2
-
   whitespace-nowrap
 
   font-body
   text-button
 
   transition-[background-color,border-color,color,box-shadow]
-  duration-[180ms]
-  ease-out
+  duration-[180ms] ease-out
 
   focus-visible:outline-none
-
-  disabled:pointer-events-none
-  disabled:opacity-50
 `
 
 const VARIANT_STYLES = {
   filled: `
-    border
-    border-transparent
+    border border-transparent
     bg-accent-orange
     text-white
 
@@ -39,8 +31,7 @@ const VARIANT_STYLES = {
   `,
 
   outline: `
-    border
-    border-accent-orange
+    border border-accent-orange
     bg-surface
     text-accent-orange
 
@@ -54,8 +45,7 @@ const VARIANT_STYLES = {
   `,
 
   primary: `
-    border
-    border-transparent
+    border border-transparent
     bg-primary
     text-white
     shadow-button
@@ -76,12 +66,20 @@ function Button({
   type = 'button',
   disabled = false,
   className = '',
+  onClick,
   ...props
 }) {
+  const variantStyles =
+    VARIANT_STYLES[variant] ?? VARIANT_STYLES.filled
+
+  const disabledStyles = disabled
+    ? 'pointer-events-none opacity-50'
+    : ''
+
   const classes = `
     ${BASE_STYLES}
-    ${VARIANT_STYLES[variant] ?? VARIANT_STYLES.filled}
-    ${disabled ? 'pointer-events-none opacity-50' : ''}
+    ${variantStyles}
+    ${disabledStyles}
     ${className}
   `
 
@@ -110,13 +108,23 @@ function Button({
   )
 
   if (to) {
+    const handleLinkClick = (event) => {
+      if (disabled) {
+        event.preventDefault()
+        return
+      }
+
+      onClick?.(event)
+    }
+
     return (
       <Link
+        {...props}
         to={to}
+        onClick={handleLinkClick}
         className={classes}
         aria-disabled={disabled || undefined}
         tabIndex={disabled ? -1 : undefined}
-        {...props}
       >
         {content}
       </Link>
@@ -125,10 +133,11 @@ function Button({
 
   return (
     <button
+      {...props}
       type={type}
+      onClick={onClick}
       className={classes}
       disabled={disabled}
-      {...props}
     >
       {content}
     </button>

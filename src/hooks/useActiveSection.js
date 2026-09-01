@@ -1,38 +1,59 @@
-import { useEffect, useState } from 'react'
+import {
+  useEffect,
+  useState,
+} from 'react'
 
-function useActiveSection(sectionIds) {
-  const [activeSection, setActiveSection] = useState(null)
+function useActiveSection(
+  sectionIds = []
+) {
+  const [
+    activeSection,
+    setActiveSection,
+  ] = useState(null)
 
   useEffect(() => {
     const sections = sectionIds
-      .map((id) => document.getElementById(id))
+      .map((id) =>
+        document.getElementById(id)
+      )
       .filter(Boolean)
 
     if (sections.length === 0) {
-      return
+      return undefined
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleSections = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort(
-            (a, b) =>
-              b.intersectionRatio - a.intersectionRatio
-          )
+    const observer =
+      new IntersectionObserver(
+        (entries) => {
+          const activeEntry = entries
+            .filter(
+              (entry) =>
+                entry.isIntersecting
+            )
+            .sort(
+              (a, b) =>
+                b.intersectionRatio -
+                a.intersectionRatio
+            )[0]
 
-        if (visibleSections.length > 0) {
-          setActiveSection(
-            visibleSections[0].target.id
-          )
+          if (activeEntry) {
+            setActiveSection(
+              activeEntry.target.id
+            )
+          }
+        },
+        {
+          rootMargin:
+            '-20% 0px -65% 0px',
+
+          threshold: [
+            0,
+            0.25,
+            0.5,
+            0.75,
+          ],
         }
-      },
-      {
-        root: null,
-        rootMargin: '-20% 0px -65% 0px',
-        threshold: [0, 0.25, 0.5, 0.75],
-      }
-    )
+      )
 
     sections.forEach((section) => {
       observer.observe(section)

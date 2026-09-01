@@ -5,30 +5,33 @@ import ImageFallback from '../ui/ImageFallback'
 function GalleryThumbnail({
   src,
   alt,
+  ariaLabel,
   className = '',
   onClick,
 }) {
   const [failedImage, setFailedImage] = useState(null)
 
   const hasValidImage =
-    Boolean(src) &&
-    failedImage !== src
+    Boolean(src) && failedImage !== src
+
+  const handleImageError = () => {
+    setFailedImage(src)
+  }
 
   return (
     <button
       type="button"
       onClick={onClick}
-      aria-label={alt}
+      aria-label={ariaLabel || alt || undefined}
       className={`
-        group
-        relative
-        block
-        overflow-hidden
-        rounded-md
+        group relative block overflow-hidden
+        rounded-md 
         text-left
 
-        ${onClick ? 'cursor-pointer' : ''}
-
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-accent-orange
+        focus-visible:ring-offset-2
         ${className}
       `}
     >
@@ -37,16 +40,12 @@ function GalleryThumbnail({
           src={src}
           alt={alt}
           loading="lazy"
-          onError={() => setFailedImage(src)}
+          onError={handleImageError}
           className="
-            h-full
-            w-full
-            object-cover
-
-            transition-transform
-            duration-300
-            ease-out
-
+            h-full w-full object-cover
+            
+            transition-transform duration-300 ease-out
+            
             group-hover:scale-[1.04]
           "
         />
@@ -54,11 +53,9 @@ function GalleryThumbnail({
         <ImageFallback
           compact
           className="
-            h-full
-            w-full
-
-            rounded-none
-            border-0
+            h-full w-full
+            rounded-none 
+            border-0 
             shadow-none
           "
         />

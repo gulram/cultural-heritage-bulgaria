@@ -1,19 +1,22 @@
 @import "tailwindcss";
 @import "./styles/theme.css";
 
-body {
-  margin: 0;
-
-  background-color: var(--color-background-primary);
-
-  color: var(--color-text-primary);
-
-  font-family: var(--font-body);
-}
-
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+
+  background-color:
+    var(--color-background-primary);
+
+  color:
+    var(--color-text-primary);
+
+  font-family:
+    var(--font-body);
 }
 
 /* History modal animations */
@@ -41,9 +44,22 @@ html {
 }
 
 .animate-history-overlay {
-  animation: historyOverlayFadeIn 300ms ease-out;
+  animation:
+    historyOverlayFadeIn
+    300ms
+    ease-out;
 }
 
 .animate-history-modal {
-  animation: historyModalMoveIn 300ms ease-out;
+  animation:
+    historyModalMoveIn
+    300ms
+    ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-history-overlay,
+  .animate-history-modal {
+    animation: none;
+  }
 }

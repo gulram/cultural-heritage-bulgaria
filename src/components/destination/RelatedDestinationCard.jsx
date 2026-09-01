@@ -14,28 +14,25 @@ function RelatedDestinationCard({
   const [failedImage, setFailedImage] = useState(null)
 
   const hasValidImage =
-    Boolean(image) &&
-    failedImage !== image
+    Boolean(image) && failedImage !== image
+
+  const handleImageError = () => {
+    setFailedImage(image)
+  }
 
   return (
     <article
       className="
-        group
-        relative
-        min-h-[220px]
-        w-full
-        overflow-hidden
-
-        rounded-md
-        border
-        border-accent-orange
-
+        group relative
+       
+        min-h-[220px] w-full overflow-hidden
+        
+        rounded-md 
+        border border-accent-orange
         shadow-default
-
-        transition-shadow
-        duration-200
-        ease-out
-
+        
+        transition-shadow duration-200 ease-out
+        
         hover:shadow-hover
       "
     >
@@ -43,20 +40,17 @@ function RelatedDestinationCard({
         <img
           src={image}
           alt=""
+          aria-hidden="true"
           loading="lazy"
-          onError={() => setFailedImage(image)}
+          onError={handleImageError}
           className="
-            absolute
+            absolute 
             inset-0
-
-            h-full
-            w-full
+            h-full w-full 
             object-cover
-
-            transition-transform
-            duration-200
-            ease-out
-
+            
+            transition-transform duration-200 ease-out
+            
             group-hover:scale-[1.03]
           "
         />
@@ -64,12 +58,10 @@ function RelatedDestinationCard({
         <ImageFallback
           compact
           className="
-            absolute
-            inset-0
-
+            absolute inset-0 
             h-full
-            rounded-none
-            border-0
+            rounded-none 
+            border-0 
             shadow-none
           "
         />
@@ -78,36 +70,29 @@ function RelatedDestinationCard({
       <div
         aria-hidden="true"
         className="
-          absolute
-          inset-0
-
+          absolute inset-0
+          
           bg-gradient-to-t
-          from-black/75
-          via-black/25
-          to-black/5
+
+          from-black/75 via-black/25 to-black/5
         "
       />
 
       <div
         className="
-          relative
-          z-10
-
-          flex
-          min-h-[220px]
-          flex-col
-          items-start
+          relative z-10
+          
+          flex min-h-[220px] 
+          flex-col 
+          items-start 
           justify-end
-
           p-4
         "
       >
         <h3
           className="
-            font-heading
-            text-mobile-h3
-            text-white
-
+            font-heading text-mobile-h3 text-white
+            
             lg:text-h3
           "
         >

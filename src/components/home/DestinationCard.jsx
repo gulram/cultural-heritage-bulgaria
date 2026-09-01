@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { ArrowRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { ArrowRight } from 'lucide-react'
 
 import DestinationMetadata from '../destination/DestinationMetadata'
 import Button from '../ui/Button'
@@ -13,75 +13,49 @@ function DestinationCard({
   location,
   unescoYear,
   image,
+  imageAlt,
   slug,
   imagePosition = 'left',
 }) {
   const { t } = useTranslation()
   const [failedImage, setFailedImage] = useState(null)
 
-  const isImageRight =
-    imagePosition === 'right'
-
+  const isImageRight = imagePosition === 'right'
   const hasValidImage =
-    Boolean(image) &&
-    failedImage !== image
+    Boolean(image) && failedImage !== image
+
+  const imageLayoutClass = isImageRight
+    ? 'md:flex-row-reverse'
+    : 'md:flex-row'
+
+  const badgePositionClass = isImageRight
+    ? 'right-2'
+    : 'left-2'
+
+  const handleImageError = () => {
+    setFailedImage(image)
+  }
 
   return (
     <article
       className={`
-        group
-        relative
-
-        flex
-        w-full
-        flex-col
-        overflow-hidden
-
-        rounded-lg
-        border
-        border-border-light
-        bg-background-card
-
+        group relative
+        flex w-full flex-col overflow-hidden
+        rounded-lg border border-border-light bg-background-card
         shadow-default
-
-        transition-shadow
-        duration-[160ms]
-        ease-in
-
-        hover:shadow-hover
-        hover:duration-200
-        hover:ease-out
-
+        transition-shadow duration-[160ms] ease-in
+        hover:shadow-hover hover:duration-200 hover:ease-out
         md:min-h-[300px]
-
         lg:h-[300px]
-
-        xl:h-[230px]
-        xl:min-h-0
-        xl:max-w-main
-
-        ${
-          isImageRight
-            ? 'md:flex-row-reverse'
-            : 'md:flex-row'
-        }
+        xl:h-[230px] xl:min-h-0 xl:max-w-main
+        ${imageLayoutClass}
       `}
     >
       <div
         className="
-          relative
-
-          h-[180px]
-          w-full
-          shrink-0
-          overflow-hidden
-
+          relative h-[180px] w-full shrink-0 overflow-hidden
           rounded-lg
-
-          md:h-auto
-          md:w-[45%]
-          md:self-stretch
-
+          md:h-auto md:w-[45%] md:self-stretch
           xl:w-[500px]
         "
       >
@@ -89,20 +63,17 @@ function DestinationCard({
           <>
             <img
               src={image}
-              alt={title}
+              alt={imageAlt || title}
               loading="lazy"
-              onError={() => setFailedImage(image)}
+              onError={handleImageError}
               className="
-                h-full
-                w-full
+                h-full w-full 
                 object-cover
-
-                transition-transform
-                duration-[160ms]
-                ease-in
-
+                
+                transition-transform duration-[160ms] ease-in
+                
                 group-hover:scale-[1.03]
-                group-hover:duration-200
+                group-hover:duration-200 
                 group-hover:ease-out
               "
             />
@@ -110,19 +81,15 @@ function DestinationCard({
             <div
               aria-hidden="true"
               className="
-                absolute
-                inset-0
-
-                bg-black/20
-
+                absolute inset-0
+               
+                bg-black/20 
                 opacity-100
-
-                transition-opacity
-                duration-[160ms]
-                ease-in
-
+                
+                transition-opacity duration-[160ms] ease-in
+                
                 group-hover:opacity-0
-                group-hover:duration-200
+                group-hover:duration-200 
                 group-hover:ease-out
               "
             />
@@ -131,12 +98,8 @@ function DestinationCard({
           <ImageFallback
             className="
               h-full
-
-              rounded-none
-              border-0
-
-              p-0
-
+              rounded-none 
+              border-0 p-0 
               shadow-none
             "
           />
@@ -144,44 +107,29 @@ function DestinationCard({
 
         <div
           className={`
-            absolute
-            top-2
+            absolute top-2
+            ${badgePositionClass}
 
-            flex
-            h-[42px]
-            w-[42px]
-            items-center
-            justify-center
+            flex h-[42px] w-[42px]
+            items-center justify-center
 
             rounded-md
-            border
-            border-white
+            border border-white
             bg-accent-orange
-
             shadow-button
 
             font-heading
-            text-[24px]
-            font-semibold
-            leading-none
+            text-[24px] font-semibold leading-none
             text-white
 
             opacity-100
 
-            transition-[opacity,transform]
-            duration-[160ms]
-            ease-in
+            transition-[opacity,transform] duration-[160ms] ease-in
 
             group-hover:scale-95
             group-hover:opacity-0
             group-hover:duration-200
             group-hover:ease-out
-
-            ${
-              isImageRight
-                ? 'right-2'
-                : 'left-2'
-            }
           `}
         >
           {number}
@@ -190,45 +138,22 @@ function DestinationCard({
 
       <div
         className="
-          relative
-
-          flex
-          min-w-0
-          flex-1
-          flex-col
+          relative 
+          flex min-w-0 flex-1 flex-col 
           overflow-hidden
-
-          px-4
-          py-2
-
+          px-4 py-2
+          
           sm:px-5
-
-          md:h-full
-          md:flex-1
-          md:justify-center
-          md:px-4
-          md:py-[20px]
-
+          md:h-full md:flex-1 md:justify-center md:px-4 md:py-[20px]
           lg:px-5
-
-          xl:w-[700px]
-          xl:flex-none
-          xl:px-4
-          xl:py-2
+          xl:w-[700px] xl:flex-none xl:px-4 xl:py-2
         "
       >
-        <div
-          className="
-            relative
-            z-10
-          "
-        >
+        <div className="relative z-10">
           <h3
             className="
-              font-heading
-              text-mobile-h2
-              text-text-primary
-
+              font-heading text-mobile-h2 text-text-primary
+              
               lg:text-h3
             "
           >
@@ -237,17 +162,12 @@ function DestinationCard({
 
           <p
             className="
-              mt-1
+              mt-1 
               max-w-[560px]
-
-              font-body
-              text-mobile-body
-              text-text-secondary
-
+              font-body text-mobile-body text-text-secondary
+              
               md:mt-2
-
               lg:text-body-small
-
               xl:mt-1
             "
           >
@@ -257,24 +177,15 @@ function DestinationCard({
 
         <div
           className="
-            relative
-            z-10
-
+            relative 
+            z-10 
             mt-3
-
-            flex
-            flex-col
+            flex flex-col 
             gap-3
-
+            
             md:mt-2
-
-            lg:grid
-            lg:grid-cols-[1fr_auto]
-            lg:items-end
-            lg:gap-2
-
-            xl:mt-2
-            xl:gap-5
+            lg:grid lg:grid-cols-[1fr_auto] lg:items-end lg:gap-2
+            xl:mt-2 xl:gap-5
           "
         >
           <DestinationMetadata
@@ -282,13 +193,7 @@ function DestinationCard({
             unescoYear={unescoYear}
           />
 
-          <div
-            className="
-              self-end
-
-              lg:self-auto
-            "
-          >
+          <div className="self-end lg:self-auto">
             <Button
               to={`/destinations/${slug}`}
               variant="filled"

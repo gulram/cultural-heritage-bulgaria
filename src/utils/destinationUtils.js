@@ -35,98 +35,49 @@ const PRACTICAL_ICON_MAP = {
   working_hours: Clock3,
   opening_hours: Clock3,
   tickets: Ticket,
-  ticket: Ticket,
-  prices: Ticket,
-  price: Ticket,
   admission: Ticket,
   guide: Users,
   guided_tour: Users,
-  visitors: Users,
   accessibility: Users,
   directions: MapPin,
   transport: MapPin,
-  location: MapPin,
-  purchase: Info,
-  contact: Info,
   contacts: Info,
   information: Info,
   dress_code: Info,
   rules: Info,
 }
 
-function normalizeKey(value) {
-  if (!value) {
-    return ''
-  }
-
+function normalizeKey(value = '') {
   return String(value)
     .trim()
+    .replace(
+      /([a-z0-9])([A-Z])/g,
+      '$1_$2'
+    )
     .toLowerCase()
     .replaceAll('-', '_')
     .replaceAll(' ', '_')
 }
 
-function getQuickFactIcon(fact) {
-  const possibleKeys = [
-    fact.icon,
-    fact.type,
-    fact.id,
-    fact.key,
-  ]
+function normalizeQuickFacts(
+  quickFacts = []
+) {
+  return quickFacts.map(
+    (fact, index) => ({
+      id: `fact-${index}`,
 
-  for (const value of possibleKeys) {
-    const key = normalizeKey(value)
+      icon:
+        QUICK_FACT_ICON_MAP[
+          normalizeKey(fact.icon)
+        ] ?? Info,
 
-    if (QUICK_FACT_ICON_MAP[key]) {
-      return QUICK_FACT_ICON_MAP[key]
-    }
-  }
+      value:
+        fact.value ?? '',
 
-  return Info
-}
-
-function normalizeQuickFacts(quickFacts = []) {
-  return quickFacts.map((fact, index) => ({
-    id:
-      fact.id ||
-      fact.type ||
-      fact.key ||
-      `fact-${index}`,
-
-    icon: getQuickFactIcon(fact),
-
-    value:
-      fact.value ||
-      fact.title ||
-      fact.label ||
-      '',
-
-    description:
-      fact.description ||
-      fact.subtitle ||
-      fact.text ||
-      fact.summary ||
-      '',
-  }))
-}
-
-function getPracticalInfoIcon(item) {
-  const possibleKeys = [
-    item.icon,
-    item.type,
-    item.id,
-    item.key,
-  ]
-
-  for (const value of possibleKeys) {
-    const key = normalizeKey(value)
-
-    if (PRACTICAL_ICON_MAP[key]) {
-      return PRACTICAL_ICON_MAP[key]
-    }
-  }
-
-  return Info
+      description:
+        fact.description ?? '',
+    })
+  )
 }
 
 function normalizePracticalInfo(
@@ -134,71 +85,86 @@ function normalizePracticalInfo(
 ) {
   return practicalInfo.map(
     (item, index) => {
-      let lines = []
-
-      if (Array.isArray(item.lines)) {
-        lines = item.lines
-      } else {
-        if (item.summary) {
-          lines.push(item.summary)
-        }
-
-        if (Array.isArray(item.details)) {
-          lines.push(...item.details)
-        } else if (item.details) {
-          lines.push(item.details)
-        }
-      }
+      const details =
+        Array.isArray(
+          item.details
+        )
+          ? item.details
+          : []
 
       return {
-        id:
-          item.id ||
-          item.type ||
-          item.key ||
-          `practical-${index}`,
+        id: `${
+          normalizeKey(
+            item.type
+          ) || 'practical'
+        }-${index}`,
 
-        icon: getPracticalInfoIcon(item),
+        icon:
+          PRACTICAL_ICON_MAP[
+            normalizeKey(
+              item.type
+            )
+          ] ?? Info,
 
         title:
-          item.title ||
-          item.label ||
-          '',
+          item.title ?? '',
 
-        lines: lines.filter(Boolean),
+        lines: [
+          item.summary,
+          ...details,
+        ].filter(Boolean),
       }
     }
   )
 }
 
-function getHistoryPreview(history) {
+function getHistoryParagraphs(
+  history
+) {
   if (!history) {
-    return ''
+    return []
   }
 
-  const paragraphs = history
+  return history
     .split(/\n\s*\n/)
-    .map((paragraph) =>
-      paragraph.trim()
+    .map(
+      (paragraph) =>
+        paragraph.trim()
     )
     .filter(Boolean)
+}
 
-  const firstParagraph =
-    paragraphs[0] || history
+function getHistoryPreview(
+  history
+) {
+  const [
+    firstParagraph = '',
+  ] = getHistoryParagraphs(
+    history
+  )
 
-  if (firstParagraph.length <= 650) {
+  if (
+    firstParagraph.length <= 650
+  ) {
     return firstParagraph
   }
 
   const shortened =
-    firstParagraph.slice(0, 650)
+    firstParagraph.slice(
+      0,
+      650
+    )
 
-  const lastSentenceEnd = Math.max(
-    shortened.lastIndexOf('.'),
-    shortened.lastIndexOf('!'),
-    shortened.lastIndexOf('?')
-  )
+  const lastSentenceEnd =
+    Math.max(
+      shortened.lastIndexOf('.'),
+      shortened.lastIndexOf('!'),
+      shortened.lastIndexOf('?')
+    )
 
-  if (lastSentenceEnd > 300) {
+  if (
+    lastSentenceEnd > 300
+  ) {
     return shortened.slice(
       0,
       lastSentenceEnd + 1
@@ -208,20 +174,27 @@ function getHistoryPreview(history) {
   return `${shortened.trim()}…`
 }
 
-function getHistoryParagraphs(history) {
-  if (!history) {
-    return []
+function getGoogleMapsUrl(
+  coordinates = []
+) {
+  const [
+    latitude,
+    longitude,
+  ] = coordinates
+
+  if (
+    !Number.isFinite(latitude) ||
+    !Number.isFinite(longitude)
+  ) {
+    return ''
   }
 
-  return history
-    .split(/\n\s*\n/)
-    .map((paragraph) =>
-      paragraph.trim()
-    )
-    .filter(Boolean)
+  return `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`
 }
 
-function keepNumberAndUnitTogether(text) {
+function keepNumberAndUnitTogether(
+  text
+) {
   if (!text) {
     return text
   }
@@ -238,4 +211,5 @@ export {
   getHistoryPreview,
   getHistoryParagraphs,
   keepNumberAndUnitTogether,
+  getGoogleMapsUrl,
 }

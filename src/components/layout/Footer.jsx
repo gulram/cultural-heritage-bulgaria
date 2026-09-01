@@ -3,7 +3,6 @@ import {
   NavLink,
   useLocation,
 } from 'react-router-dom'
-
 import { useTranslation } from 'react-i18next'
 
 import logoBg from '../../assets/logo-light.svg'
@@ -11,130 +10,92 @@ import logoEn from '../../assets/logo-light-en.svg'
 
 import useActiveSection from '../../hooks/useActiveSection'
 
-const HOME_SECTIONS = [
-  'home',
-  'destinations',
-  'about',
-]
+const HOME_SECTIONS = ['home', 'destinations', 'about']
+
+const FOOTER_LINK_STYLES = `
+  relative inline-block
+
+  font-body
+  text-mobile-small
+  text-white/80
+
+  after:absolute
+  after:bottom-[-3px]
+  after:left-0
+  after:h-[2px]
+  after:w-full
+
+  after:origin-left
+  after:bg-accent-orange
+
+  after:transition-transform
+  after:duration-200
+  after:ease-out
+
+  lg:text-body-small
+`
 
 function Footer() {
   const location = useLocation()
   const { t, i18n } = useTranslation()
 
-  const locale =
-    i18n.resolvedLanguage === 'en'
-      ? 'en'
-      : 'bg'
+  const locale = i18n.resolvedLanguage === 'en' ? 'en' : 'bg'
+  const currentLogo = locale === 'en' ? logoEn : logoBg
 
-  const currentLogo =
-    locale === 'en'
-      ? logoEn
-      : logoBg
-
-  const activeSection =
-    useActiveSection(HOME_SECTIONS)
-
-  const isHomePage =
-    location.pathname === '/'
+  const activeSection = useActiveSection(HOME_SECTIONS)
+  const isHomePage = location.pathname === '/'
 
   const getSectionLinkClass = (section) => {
     const isActive =
       isHomePage &&
       (
         activeSection === section ||
-        (
-          !activeSection &&
-          section === 'home'
-        )
+        (!activeSection && section === 'home')
       )
 
     return `
-      relative
-      inline-block
-
-      font-body
-      text-mobile-small
-      text-white/80
-
-      after:absolute
-      after:left-0
-      after:bottom-[-3px]
-      after:h-[2px]
-      after:w-full
-      after:origin-left
-      after:bg-accent-orange
-      after:transition-transform
-      after:duration-200
-      after:ease-out
+      ${FOOTER_LINK_STYLES}
 
       ${
         isActive
           ? 'after:scale-x-100'
           : 'after:scale-x-0 hover:after:scale-x-100'
       }
-
-      lg:text-body-small
     `
   }
 
-  const getRouteLinkClass = ({
-    isActive,
-  }) => `
-    relative
-    inline-block
-
-    font-body
-    text-mobile-small
-    text-white/80
-
-    after:absolute
-    after:left-0
-    after:bottom-[-3px]
-    after:h-[2px]
-    after:w-full
-    after:origin-left
-    after:bg-accent-orange
-    after:transition-transform
-    after:duration-200
-    after:ease-out
+  const getRouteLinkClass = ({ isActive }) => `
+    ${FOOTER_LINK_STYLES}
 
     ${
       isActive
         ? 'after:scale-x-100'
         : 'after:scale-x-0 hover:after:scale-x-100'
     }
-
-    lg:text-body-small
   `
 
   return (
-    <footer
-      className="
-        w-full
-        bg-primary
-        text-white
-      "
-    >
+    <footer className="w-full bg-primary text-white">
       <div
         className="
-          mx-auto
-          max-w-main
+          mx-auto max-w-main
 
-          px-4
-          py-6
+          px-4 py-6
 
           sm:px-6
+
           md:px-4
+
           lg:px-5
           lg:pb-6
           lg:pt-4
+
           xl:px-0
         "
       >
         <div
           className="
-            grid
-            grid-cols-1
+            grid grid-cols-1
 
             lg:grid-cols-[1.15fr_0.8fr_1fr]
             lg:pb-3
@@ -142,9 +103,7 @@ function Footer() {
         >
           <div
             className="
-              flex
-              items-start
-              gap-4
+              flex items-start gap-4
               pb-5
 
               lg:block
@@ -160,8 +119,7 @@ function Footer() {
                 src={currentLogo}
                 alt={t('footer.logoAlt')}
                 className="
-                  h-auto
-                  w-[105px]
+                  h-auto w-[105px]
 
                   lg:w-[150px]
                 "
@@ -187,9 +145,7 @@ function Footer() {
 
           <div
             className="
-              border-t
-              border-white/15
-
+              border-t border-white/15
               py-5
 
               lg:border-l
@@ -201,8 +157,7 @@ function Footer() {
             <h2
               className="
                 font-body
-                text-[12px]
-                font-semibold
+                text-section
                 uppercase
                 tracking-[0.12em]
                 text-white
@@ -216,10 +171,8 @@ function Footer() {
               className="
                 mt-4
 
-                flex
-                flex-col
-                items-start
-                gap-3
+                flex flex-col
+                items-start gap-3
               "
             >
               <Link
@@ -231,9 +184,7 @@ function Footer() {
 
               <Link
                 to="/#destinations"
-                className={getSectionLinkClass(
-                  'destinations'
-                )}
+                className={getSectionLinkClass('destinations')}
               >
                 {t('navigation.destinations')}
               </Link>
@@ -256,9 +207,7 @@ function Footer() {
 
           <div
             className="
-              border-t
-              border-white/15
-
+              border-t border-white/15
               py-5
 
               lg:border-l
@@ -282,8 +231,7 @@ function Footer() {
 
             <p
               className="
-                mt-4
-                max-w-[320px]
+                mt-4 max-w-[320px]
 
                 font-body
                 text-mobile-small
@@ -299,9 +247,7 @@ function Footer() {
 
         <div
           className="
-            border-t
-            border-accent-orange/70
-
+            border-t border-accent-orange/70
             pt-4
           "
         >

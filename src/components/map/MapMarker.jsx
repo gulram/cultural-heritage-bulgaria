@@ -1,6 +1,9 @@
 import { useMemo, useState } from 'react'
 import { divIcon } from 'leaflet'
-import { Marker, Tooltip } from 'react-leaflet'
+import {
+  Marker,
+  Tooltip,
+} from 'react-leaflet'
 
 import MapMarkerPopup from './MapMarkerPopup'
 
@@ -15,82 +18,34 @@ function MapMarker({
   const markerNumber = Number(destination.number)
 
   const icon = useMemo(() => {
-    const backgroundColor = isActive
-      ? 'var(--color-accent-terracotta)'
-      : 'var(--color-accent-orange)'
+    const activeClass = isActive
+      ? 'destination-marker--active'
+      : ''
+
+    const number = Number.isFinite(markerNumber)
+      ? markerNumber
+      : ''
 
     return divIcon({
-      className: '',
+      className: 'destination-marker-icon',
       iconSize: [46, 54],
       iconAnchor: [23, 54],
       tooltipAnchor: [0, -52],
-
       html: `
-        <div
-          style="
-            position: relative;
-            width: 46px;
-            height: 54px;
-            filter: drop-shadow(
-              0 5px 5px rgba(0,0,0,0.22)
-            );
-          "
-        >
-          <div
-            style="
-              position: absolute;
-              top: 2px;
-              left: 6px;
-
-              width: 34px;
-              height: 34px;
-
-              display: flex;
-              align-items: center;
-              justify-content: center;
-
-              border-radius:
-                50% 50% 50% 0;
-
-              border:
-                2px solid var(--color-white);
-
-              background:
-                ${backgroundColor};
-
-              transform:
-                rotate(-45deg);
-            "
-          >
-            <span
-              style="
-                transform:
-                  rotate(45deg);
-
-                color:
-                  var(--color-white);
-
-                font-family:
-                  var(--font-body);
-
-                font-size:
-                  var(--text-body-regular);
-
-                font-weight: 600;
-                line-height: 1;
-              "
-            >
-              ${
-                Number.isFinite(markerNumber)
-                  ? markerNumber
-                  : ''
-              }
+        <div class="destination-marker ${activeClass}">
+          <div class="destination-marker__pin">
+            <span class="destination-marker__number">
+              ${number}
             </span>
           </div>
         </div>
       `,
     })
   }, [isActive, markerNumber])
+
+  const handleSelect = () => {
+    onSelect?.(destination)
+  }
 
   return (
     <Marker
@@ -100,15 +55,9 @@ function MapMarker({
       alt={destination.title}
       zIndexOffset={isSelected ? 1000 : 0}
       eventHandlers={{
-        mouseover: () => {
-          setIsHovered(true)
-        },
-        mouseout: () => {
-          setIsHovered(false)
-        },
-        click: () => {
-          onSelect?.(destination)
-        },
+        mouseover: () => setIsHovered(true),
+        mouseout: () => setIsHovered(false),
+        click: handleSelect,
       }}
     >
       {isActive && (

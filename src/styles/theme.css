@@ -2,11 +2,11 @@
   /* COLORS */
 
   /* Brand */
-  --color-primary: #123B2E; /* Forest Green */
-  --color-accent-orange: #9A6200; /* Orange Gold */
-  --color-accent-antique: #7F4D00; /* Antique Gold */
-  --color-accent-light: #A85F00; /* Light Orange */
-  --color-accent-terracotta: #891E1E; /* Terracotta Red */
+  --color-primary: #123B2E;
+  --color-accent-orange: #9A6200;
+  --color-accent-antique: #7F4D00;
+  --color-accent-light: #A85F00;
+  --color-accent-terracotta: #891E1E;
 
   /* Backgrounds */
   --color-background-primary: #F9F8F6;
@@ -29,19 +29,25 @@
   --color-black: #000000;
 
   /* Glass surfaces */
-  --color-header-glass: rgba(0, 0, 0, 0.15);
-  --color-header-stroke: rgba(0, 0, 0, 0.25);
+  --color-header-glass:
+    rgba(0, 0, 0, 0.15);
+
+  --color-header-stroke:
+    rgba(0, 0, 0, 0.25);
 
 
   /* FONT FAMILIES */
 
-  --font-heading: "Playfair Display", serif;
-  --font-body: "Inter", sans-serif;
+  --font-heading:
+    "Playfair Display", serif;
+
+  --font-body:
+    "Inter", sans-serif;
 
 
   /* DESKTOP TYPOGRAPHY */
 
-  /* Headings — Playfair Display */
+  /* Headings */
   --text-h1: 48px;
   --text-h1--line-height: 56px;
   --text-h1--font-weight: 600;
@@ -54,7 +60,7 @@
   --text-h3--line-height: 32px;
   --text-h3--font-weight: 500;
 
-  /* Body & UI — Inter */
+  /* Body and UI */
   --text-body-large: 18px;
   --text-body-large--line-height: 26px;
   --text-body-large--font-weight: 400;
@@ -103,7 +109,7 @@
   --text-mobile-h3--line-height: 24px;
   --text-mobile-h3--font-weight: 500;
 
-  /* Body & UI */
+  /* Body and UI */
   --text-mobile-body: 14px;
   --text-mobile-body--line-height: 22px;
   --text-mobile-body--font-weight: 400;
@@ -160,8 +166,10 @@
   /* HEADER */
 
   --header-height-desktop: 72px;
+
   --logo-width-desktop: 150px;
   --logo-width-mobile: 105px;
+
   --nav-gap-desktop: 40px;
 
 
@@ -174,22 +182,23 @@
 
   /* SHADOWS */
 
-  /* Standard cards and panels */
   --shadow-default:
-    0 4px 28px rgba(0, 0, 0, 0.08);
+    0 4px 28px
+    rgba(0, 0, 0, 0.08);
 
-  /* Interactive hover state */
   --shadow-hover:
-    0 16px 40px rgba(0, 0, 0, 0.15);
+    0 16px 40px
+    rgba(0, 0, 0, 0.15);
 
-  /* Primary buttons */
   --shadow-button:
-    0 3px 6px rgba(0, 0, 0, 0.25);
+    0 3px 6px
+    rgba(0, 0, 0, 0.25);
 
-  /* Focus state */
   --shadow-focus:
-    0 0 0 2px var(--color-accent-antique),
-    0 0 0 4px rgba(0, 0, 0, 0.25);
+    0 0 0 2px
+      var(--color-accent-antique),
+    0 0 0 4px
+      rgba(0, 0, 0, 0.25);
 
 
   /* OVERLAYS */

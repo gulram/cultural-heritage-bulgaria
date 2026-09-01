@@ -12,23 +12,25 @@ function GalleryHeroImage({
   const [failedImage, setFailedImage] = useState(null)
 
   const hasValidImage =
-    Boolean(src) &&
-    failedImage !== src
+    Boolean(src) && failedImage !== src
+
+  const handleImageError = () => {
+    setFailedImage(src)
+  }
 
   return (
     <button
       type="button"
       onClick={onClick}
-      aria-label={ariaLabel || alt}
+      aria-label={ariaLabel || alt || undefined}
       className={`
-        group
-        relative
-        block
-        w-full
-        overflow-hidden
-        rounded-md
-        text-left
-
+        group relative block w-full overflow-hidden
+        rounded-md text-left
+        
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-accent-orange
+        focus-visible:ring-offset-2
         ${className}
       `}
     >
@@ -37,16 +39,10 @@ function GalleryHeroImage({
           src={src}
           alt={alt}
           loading="lazy"
-          onError={() => setFailedImage(src)}
+          onError={handleImageError}
           className="
-            h-full
-            w-full
-            object-cover
-
-            transition-transform
-            duration-300
-            ease-out
-
+            h-full w-full object-cover
+            transition-transform duration-300 ease-out
             group-hover:scale-[1.04]
           "
         />
@@ -54,13 +50,8 @@ function GalleryHeroImage({
         <ImageFallback
           compact
           className="
-            h-full
-            w-full
-            min-h-full
-
-            rounded-md
-            border
-            border-border-light
+            h-full min-h-full w-full
+            rounded-md border border-border-light
             shadow-none
           "
         />

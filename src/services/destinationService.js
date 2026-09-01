@@ -6,6 +6,39 @@ import {
 
 const IMAGE_BUCKET = 'destination-images'
 
+const DESTINATION_FIELDS = `
+  id,
+  number,
+  slug,
+  unesco_year,
+  latitude,
+  longitude,
+  last_verified_at
+`
+
+const TRANSLATION_FIELDS = `
+  destination_id,
+  title,
+  location,
+  description,
+  map_description,
+  about_title,
+  about,
+  history,
+  quick_facts,
+  practical_info,
+  map_info
+`
+
+const IMAGE_FIELDS = `
+  id,
+  destination_id,
+  role,
+  storage_path,
+  alt_bg,
+  alt_en
+`
+
 function getPublicImageUrl(storagePath) {
   if (!storagePath) {
     return null
@@ -18,59 +51,87 @@ function getPublicImageUrl(storagePath) {
   return data.publicUrl
 }
 
-function formatLocalizedValue(value) {
-  if (typeof value === 'string') {
-    return keepNumberAndUnitTogether(value)
+function formatText(value) {
+  if (!value) {
+    return value
   }
 
-  if (Array.isArray(value)) {
-    return value.map(
-      formatLocalizedValue
-    )
+  return keepNumberAndUnitTogether(value)
+}
+
+function formatQuickFacts(quickFacts) {
+  if (!Array.isArray(quickFacts)) {
+    return []
   }
 
+  return quickFacts.map((fact) => ({
+    ...fact,
+    value: formatText(fact.value),
+    description: formatText(
+      fact.description
+    ),
+  }))
+}
+
+function formatPracticalInfo(
+  practicalInfo
+) {
+  if (!Array.isArray(practicalInfo)) {
+    return []
+  }
+
+  return practicalInfo.map((item) => ({
+    ...item,
+    title: formatText(item.title),
+    summary: formatText(item.summary),
+
+    details: Array.isArray(item.details)
+      ? item.details.map(formatText)
+      : [],
+  }))
+}
+
+function formatMapInfo(mapInfo) {
   if (
-    value &&
-    typeof value === 'object'
+    !mapInfo ||
+    typeof mapInfo !== 'object' ||
+    Array.isArray(mapInfo)
   ) {
-    return Object.fromEntries(
-      Object.entries(value).map(
-        ([key, item]) => [
-          key,
-          formatLocalizedValue(item),
-        ]
-      )
-    )
+    return {}
   }
 
-  return value
+  return Object.fromEntries(
+    Object.entries(mapInfo).map(
+      ([key, value]) => [
+        key,
+        typeof value === 'string'
+          ? formatText(value)
+          : value,
+      ]
+    )
+  )
 }
 
 function mapImage(image, locale) {
+  const localizedAlt =
+    locale === 'en'
+      ? image.alt_en
+      : image.alt_bg
+
+  const fallbackAlt =
+    locale === 'en'
+      ? image.alt_bg
+      : image.alt_en
+
   return {
     id: image.id,
-    role: image.role,
-    mediaType: image.media_type,
-
-    fileName: image.file_name,
-    storagePath: image.storage_path,
-
     url: getPublicImageUrl(
       image.storage_path
     ),
-
     alt:
-      locale === 'en'
-        ? image.alt_en
-        : image.alt_bg,
-
-    author: image.author,
-    source: image.source,
-    assetId: image.asset_id,
-    license: image.license,
-    sourceUrl: image.source_url,
-
-    sortOrder: image.sort_order,
+      localizedAlt ??
+      fallbackAlt ??
+      '',
   }
 }
 
@@ -80,28 +141,28 @@ function mapDestination(
   images,
   locale
 ) {
-  const localizedTranslation =
-    formatLocalizedValue(translation)
-
-  const localizedImages = images
-    .map((image) =>
-      mapImage(image, locale)
-    )
-    .sort(
-      (a, b) =>
-        a.sortOrder - b.sortOrder
-    )
-
-  const mainImage =
-    localizedImages.find(
+  const mainImageRecord =
+    images.find(
       (image) =>
         image.role === 'main'
     ) ?? null
 
-  const gallery =
-    localizedImages.filter(
+  const mainImage =
+    mainImageRecord
+      ? mapImage(
+          mainImageRecord,
+          locale
+        )
+      : null
+
+  const gallery = images
+    .filter(
       (image) =>
         image.role === 'gallery'
+    )
+    .map(
+      (image) =>
+        mapImage(image, locale)
     )
 
   return {
@@ -109,50 +170,58 @@ function mapDestination(
     number: destination.number,
     slug: destination.slug,
 
-    title:
-      localizedTranslation.title,
-
-    location:
-      localizedTranslation.location,
-
-    unescoYear: String(
-      destination.unesco_year
+    title: formatText(
+      translation.title
     ),
+
+    location: formatText(
+      translation.location
+    ),
+
+    unescoYear:
+      destination.unesco_year
+        ? String(
+            destination.unesco_year
+          )
+        : '',
 
     coordinates: [
       destination.latitude,
       destination.longitude,
     ],
 
-    description:
-      localizedTranslation.description,
+    description: formatText(
+      translation.description
+    ),
 
-    mapDescription:
-      localizedTranslation.map_description,
+    mapDescription: formatText(
+      translation.map_description
+    ),
 
-    aboutTitle:
-      localizedTranslation.about_title,
+    aboutTitle: formatText(
+      translation.about_title
+    ),
 
-    about:
-      localizedTranslation.about,
+    about: formatText(
+      translation.about
+    ),
 
-    history:
-      localizedTranslation.history,
+    history: formatText(
+      translation.history
+    ),
 
-    quickFacts:
-      localizedTranslation.quick_facts ??
-      [],
+    quickFacts: formatQuickFacts(
+      translation.quick_facts
+    ),
 
     practicalInfo:
-      localizedTranslation.practical_info ??
-      [],
+      formatPracticalInfo(
+        translation.practical_info
+      ),
 
-    mapInfo:
-      localizedTranslation.map_info ??
-      {},
-
-    sources:
-      destination.sources ?? [],
+    mapInfo: formatMapInfo(
+      translation.map_info
+    ),
 
     lastVerifiedAt:
       destination.last_verified_at,
@@ -163,10 +232,30 @@ function mapDestination(
     imageAlt:
       mainImage?.alt ?? '',
 
-    mainImage,
-
     gallery,
   }
+}
+
+function groupImagesByDestination(
+  images = []
+) {
+  const imagesMap = new Map()
+
+  images.forEach((image) => {
+    const destinationImages =
+      imagesMap.get(
+        image.destination_id
+      ) ?? []
+
+    destinationImages.push(image)
+
+    imagesMap.set(
+      image.destination_id,
+      destinationImages
+    )
+  })
+
+  return imagesMap
 }
 
 export async function getDestinations(
@@ -179,115 +268,66 @@ export async function getDestinations(
   ] = await Promise.all([
     supabase
       .from('destinations')
-      .select(`
-        id,
-        number,
-        slug,
-        unesco_year,
-        latitude,
-        longitude,
-        sources,
-        last_verified_at
-      `)
-      .order(
-        'number',
-        { ascending: true }
-      ),
+      .select(DESTINATION_FIELDS)
+      .order('number', {
+        ascending: true,
+      }),
 
     supabase
       .from(
         'destination_translations'
       )
-      .select(`
-        destination_id,
-        locale,
-        title,
-        location,
-        description,
-        map_description,
-        about_title,
-        about,
-        history,
-        quick_facts,
-        practical_info,
-        map_info
-      `)
+      .select(TRANSLATION_FIELDS)
       .eq('locale', locale),
 
     supabase
       .from('destination_images')
-      .select(`
-        id,
-        destination_id,
-        role,
-        media_type,
-        file_name,
-        storage_path,
-        alt_bg,
-        alt_en,
-        author,
-        source,
-        asset_id,
-        license,
-        source_url,
-        sort_order
-      `)
-      .order(
-        'sort_order',
-        { ascending: true }
-      ),
+      .select(IMAGE_FIELDS)
+      .order('sort_order', {
+        ascending: true,
+      }),
   ])
 
   if (destinationsResult.error) {
     throw new Error(
-      `Грешка при зареждане на дестинациите: ${destinationsResult.error.message}`
+      `Failed to load destinations: ${destinationsResult.error.message}`
     )
   }
 
   if (translationsResult.error) {
     throw new Error(
-      `Грешка при зареждане на преводите: ${translationsResult.error.message}`
+      `Failed to load destination translations: ${translationsResult.error.message}`
     )
   }
 
   if (imagesResult.error) {
     throw new Error(
-      `Грешка при зареждане на изображенията: ${imagesResult.error.message}`
+      `Failed to load destination images: ${imagesResult.error.message}`
     )
   }
 
-  const translationsMap =
-    new Map(
-      translationsResult.data.map(
-        (translation) => [
-          translation.destination_id,
-          translation,
-        ]
-      )
+  const destinations =
+    destinationsResult.data ?? []
+
+  const translations =
+    translationsResult.data ?? []
+
+  const images =
+    imagesResult.data ?? []
+
+  const translationsMap = new Map(
+    translations.map(
+      (translation) => [
+        translation.destination_id,
+        translation,
+      ]
     )
-
-  const imagesMap = new Map()
-
-  imagesResult.data.forEach(
-    (image) => {
-      if (
-        !imagesMap.has(
-          image.destination_id
-        )
-      ) {
-        imagesMap.set(
-          image.destination_id,
-          []
-        )
-      }
-
-      imagesMap
-        .get(image.destination_id)
-        .push(image)
-    }
   )
 
-  return destinationsResult.data.map(
+  const imagesMap =
+    groupImagesByDestination(images)
+
+  return destinations.map(
     (destination) => {
       const translation =
         translationsMap.get(
@@ -296,136 +336,18 @@ export async function getDestinations(
 
       if (!translation) {
         throw new Error(
-          `Липсва превод "${locale}" за ${destination.slug}.`
+          `Missing "${locale}" translation for destination "${destination.slug}".`
         )
       }
-
-      const images =
-        imagesMap.get(
-          destination.id
-        ) ?? []
 
       return mapDestination(
         destination,
         translation,
-        images,
+        imagesMap.get(
+          destination.id
+        ) ?? [],
         locale
       )
     }
-  )
-}
-
-export async function getDestinationBySlug(
-  slug,
-  locale = 'bg'
-) {
-  const {
-    data: destination,
-    error: destinationError,
-  } = await supabase
-    .from('destinations')
-    .select(`
-      id,
-      number,
-      slug,
-      unesco_year,
-      latitude,
-      longitude,
-      sources,
-      last_verified_at
-    `)
-    .eq('slug', slug)
-    .maybeSingle()
-
-  if (destinationError) {
-    throw new Error(
-      `Грешка при зареждане на дестинацията: ${destinationError.message}`
-    )
-  }
-
-  if (!destination) {
-    return null
-  }
-
-  const [
-    translationResult,
-    imagesResult,
-  ] = await Promise.all([
-    supabase
-      .from(
-        'destination_translations'
-      )
-      .select(`
-        destination_id,
-        locale,
-        title,
-        location,
-        description,
-        map_description,
-        about_title,
-        about,
-        history,
-        quick_facts,
-        practical_info,
-        map_info
-      `)
-      .eq(
-        'destination_id',
-        destination.id
-      )
-      .eq('locale', locale)
-      .maybeSingle(),
-
-    supabase
-      .from('destination_images')
-      .select(`
-        id,
-        destination_id,
-        role,
-        media_type,
-        file_name,
-        storage_path,
-        alt_bg,
-        alt_en,
-        author,
-        source,
-        asset_id,
-        license,
-        source_url,
-        sort_order
-      `)
-      .eq(
-        'destination_id',
-        destination.id
-      )
-      .order(
-        'sort_order',
-        { ascending: true }
-      ),
-  ])
-
-  if (translationResult.error) {
-    throw new Error(
-      `Грешка при зареждане на превода: ${translationResult.error.message}`
-    )
-  }
-
-  if (imagesResult.error) {
-    throw new Error(
-      `Грешка при зареждане на изображенията: ${imagesResult.error.message}`
-    )
-  }
-
-  if (!translationResult.data) {
-    throw new Error(
-      `Липсва превод "${locale}" за ${slug}.`
-    )
-  }
-
-  return mapDestination(
-    destination,
-    translationResult.data,
-    imagesResult.data,
-    locale
   )
 }

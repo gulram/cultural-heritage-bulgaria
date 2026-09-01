@@ -12,14 +12,7 @@ function DestinationMiniMap({
   title,
 }) {
   return (
-    <div
-      className="
-        h-[180px]
-        w-full
-        overflow-hidden
-        rounded-md
-      "
-    >
+    <div className="h-[180px] w-full overflow-hidden rounded-md">
       <MapContainer
         center={position}
         zoom={14}
@@ -35,9 +28,7 @@ function DestinationMiniMap({
           <Popup>
             <span
               className="
-                font-body
-                text-mobile-small
-
+                font-body text-mobile-small
                 lg:text-body-small
               "
             >

@@ -7,14 +7,10 @@ function PageLoader() {
   return (
     <div
       role="status"
-      aria-live="polite"
       aria-busy="true"
       className="
-        flex
-        min-h-screen
-        w-full
-        items-center
-        justify-center
+        flex min-h-screen w-full
+        items-center justify-center
 
         bg-background-primary
       "
@@ -26,7 +22,6 @@ function PageLoader() {
           w-(--icon-size-large)
 
           animate-spin
-
           text-accent-orange
         "
         strokeWidth={1.8}

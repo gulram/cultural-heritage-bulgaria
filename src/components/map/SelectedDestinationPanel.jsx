@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   ArrowRight,
   Clock3,
@@ -6,12 +7,13 @@ import {
   Ticket,
   X,
 } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 
 import Button from '../ui/Button'
 import ImageFallback from '../ui/ImageFallback'
 import DestinationMetadata from '../destination/DestinationMetadata'
 import InfoRow from '../destination/InfoRow'
+
+import { getGoogleMapsUrl } from '../../utils/destinationUtils'
 
 function SelectedDestinationPanel({
   destination,
@@ -28,41 +30,34 @@ function SelectedDestinationPanel({
     Boolean(destination.image) &&
     failedImage !== destination.image
 
-  const mapsUrl =
-    `https://www.google.com/maps/search/?api=1&query=` +
-    `${destination.coordinates[0]},${destination.coordinates[1]}`
+  const mapsUrl = getGoogleMapsUrl(destination.coordinates)
+
+  const description =
+    destination.mapDescription || destination.description
 
   return (
     <aside
       aria-labelledby="selected-destination-title"
       className="
-        flex
-        w-full
-        flex-col
+        flex w-full flex-col gap-2
 
         rounded-lg
-        border
-        border-border-light
+        border border-border-light
         bg-white
-
         p-2
-        gap-2
-
         shadow-default
 
-        lg:min-h-[820px]
-        lg:w-(--map-panel-width)
-        lg:flex-none
         lg:gap-3
         lg:p-3
+
+        xl:min-h-(--map-panel-height)
+        xl:w-(--map-panel-width)
+        xl:flex-none
       "
     >
       <div
         className="
-          flex
-          items-center
-          justify-between
-          gap-1
+          flex items-center justify-between gap-1
 
           lg:h-3
           lg:shrink-0
@@ -79,30 +74,20 @@ function SelectedDestinationPanel({
             lg:text-section-small
           "
         >
-          {t(
-            'selectedDestinationPanel.selectedDestination'
-          )}
+          {t('selectedDestinationPanel.selectedDestination')}
         </p>
 
         <button
           type="button"
           onClick={onClose}
-          aria-label={t(
-            'selectedDestinationPanel.closeAriaLabel'
-          )}
+          aria-label={t('selectedDestinationPanel.closeAriaLabel')}
           className="
-            flex
-            h-3
-            w-3
-            shrink-0
-            items-center
-            justify-center
+            flex h-3 w-3 shrink-0
+            items-center justify-center
 
             text-accent-orange
 
-            transition-colors
-            duration-200
-            ease-out
+            transition-colors duration-200 ease-out
 
             hover:text-accent-antique
 
@@ -114,21 +99,18 @@ function SelectedDestinationPanel({
         >
           <X
             aria-hidden="true"
+            strokeWidth={1.8}
             className="
               h-(--icon-size-medium)
               w-(--icon-size-medium)
             "
-            strokeWidth={1.8}
           />
         </button>
       </div>
 
       <div
         className="
-          mt-1
-          h-[190px]
-          w-full
-          shrink-0
+          mt-1 h-[190px] w-full shrink-0
           overflow-hidden
           rounded-md
 
@@ -138,14 +120,11 @@ function SelectedDestinationPanel({
         {hasValidImage ? (
           <img
             src={destination.image}
-            alt={destination.title}
+            alt={destination.imageAlt || destination.title}
             loading="lazy"
-            onError={() =>
-              setFailedImage(destination.image)
-            }
+            onError={() => setFailedImage(destination.image)}
             className="
-              h-full
-              w-full
+              h-full w-full
               object-cover
             "
           />
@@ -178,48 +157,37 @@ function SelectedDestinationPanel({
         {destination.title}
       </h2>
 
-      <div
-        className="
-          mt-1
-
-          lg:mt-0
-        "
-      >
+      <div className="mt-1 lg:mt-0">
         <DestinationMetadata
           location={destination.location}
           unescoYear={destination.unescoYear}
         />
       </div>
 
-      <p
-        className="
-          mt-2
+      {description && (
+        <p
+          className="
+            mt-2
 
-          font-body
-          text-mobile-body
-          text-text-secondary
+            font-body
+            text-mobile-body
+            text-text-secondary
 
-          lg:mt-0
-          lg:text-body-regular
-        "
-      >
-        {destination.mapDescription ||
-          destination.description ||
-          destination.about}
-      </p>
+            lg:mt-0
+            lg:text-body-regular
+          "
+        >
+          {description}
+        </p>
+      )}
 
-      {/* QUICK INFO */}
       <div
         className="
           mt-2
 
-          grid
-          grid-cols-2
-          gap-1
+          grid grid-cols-2 gap-1
 
-          border-y
-          border-border-light
-
+          border-y border-border-light
           py-2
 
           lg:mt-0
@@ -228,41 +196,30 @@ function SelectedDestinationPanel({
       >
         <InfoRow
           icon={Clock3}
-          title={t(
-            'selectedDestinationPanel.workingHours'
-          )}
+          title={t('selectedDestinationPanel.workingHours')}
         >
           <p className="whitespace-pre-line">
             {destination.mapInfo?.workingHours ||
-              t(
-                'selectedDestinationPanel.viewPracticalInfo'
-              )}
+              t('selectedDestinationPanel.viewPracticalInfo')}
           </p>
         </InfoRow>
 
         <InfoRow
           icon={Ticket}
-          title={t(
-            'selectedDestinationPanel.admission'
-          )}
+          title={t('selectedDestinationPanel.admission')}
         >
           <p className="whitespace-pre-line">
             {destination.mapInfo?.admission ||
-              t(
-                'selectedDestinationPanel.viewDestinationInfo'
-              )}
+              t('selectedDestinationPanel.viewDestinationInfo')}
           </p>
         </InfoRow>
       </div>
 
-      {/* ACTIONS */}
       <div
         className="
           mt-2
 
-          grid
-          grid-cols-1
-          gap-1
+          grid grid-cols-1 gap-1
 
           sm:grid-cols-2
           sm:gap-2
@@ -283,29 +240,20 @@ function SelectedDestinationPanel({
             lg:px-2
           "
         >
-          {t(
-            'selectedDestinationPanel.exploreDestination'
-          )}
+          {t('selectedDestinationPanel.exploreDestination')}
         </Button>
 
         <a
           href={mapsUrl}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           className="
-            inline-flex
-            h-5
-            w-full
-            items-center
-            justify-center
-            gap-1
-
+            inline-flex h-5 w-full
+            items-center justify-center gap-1
             whitespace-nowrap
 
             rounded-md
-            border
-            border-accent-orange
-
+            border border-accent-orange
             px-2
 
             font-body
@@ -313,8 +261,7 @@ function SelectedDestinationPanel({
             text-accent-orange
 
             transition-[border-color,color,box-shadow]
-            duration-200
-            ease-out
+            duration-200 ease-out
 
             hover:border-accent-antique
             hover:text-accent-antique

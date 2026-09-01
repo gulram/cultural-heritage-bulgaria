@@ -1,16 +1,189 @@
-# React + Vite
+# Културно наследство България
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Интерактивна уеб платформа за представяне на пет избрани български културни обекта, включени в Списъка на световното наследство на ЮНЕСКО.
 
-Currently, two official plugins are available:
+Проектът е разработен като част от дипломна работа и има за цел да обедини културно-историческа информация, практически туристически сведения, изображения и интерактивно картографско представяне в единен responsive интерфейс.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Представени обекти
 
-## React Compiler
+- Рилски манастир
+- Старият град в Несебър
+- Боянска църква
+- Мадарски конник
+- Казанлъшка гробница
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Основни функционалности
 
-## Expanding the ESLint configuration
+- каталог с петте културни дестинации;
+- динамични страници с подробна информация за всеки обект;
+- историческа и практическа информация;
+- галерия с изображения;
+- интерактивна карта с маркери за отделните дестинации;
+- връзки към Google Maps;
+- българска и английска езикова версия;
+- responsive интерфейс за desktop, tablet и mobile устройства;
+- състояния за зареждане, грешка и липсващи данни.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Използвани технологии
+
+| Технология | Предназначение |
+| --- | --- |
+| React | Изграждане на потребителския интерфейс |
+| Vite | Development и build среда |
+| Tailwind CSS | Стилизиране и responsive дизайн |
+| React Router | Навигация между страниците |
+| Supabase | PostgreSQL база данни и съхранение на изображения |
+| Leaflet | Интерактивна карта |
+| React Leaflet | Интеграция на Leaflet с React |
+| i18next | Многоезична поддръжка |
+| react-i18next | Интеграция на i18next с React |
+| Lucide React | Икони |
+
+## Структура на проекта
+
+```text
+src/
+├── assets/
+├── components/
+│   ├── destination/
+│   ├── home/
+│   ├── layout/
+│   ├── map/
+│   └── ui/
+├── hooks/
+├── i18n/
+│   ├── bg.js
+│   ├── en.js
+│   └── index.js
+├── lib/
+├── pages/
+├── routes/
+├── services/
+├── styles/
+├── utils/
+├── App.jsx
+└── main.jsx
+```
+
+### Основни слоеве
+
+Данните за дестинациите се съхраняват в Supabase и се извличат чрез отделен service слой.
+
+```text
+Supabase
+   ↓
+destinationService.js
+   ↓
+useDestinations.js
+   ↓
+Pages
+   ↓
+Components
+```
+
+`destinationService.js` преобразува данните от структурата на базата данни към модел, използван от React компонентите.
+
+`useDestinations.js` управлява асинхронното зареждане, състоянието за грешка и повторното извличане на данните.
+
+Компонентите са разделени според предназначението им, а страниците координират визуализирането на отделните секции.
+
+## База данни
+
+Данните се съхраняват в Supabase PostgreSQL.
+
+Основните таблици са:
+
+```text
+destinations
+destination_translations
+destination_images
+```
+
+`destinations` съдържа основните данни за обектите и техните координати.
+
+`destination_translations` съдържа локализираното съдържание на български и английски език.
+
+`destination_images` съдържа информацията за изображенията и връзките към файловете в Supabase Storage.
+
+Изображенията се съхраняват в Supabase Storage bucket:
+
+```text
+destination-images
+```
+
+## Стартиране на проекта
+
+Проектът изисква Node.js и npm.
+
+Инсталиране на зависимостите:
+
+```bash
+npm install
+```
+
+Стартиране в development режим:
+
+```bash
+npm run dev
+```
+
+Production build:
+
+```bash
+npm run build
+```
+
+Преглед на production build:
+
+```bash
+npm run preview
+```
+
+Проверка с ESLint:
+
+```bash
+npm run lint
+```
+
+## Environment variables
+
+За връзката със Supabase е необходимо да се създаде локален `.env` или `.env.local` файл:
+
+```env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key
+```
+
+Environment файловете не се включват в Git repository.
+
+## Маршрути
+
+| Маршрут | Съдържание |
+| --- | --- |
+| `/` | Начална страница и каталог |
+| `/destinations/:slug` | Детайлна страница на дестинация |
+| `/map` | Интерактивна карта |
+
+## Езикова поддръжка
+
+Интерфейсът поддържа:
+
+```text
+bg — Български
+en — English
+```
+
+Текстовете на интерфейса се управляват чрез `i18next`, а локализираното съдържание за дестинациите се извлича от Supabase според избрания език.
+
+## Дизайн
+
+Потребителският интерфейс е разработен предварително като Figma прототип и впоследствие реализиран с React и Tailwind CSS.
+
+Основните шрифтове са:
+
+```text
+Playfair Display — заглавия
+Inter — основен текст и интерфейсни елементи
+```
+
+Интерфейсът е адаптиран за различни размери на екрана и използва обща система от цветове, типография, spacing, border radius и други дизайн стойности.

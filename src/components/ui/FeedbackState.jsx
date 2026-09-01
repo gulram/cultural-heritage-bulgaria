@@ -1,4 +1,7 @@
-import { Search, TriangleAlert } from 'lucide-react'
+import {
+  Search,
+  TriangleAlert,
+} from 'lucide-react'
 
 import Button from './Button'
 
@@ -23,23 +26,21 @@ function FeedbackState({
   const { icon: Icon } =
     VARIANTS[variant] ?? VARIANTS.error
 
+  const hasAction = Boolean(
+    actionLabel && (onAction || to)
+  )
+
   return (
     <div
       className={`
-        flex
-        w-full
-        flex-col
-        items-center
-        justify-center
+        flex w-full flex-col
+        items-center justify-center
 
         rounded-lg
-        border
-        border-border-light
+        border border-border-light
         bg-surface
-
         p-5
         text-center
-
         shadow-default
 
         ${className}
@@ -47,11 +48,8 @@ function FeedbackState({
     >
       <div
         className="
-          flex
-          h-(--spacing-6)
-          w-(--spacing-6)
-          items-center
-          justify-center
+          flex h-(--spacing-6) w-(--spacing-6)
+          items-center justify-center
 
           rounded-full
           bg-accent-orange/20
@@ -85,8 +83,7 @@ function FeedbackState({
       {description && (
         <p
           className="
-            mt-2
-            max-w-[320px]
+            mt-2 max-w-[320px]
 
             font-body
             text-mobile-small
@@ -99,7 +96,7 @@ function FeedbackState({
         </p>
       )}
 
-      {actionLabel && (onAction || to) && (
+      {hasAction && (
         <Button
           to={to}
           variant="filled"

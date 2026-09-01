@@ -6,31 +6,27 @@ function InfoRow({
   return (
     <div
       className="
-        grid
-        w-full
+        grid w-full
         grid-cols-[var(--spacing-3)_minmax(0,1fr)]
-        items-start
+        items-start 
         gap-2
       "
     >
       <Icon
         aria-hidden="true"
+        strokeWidth={1.5}
         className="
-          h-3
-          w-3
+          h-3 w-3 
           shrink-0
           text-accent-orange
         "
-        strokeWidth={1.5}
       />
 
       <div className="min-w-0">
         <h3
           className="
-            font-body
-            text-mobile-section
-            text-text-primary
-
+            font-body text-mobile-section text-text-primary
+            
             lg:text-section-small
           "
         >
@@ -40,10 +36,8 @@ function InfoRow({
         <div
           className="
             mt-1
-            font-body
-            text-mobile-small
-            text-text-secondary
-
+            font-body text-mobile-small text-text-secondary
+            
             lg:text-body-small
           "
         >

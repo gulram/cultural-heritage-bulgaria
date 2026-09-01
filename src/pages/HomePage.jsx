@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
@@ -10,91 +10,101 @@ import DestinationCard from '../components/home/DestinationCard'
 import InteractiveMapBanner from '../components/home/InteractiveMapBanner'
 
 import FeedbackState from '../components/ui/FeedbackState'
-import NoResultsState from '../components/ui/NoResultsState'
 import LoadingSkeleton from '../components/ui/LoadingSkeleton'
 
-import { getDestinations } from '../services/destinationService'
+import useDestinations from '../hooks/useDestinations'
+
+const ABOUT_ITEMS = [
+  {
+    titleKey: 'home.goal.title',
+    descriptionKey: 'home.goal.description',
+  },
+  {
+    titleKey: 'home.interactiveMap.title',
+    descriptionKey: 'home.interactiveMap.description',
+  },
+  {
+    titleKey: 'home.heritage.title',
+    descriptionKey: 'home.heritage.description',
+  },
+  {
+    titleKey: 'home.technologies.title',
+    descriptionKey: 'home.technologies.description',
+  },
+]
+
+function AboutItem({
+  title,
+  description,
+}) {
+  return (
+    <article>
+      <h3
+        className="
+          border-b border-border-light
+          pb-2
+
+          font-body
+          text-section-small
+          uppercase
+          tracking-[0.08em]
+          text-text-primary
+        "
+      >
+        {title}
+      </h3>
+
+      <p
+        className="
+          mt-3
+
+          font-body
+          text-mobile-body
+          text-text-secondary
+
+          md:text-body-small
+        "
+      >
+        {description}
+      </p>
+    </article>
+  )
+}
 
 function HomePage() {
   const location = useLocation()
   const { t, i18n } = useTranslation()
 
   const locale =
-    i18n.resolvedLanguage === 'en'
-      ? 'en'
-      : 'bg'
+    i18n.resolvedLanguage === 'en' ? 'en' : 'bg'
 
-  const [destinations, setDestinations] = useState([])
-  const [error, setError] = useState(null)
-  const [retryCount, setRetryCount] = useState(0)
-
-  const [resolvedRequest, setResolvedRequest] =
-    useState({
-      locale: null,
-      retryCount: -1,
-    })
-
-  const isLoading =
-    resolvedRequest.locale !== locale ||
-    resolvedRequest.retryCount !== retryCount
+  const {
+    destinations,
+    isLoading,
+    error,
+    retry,
+  } = useDestinations(locale)
 
   useEffect(() => {
-    let isCancelled = false
+    const previousTitle = document.title
 
-    getDestinations(locale)
-      .then((data) => {
-        if (isCancelled) {
-          return
-        }
-
-        setDestinations(data)
-        setError(null)
-      })
-      .catch((err) => {
-        console.error(err)
-
-        if (isCancelled) {
-          return
-        }
-
-        setError(err.message)
-      })
-      .finally(() => {
-        if (isCancelled) {
-          return
-        }
-
-        setResolvedRequest({
-          locale,
-          retryCount,
-        })
-      })
+    document.title =
+      locale === 'en'
+        ? 'Cultural Heritage Bulgaria'
+        : 'Културно наследство България'
 
     return () => {
-      isCancelled = true
+      document.title = previousTitle
     }
-  }, [locale, retryCount])
-
-  const handleRetry = () => {
-    setRetryCount(
-      (current) => current + 1
-    )
-  }
+  }, [locale])
 
   useEffect(() => {
-    if (!location.hash || isLoading) {
-      return
-    }
+    if (!location.hash) return
 
-    const sectionId =
-      location.hash.replace('#', '')
+    const sectionId = location.hash.slice(1)
+    const section = document.getElementById(sectionId)
 
-    const section =
-      document.getElementById(sectionId)
-
-    if (!section) {
-      return
-    }
+    if (!section) return
 
     const frame = requestAnimationFrame(() => {
       section.scrollIntoView({
@@ -106,7 +116,7 @@ function HomePage() {
     return () => {
       cancelAnimationFrame(frame)
     }
-  }, [location.hash, isLoading])
+  }, [location.hash])
 
   return (
     <>
@@ -115,21 +125,21 @@ function HomePage() {
       <main>
         <Hero />
 
-        {/* DESTINATIONS */}
         <section
           id="destinations"
           aria-labelledby="destinations-title"
           className="
-            mx-auto
-            max-w-main
+            mx-auto max-w-main
             scroll-mt-20
 
-            px-4
-            py-6
+            px-4 py-6
 
             sm:px-6
+
             md:px-4
+
             lg:px-5
+
             xl:px-0
           "
         >
@@ -163,8 +173,7 @@ function HomePage() {
 
             <p
               className="
-                mt-2
-                max-w-[720px]
+                mt-2 max-w-[720px]
 
                 font-body
                 text-mobile-small
@@ -179,63 +188,40 @@ function HomePage() {
             <div
               aria-hidden="true"
               className="
-                mt-3
-                h-px
-                w-full
+                mt-3 h-px w-full
                 bg-accent-orange/50
               "
             />
           </div>
 
-          <div
-            className="
-              mt-5
-
-              flex
-              flex-col
-              gap-5
-            "
-          >
-            {isLoading && (
+          <div className="mt-5 flex flex-col gap-5">
+            {isLoading ? (
               <LoadingSkeleton />
-            )}
-
-            {!isLoading && error && (
+            ) : error ? (
               <FeedbackState
                 variant="error"
                 title={t('feedback.error.title')}
-                description={t(
-                  'feedback.error.description'
-                )}
-                actionLabel={t(
-                  'feedback.error.retry'
-                )}
-                onAction={handleRetry}
+                description={t('feedback.error.description')}
+                actionLabel={t('feedback.error.retry')}
+                onAction={retry}
               />
-            )}
-
-            {!isLoading &&
-              !error &&
-              destinations.length === 0 && (
-                <NoResultsState />
-              )}
-
-            {!isLoading &&
-              !error &&
-              destinations.length > 0 &&
+            ) : destinations.length === 0 ? (
+              <FeedbackState
+                variant="empty"
+                title={t('feedback.noResults.title')}
+                description={t('feedback.noResults.description')}
+              />
+            ) : (
               destinations.map((destination) => (
                 <DestinationCard
                   key={destination.slug}
                   number={destination.number}
                   title={destination.title}
-                  description={
-                    destination.description
-                  }
+                  description={destination.description}
                   location={destination.location}
-                  unescoYear={
-                    destination.unescoYear
-                  }
+                  unescoYear={destination.unescoYear}
                   image={destination.image}
+                  imageAlt={destination.imageAlt}
                   slug={destination.slug}
                   imagePosition={
                     destination.number % 2 === 0
@@ -243,7 +229,8 @@ function HomePage() {
                       : 'left'
                   }
                 />
-              ))}
+              ))
+            )}
           </div>
 
           <div className="mt-5">
@@ -251,38 +238,28 @@ function HomePage() {
           </div>
         </section>
 
-        {/* ABOUT */}
         <section
           id="about"
           aria-labelledby="about-title"
           className="
             scroll-mt-[72px]
+
             bg-background-primary
 
-            px-4
-            py-6
+            px-4 py-6
 
             sm:px-6
+
             md:px-4
+
             lg:px-5
             lg:py-7
+
             xl:px-0
           "
         >
-          <div
-            className="
-              mx-auto
-              w-full
-              max-w-main
-            "
-          >
-            <div
-              className="
-                mx-auto
-                max-w-[760px]
-                text-center
-              "
-            >
+          <div className="mx-auto w-full max-w-main">
+            <div className="mx-auto max-w-[760px] text-center">
               <p
                 className="
                   font-body
@@ -312,8 +289,7 @@ function HomePage() {
 
               <p
                 className="
-                  mx-auto
-                  mt-4
+                  mx-auto mt-4
                   max-w-[680px]
 
                   font-body
@@ -329,149 +305,21 @@ function HomePage() {
 
             <div
               className="
-                mx-auto
-                mt-5
+                mx-auto mt-5
+                grid max-w-[900px] grid-cols-1
 
-                grid
-                max-w-[900px]
-                grid-cols-1
-                gap-x-6
-                gap-y-10
+                gap-x-6 gap-y-10
 
                 md:grid-cols-2
               "
             >
-              <article>
-                <h3
-                  className="
-                    border-b
-                    border-border-light
-                    pb-2
-
-                    font-body
-                    text-section-small
-                    uppercase
-                    tracking-[0.08em]
-                    text-text-primary
-                  "
-                >
-                  {t('home.goal.title')}
-                </h3>
-
-                <p
-                  className="
-                    mt-3
-
-                    font-body
-                    text-mobile-body
-                    text-text-secondary
-
-                    md:text-body-small
-                  "
-                >
-                  {t('home.goal.description')}
-                </p>
-              </article>
-
-              <article>
-                <h3
-                  className="
-                    border-b
-                    border-border-light
-                    pb-2
-
-                    font-body
-                    text-section-small
-                    uppercase
-                    tracking-[0.08em]
-                    text-text-primary
-                  "
-                >
-                  {t('home.interactiveMap.title')}
-                </h3>
-
-                <p
-                  className="
-                    mt-3
-
-                    font-body
-                    text-mobile-body
-                    text-text-secondary
-
-                    md:text-body-small
-                  "
-                >
-                  {t(
-                    'home.interactiveMap.description'
-                  )}
-                </p>
-              </article>
-
-              <article>
-                <h3
-                  className="
-                    border-b
-                    border-border-light
-                    pb-2
-
-                    font-body
-                    text-section-small
-                    uppercase
-                    tracking-[0.08em]
-                    text-text-primary
-                  "
-                >
-                  {t('home.heritage.title')}
-                </h3>
-
-                <p
-                  className="
-                    mt-3
-
-                    font-body
-                    text-mobile-body
-                    text-text-secondary
-
-                    md:text-body-small
-                  "
-                >
-                  {t('home.heritage.description')}
-                </p>
-              </article>
-
-              <article>
-                <h3
-                  className="
-                    border-b
-                    border-border-light
-                    pb-2
-
-                    font-body
-                    text-section-small
-                    uppercase
-                    tracking-[0.08em]
-                    text-text-primary
-                  "
-                >
-                  {t('home.technologies.title')}
-                </h3>
-
-                <p
-                  className="
-                    mt-3
-
-                    font-body
-                    text-mobile-body
-                    text-text-secondary
-
-                    md:text-body-small
-                  "
-                >
-                  {t(
-                    'home.technologies.description'
-                  )}
-                </p>
-              </article>
+              {ABOUT_ITEMS.map((item) => (
+                <AboutItem
+                  key={item.titleKey}
+                  title={t(item.titleKey)}
+                  description={t(item.descriptionKey)}
+                />
+              ))}
             </div>
           </div>
         </section>

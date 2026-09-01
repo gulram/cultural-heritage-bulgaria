@@ -1,10 +1,9 @@
 import { useState } from 'react'
-import { ArrowLeft } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { ArrowLeft } from 'lucide-react'
 
 import Button from '../ui/Button'
 import DestinationMetadata from './DestinationMetadata'
-import ImageFallback from '../ui/ImageFallback'
 
 function DestinationHero({
   title,
@@ -16,86 +15,48 @@ function DestinationHero({
   const [failedImage, setFailedImage] = useState(null)
 
   const hasValidImage =
-    Boolean(image) &&
-    failedImage !== image
+    Boolean(image) && failedImage !== image
+
+  const handleImageError = () => {
+    setFailedImage(image)
+  }
 
   return (
     <section
       className="
-        relative
-        min-h-[340px]
-        overflow-hidden
-
+        relative min-h-[340px] overflow-hidden bg-primary
         md:min-h-[380px]
       "
     >
-      {hasValidImage ? (
+      {hasValidImage && (
         <img
           src={image}
           alt=""
           aria-hidden="true"
-          onError={() =>
-            setFailedImage(image)
-          }
+          onError={handleImageError}
           className="
-            absolute
-            inset-0
-            h-full
-            w-full
-            object-cover
-            object-center
-          "
-        />
-      ) : (
-        <ImageFallback
-          className="
-            absolute
-            inset-0
-            h-full
-
-            rounded-none
-            border-0
-            shadow-none
-
-            [&_h3]:hidden
-            [&_p]:hidden
+            absolute inset-0
+            h-full w-full object-cover object-center
           "
         />
       )}
 
       <div
         aria-hidden="true"
-        className="
-          absolute
-          inset-0
-          bg-black/45
-        "
+        className="absolute inset-0 bg-black/45"
       />
 
       <div
         className="
-          relative
-          z-10
-
-          mx-auto
-          flex
-          min-h-[340px]
-          w-full
-          max-w-main
-          flex-col
-          justify-end
-
-          px-4
-          pb-10
-          pt-[100px]
-
+          relative z-10 mx-auto
+          
+          flex min-h-[340px] w-full max-w-main flex-col justify-end
+          
+          px-4 pb-10 pt-[100px]
+          
           sm:px-6
-
-          md:min-h-[380px]
-          md:px-4
-
+          md:min-h-[380px] md:px-4
           lg:px-5
-
           xl:px-0
         "
       >
@@ -112,10 +73,7 @@ function DestinationHero({
 
         <h1
           className="
-            font-heading
-            text-mobile-h1
-            text-white
-
+            font-heading text-mobile-h1 text-white
             lg:text-h1
           "
         >

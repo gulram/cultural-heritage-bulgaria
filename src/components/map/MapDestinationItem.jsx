@@ -5,34 +5,37 @@ function MapDestinationItem({
   isSelected = false,
   onClick,
 }) {
+  const borderClass = isSelected
+    ? 'border-accent-orange shadow-hover'
+    : 'border-border-light'
+
+  const numberClass = isSelected
+    ? 'bg-accent-terracotta'
+    : 'bg-accent-orange'
+
+  const handleClick = () => {
+    onClick?.(destination)
+  }
+
   return (
     <button
       type="button"
-      onClick={() => onClick?.(destination)}
+      onClick={handleClick}
       aria-pressed={isSelected}
       className={`
         group
-
-        flex
-        w-full
-        min-w-0
-        items-center
-        gap-2
+        flex w-full min-w-0 items-center gap-2
 
         rounded-md
         border
         bg-background-card
 
-        px-3
-        py-2
-
+        px-3 py-2
         text-left
-
         shadow-default
 
         transition-[border-color,box-shadow,transform]
-        duration-200
-        ease-out
+        duration-200 ease-out
 
         hover:-translate-y-[1px]
         hover:border-accent-orange
@@ -43,57 +46,32 @@ function MapDestinationItem({
         focus-visible:ring-accent-orange
         focus-visible:ring-offset-2
 
-        ${
-          isSelected
-            ? `
-              border-accent-orange
-              shadow-hover
-            `
-            : `
-              border-border-light
-            `
-        }
+        ${borderClass}
       `}
     >
       <span
         className={`
-          flex
-          h-4
-          w-4
-          shrink-0
-          items-center
-          justify-center
+          flex h-4 w-4 shrink-0
+          items-center justify-center
 
           rounded-md
 
           font-heading
-          text-[18px]
-          font-semibold
+          text-[18px] font-semibold
           text-white
 
-          transition-colors
-          duration-200
+          transition-colors duration-200
 
-          ${
-            isSelected
-              ? 'bg-accent-terracotta'
-              : 'bg-accent-orange'
-          }
+          ${numberClass}
         `}
       >
         {destination.number}
       </span>
 
-      <span
-        className="
-          min-w-0
-          flex-1
-        "
-      >
+      <span className="min-w-0 flex-1">
         <span
           className="
-            block
-            truncate
+            block truncate
 
             font-heading
             text-mobile-h3
@@ -106,10 +84,7 @@ function MapDestinationItem({
         <span
           className="
             mt-1
-
-            flex
-            items-center
-            gap-1
+            flex items-center gap-1
 
             font-body
             text-mobile-small
@@ -120,13 +95,13 @@ function MapDestinationItem({
         >
           <MapPin
             aria-hidden="true"
+            strokeWidth={1.8}
             className="
               h-(--icon-size-small)
               w-(--icon-size-small)
               shrink-0
               text-accent-orange
             "
-            strokeWidth={1.8}
           />
 
           <span className="truncate">

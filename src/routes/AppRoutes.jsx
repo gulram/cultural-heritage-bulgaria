@@ -4,6 +4,7 @@ import {
 } from 'react'
 
 import {
+  Navigate,
   Route,
   Routes,
 } from 'react-router-dom'
@@ -33,9 +34,21 @@ function AppRoutes() {
       <Route
         path="/map"
         element={
-          <Suspense fallback={<PageLoader />}>
+          <Suspense
+            fallback={<PageLoader />}
+          >
             <MapPage />
           </Suspense>
+        }
+      />
+
+      <Route
+        path="*"
+        element={
+          <Navigate
+            to="/"
+            replace
+          />
         }
       />
     </Routes>

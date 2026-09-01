@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import Button from '../ui/Button'
 
-import mapImage from '../../assets/bulgaria-map-banner.png'
+import mapImage from '../../assets/bulgaria-map-banner.webp'
 import mapRouteIcon from '../../assets/map-route.png'
 
 function InteractiveMapBanner() {
@@ -13,29 +13,18 @@ function InteractiveMapBanner() {
     <section
       aria-labelledby="map-banner-title"
       className="
-        group
-        relative
-
-        mx-auto
-        h-[220px]
-        w-full
-        max-w-none
+        group relative
+        mx-auto h-[220px] w-full max-w-none
         overflow-hidden
 
         rounded-lg
-        border
-        border-border-light
+        border border-border-light
         bg-background-highlight
-
         shadow-default
 
-        transition-shadow
-        duration-200
-        ease-out
+        transition-shadow duration-200 ease-out
 
         hover:shadow-hover
-
-        sm:max-w-none
       "
     >
       <img
@@ -44,27 +33,19 @@ function InteractiveMapBanner() {
         aria-hidden="true"
         loading="lazy"
         className="
-          pointer-events-none
-          absolute
-
-          bottom-[-42px]
-          left-1/2
+          pointer-events-none absolute
+          bottom-[-42px] left-1/2
           -translate-x-1/2
 
-          w-[310px]
-          max-w-none
+          w-[310px] max-w-none
           object-contain
-
           opacity-[0.28]
 
-          transition-opacity
-          duration-200
-          ease-out
+          transition-opacity duration-200 ease-out
 
           sm:w-[390px]
 
-          md:left-auto
-          md:right-[-5px]
+          md:left-auto md:right-[-5px]
           md:translate-x-0
           md:w-[460px]
           md:opacity-[0.45]
@@ -79,25 +60,15 @@ function InteractiveMapBanner() {
 
       <div
         className="
-          absolute
-          left-[18px]
-          right-[18px]
-          top-[18px]
-          z-10
+          absolute left-[18px] right-[18px] top-[18px] z-10
 
-          flex
-          items-start
-          gap-2
+          flex items-start gap-2
 
-          md:left-6
-          md:right-auto
-          md:top-5
+          md:left-6 md:right-auto md:top-5
 
-          lg:left-10
-          lg:top-1/2
+          lg:left-10 lg:top-1/2
           lg:-translate-y-1/2
-          lg:items-center
-          lg:gap-5
+          lg:items-center lg:gap-5
         "
       >
         <img
@@ -106,13 +77,10 @@ function InteractiveMapBanner() {
           aria-hidden="true"
           loading="lazy"
           className="
-            h-10
-            w-10
-            shrink-0
+            h-10 w-10 shrink-0
             object-contain
 
-            lg:h-16
-            lg:w-16
+            lg:h-16 lg:w-16
           "
         />
 
@@ -157,10 +125,7 @@ function InteractiveMapBanner() {
 
       <div
         className="
-          absolute
-          bottom-[18px]
-          left-1/2
-          z-20
+          absolute bottom-[18px] left-1/2 z-20
           -translate-x-1/2
 
           lg:bottom-auto

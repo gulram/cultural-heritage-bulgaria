@@ -2,9 +2,25 @@ import { useTranslation } from 'react-i18next'
 
 import MapDestinationItem from './MapDestinationItem'
 
+function getItemLayoutClass(index) {
+  if (index < 3) {
+    return 'lg:col-span-2'
+  }
+
+  if (index === 3) {
+    return 'lg:col-start-2 lg:col-span-2'
+  }
+
+  if (index === 4) {
+    return 'lg:col-span-2'
+  }
+
+  return ''
+}
+
 function MapDestinationList({
-  destinations,
-  selectedSlug,
+  destinations = [],
+  selectedSlug = null,
   onSelectDestination,
 }) {
   const { t } = useTranslation()
@@ -12,17 +28,12 @@ function MapDestinationList({
   return (
     <section
       aria-labelledby="map-destinations-title"
-      className="
-        mt-6
-
-        lg:mt-9
-      "
+      className="mt-6 lg:mt-9"
     >
       <p
         className="
           font-body
           text-section
-
           uppercase
           tracking-[0.12em]
           text-accent-orange
@@ -48,9 +59,7 @@ function MapDestinationList({
         className="
           mt-4
 
-          grid
-          grid-cols-1
-          gap-3
+          grid grid-cols-1 gap-3
 
           sm:grid-cols-2
 
@@ -64,25 +73,7 @@ function MapDestinationList({
           return (
             <div
               key={destination.slug}
-              className={`
-                ${
-                  index < 3
-                    ? 'lg:col-span-2'
-                    : ''
-                }
-
-                ${
-                  index === 3
-                    ? 'lg:col-start-2 lg:col-span-2'
-                    : ''
-                }
-
-                ${
-                  index === 4
-                    ? 'lg:col-span-2'
-                    : ''
-                }
-              `}
+              className={getItemLayoutClass(index)}
             >
               <MapDestinationItem
                 destination={destination}

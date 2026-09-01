@@ -1,84 +1,51 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import ImageFallback from '../ui/ImageFallback'
-
 function MapHero({ image }) {
   const { t } = useTranslation()
-
   const [failedImage, setFailedImage] = useState(null)
 
   const hasValidImage =
-    Boolean(image) &&
-    failedImage !== image
+    Boolean(image) && failedImage !== image
 
   return (
     <section
       className="
-        relative
-        min-h-[260px]
+        relative min-h-[260px]
         overflow-hidden
+        bg-primary
 
         md:min-h-[280px]
       "
     >
-      {hasValidImage ? (
+      {hasValidImage && (
         <img
           src={image}
           alt=""
           aria-hidden="true"
-          onError={() =>
-            setFailedImage(image)
-          }
+          onError={() => setFailedImage(image)}
           className="
-            absolute
-            inset-0
-            h-full
-            w-full
-            object-cover
-            object-center
-          "
-        />
-      ) : (
-        <ImageFallback
-          className="
-            absolute
-            inset-0
-            h-full
+            absolute inset-0
 
-            rounded-none
-            border-0
-            shadow-none
-
-            [&_h3]:hidden
-            [&_p]:hidden
+            h-full w-full
+            object-cover object-center
           "
         />
       )}
 
       <div
         aria-hidden="true"
-        className="
-          absolute
-          inset-0
-          bg-black/40
-        "
+        className="absolute inset-0 bg-black/40"
       />
 
       <div
         className="
-          relative
-          z-10
+          relative z-10 mx-auto
 
-          mx-auto
-          flex
-          min-h-[260px]
-          w-full
-          max-w-main
+          flex min-h-[260px] w-full max-w-main
           items-center
 
-          px-4
-          pt-[72px]
+          px-4 pt-[72px]
 
           sm:px-6
 
@@ -90,12 +57,7 @@ function MapHero({ image }) {
           xl:px-0
         "
       >
-        <div
-          className="
-            max-w-[700px]
-            text-white
-          "
-        >
+        <div className="max-w-[700px] text-white">
           <h1
             className="
               font-heading
@@ -109,8 +71,7 @@ function MapHero({ image }) {
 
           <p
             className="
-              mt-3
-              max-w-[650px]
+              mt-3 max-w-[650px]
 
               font-body
               text-mobile-body

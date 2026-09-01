@@ -4,34 +4,24 @@ function KeyFactCard({
   description,
 }) {
   return (
-    <div
-      className="
-        flex
-        min-w-0
-        shrink-0
-        items-center
-        gap-2
-      "
-    >
+    <div className="flex min-w-0 shrink-0 items-center gap-2">
       <div
         className="
-          flex
-          h-(--spacing-5)
-          w-(--spacing-5)
+          flex 
+          h-(--spacing-5) w-(--spacing-5) 
           shrink-0
-          items-center
+          items-center 
           justify-center
-
           text-primary
         "
       >
         <Icon
           aria-hidden="true"
+          strokeWidth={1.4}
           className="
             h-(--spacing-4)
             w-(--spacing-4)
           "
-          strokeWidth={1.4}
         />
       </div>
 
@@ -39,12 +29,8 @@ function KeyFactCard({
         <p
           className="
             whitespace-nowrap
-
-            font-heading
-            text-mobile-h3
-            uppercase
-            text-primary
-
+            font-heading text-mobile-h3 uppercase text-primary
+            
             lg:text-h3
           "
         >
@@ -53,13 +39,10 @@ function KeyFactCard({
 
         <p
           className="
-            mt-1
+            mt-1 
             max-w-[175px]
-
-            font-body
-            text-mobile-small
-            text-text-secondary
-
+            font-body text-mobile-small text-text-secondary
+            
             lg:text-body-small
           "
         >
