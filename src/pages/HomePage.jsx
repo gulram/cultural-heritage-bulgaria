@@ -279,7 +279,7 @@ function HomePage() {
 
                   font-heading
                   text-mobile-h2
-                  text-primary
+                  text-text-primary
 
                   md:text-h2
                 "

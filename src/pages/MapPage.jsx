@@ -14,7 +14,7 @@ import LoadingSkeleton from '../components/ui/LoadingSkeleton'
 
 import useDestinations from '../hooks/useDestinations'
 
-import heroImage from '../assets/rila-hero.png'
+import heroImage from '../assets/rila-hero.webp'
 
 function MapPage() {
   const { t, i18n } = useTranslation()

@@ -18,7 +18,8 @@ function RelatedDestinationsSection({
       className="
         mt-8 
         rounded-lg
-        bg-primary p-4
+        bg-background-primary
+        p-4
         
         lg:p-5
       "

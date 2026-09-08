@@ -12,7 +12,7 @@ function KeyFactCard({
           shrink-0
           items-center 
           justify-center
-          text-primary
+          text-text-primary
         "
       >
         <Icon
@@ -29,7 +29,7 @@ function KeyFactCard({
         <p
           className="
             whitespace-nowrap
-            font-heading text-mobile-h3 uppercase text-primary
+            font-heading text-mobile-h3 uppercase text-text-primary
             
             lg:text-h3
           "

@@ -35,7 +35,7 @@ function DestinationContent({
             <h2
               id="about-destination-title"
               className="
-                font-heading text-mobile-h2 uppercase text-primary
+                font-heading text-mobile-h2 uppercase text-text-primary
                 
                 md:text-h3
               "

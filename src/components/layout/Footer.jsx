@@ -75,7 +75,7 @@ function Footer() {
   `
 
   return (
-    <footer className="w-full bg-primary text-white">
+    <footer className="w-full bg-brand text-white">
       <div
         className="
           mx-auto max-w-main
@@ -157,7 +157,7 @@ function Footer() {
             <h2
               className="
                 font-body
-                text-section
+                text-regular
                 uppercase
                 tracking-[0.12em]
                 text-white
@@ -219,8 +219,7 @@ function Footer() {
             <h2
               className="
                 font-body
-                text-[12px]
-                font-semibold
+                text-regular
                 uppercase
                 tracking-[0.12em]
                 text-white

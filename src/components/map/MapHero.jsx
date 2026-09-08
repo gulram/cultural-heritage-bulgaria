@@ -13,7 +13,7 @@ function MapHero({ image }) {
       className="
         relative min-h-[260px]
         overflow-hidden
-        bg-primary
+        bg-background-primary
 
         md:min-h-[280px]
       "

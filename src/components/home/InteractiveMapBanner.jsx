@@ -92,7 +92,7 @@ function InteractiveMapBanner() {
 
               font-heading
               text-mobile-h2
-              text-primary
+              text-text-primary
 
               sm:max-w-[300px]
 

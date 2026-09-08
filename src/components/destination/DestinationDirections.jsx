@@ -28,7 +28,7 @@ function DestinationDirections({
           font-heading
           text-mobile-h2
           uppercase
-          text-primary
+          text-text-primary
 
           md:text-h3
         "

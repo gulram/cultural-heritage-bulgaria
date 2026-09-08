@@ -44,6 +44,7 @@ function MapMarker({
   }, [isActive, markerNumber])
 
   const handleSelect = () => {
+    setIsHovered(false)
     onSelect?.(destination)
   }
 

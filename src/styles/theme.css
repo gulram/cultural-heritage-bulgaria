@@ -2,7 +2,7 @@
   /* COLORS */
 
   /* Brand */
-  --color-primary: #123B2E;
+  --color-brand: #123B2E;
   --color-accent-orange: #9A6200;
   --color-accent-antique: #7F4D00;
   --color-accent-light: #A85F00;
@@ -18,7 +18,6 @@
 
   /* Borders */
   --color-border-light: #E6E1D9;
-  --color-border-dark: #795717;
 
   /* Text */
   --color-text-primary: #1A1A1A;

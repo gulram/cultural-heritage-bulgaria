@@ -46,7 +46,7 @@ const VARIANT_STYLES = {
 
   primary: `
     border border-transparent
-    bg-primary
+    bg-brand
     text-white
     shadow-button
 

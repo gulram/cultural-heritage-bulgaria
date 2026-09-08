@@ -24,7 +24,8 @@ function DestinationHero({
   return (
     <section
       className="
-        relative min-h-[340px] overflow-hidden bg-primary
+        relative min-h-[340px] overflow-hidden 
+        bg-background-primary
         md:min-h-[380px]
       "
     >

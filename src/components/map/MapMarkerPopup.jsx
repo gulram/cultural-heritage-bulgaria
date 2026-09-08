@@ -61,7 +61,7 @@ function MapMarkerPopup({ destination }) {
   return (
     <div
       className="
-        w-[190px]
+        w-[210px]
         overflow-hidden
 
         rounded-md
@@ -78,14 +78,14 @@ function MapMarkerPopup({ destination }) {
         className="
           flex min-w-0
           items-start gap-2
-          p-2
+          p-1
 
           md:contents
         "
       >
         <div
           className="
-            h-14 w-16 shrink-0
+            h-15 w-16 shrink-0
             overflow-hidden
             rounded-sm
 
@@ -132,7 +132,7 @@ function MapMarkerPopup({ destination }) {
             className="
               min-w-0 max-w-full
               whitespace-normal
-              wrap-break-word
+              break-normal
 
               font-heading
               text-mobile-h3

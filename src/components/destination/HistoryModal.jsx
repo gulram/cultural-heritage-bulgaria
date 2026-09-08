@@ -181,9 +181,7 @@ function HistoryModal({
             focus-visible:ring-2
             focus-visible:ring-accent-orange
             focus-visible:ring-offset-2
-            
-            sm:right-5 
-            sm:top-5
+            sm:right-5 sm:top-5
           "
         >
           <X
@@ -205,7 +203,8 @@ function HistoryModal({
             <h2
               id="history-modal-title"
               className="
-                font-heading text-mobile-h2 uppercase text-primary
+                font-heading text-mobile-h2 uppercase 
+                text-text-primary
                 
                 md:text-h3 
                 md:whitespace-nowrap

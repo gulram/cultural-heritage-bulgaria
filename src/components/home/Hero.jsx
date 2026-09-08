@@ -133,7 +133,7 @@ function Hero() {
             md:mt-auto 
             md:max-w-[1080px] 
             md:flex-row 
-            md:gap-6 
+            md:gap-2 
             md:pb-3
             lg:gap-8
           "
