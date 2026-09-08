@@ -18,7 +18,7 @@ function RelatedDestinationsSection({
       className="
         mt-8 
         rounded-lg
-        bg-background-primary
+        bg-brand
         p-4
         
         lg:p-5
