@@ -54,7 +54,7 @@ function RelatedDestinationsSection({
         ))}
       </div>
 
-      <div className="mt-5">
+      <div className="mt-4">
         <InteractiveMapBanner />
       </div>
     </section>
