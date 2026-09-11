@@ -135,6 +135,8 @@ function Hero() {
             md:flex-row 
             md:gap-2 
             md:pb-3
+
+            lg:mt-3
             lg:gap-8
           "
         >
