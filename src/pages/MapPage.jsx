@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import Header from '../components/layout/Header'
@@ -31,6 +31,13 @@ function MapPage() {
 
   const [selectedSlug, setSelectedSlug] = useState(null)
 
+  const [
+    isDestinationListVisible,
+    setIsDestinationListVisible,
+  ] = useState(false)
+
+  const destinationListRef = useRef(null)
+
   useEffect(() => {
     const previousTitle = document.title
 
@@ -43,6 +50,27 @@ function MapPage() {
       document.title = previousTitle
     }
   }, [locale])
+
+  useEffect(() => {
+    const destinationList = destinationListRef.current
+
+    if (!destinationList) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsDestinationListVisible(entry.isIntersecting)
+      },
+      {
+        threshold: 0.15,
+      }
+    )
+
+    observer.observe(destinationList)
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [destinations.length])
 
   const selectedDestination =
     destinations.find(
@@ -59,6 +87,13 @@ function MapPage() {
 
   const handleClearSelection = () => {
     setSelectedSlug(null)
+  }
+
+  const handleScrollToDestinations = () => {
+    destinationListRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
   }
 
   const sectionWidthClass = selectedDestination
@@ -128,6 +163,62 @@ function MapPage() {
             />
           ) : (
             <>
+              {!isDestinationListVisible && (
+                <div
+                  className="
+                    sticky top-20 z-[500]
+
+                    mb-2
+                    flex justify-end
+
+                    pointer-events-none
+
+                    lg:hidden
+                  "
+                >
+                  <button
+                    type="button"
+                    onClick={handleScrollToDestinations}
+                    aria-controls="map-destination-list"
+                    className="
+                      pointer-events-auto
+
+                      flex items-center gap-1
+
+                      rounded-full
+                      border border-border-light
+                      bg-surface/95
+
+                      px-3 py-2
+
+                      font-body
+                      text-mobile-small
+                      text-accent-orange
+
+                      shadow-md
+                      backdrop-blur-sm
+
+                      transition
+                      duration-200
+
+                      hover:border-accent-orange
+                      hover:bg-background-highlight
+
+                      active:scale-[0.97]
+                    "
+                  >
+                    {t('mapPage.scrollToDestinations')}
+
+                    <span
+                      aria-hidden="true"
+                      className="text-base leading-none"
+                    >
+                      ↓
+                    </span>
+                  </button>
+                </div>
+              )}
+
               <div
                 className={`
                   grid w-full
@@ -154,11 +245,17 @@ function MapPage() {
                 )}
               </div>
 
-              <MapDestinationList
-                destinations={destinations}
-                selectedSlug={selectedSlug}
-                onSelectDestination={handleSelectDestination}
-              />
+              <div
+                ref={destinationListRef}
+                id="map-destination-list"
+                className="scroll-mt-24"
+              >
+                <MapDestinationList
+                  destinations={destinations}
+                  selectedSlug={selectedSlug}
+                  onSelectDestination={handleSelectDestination}
+                />
+              </div>
             </>
           )}
         </section>

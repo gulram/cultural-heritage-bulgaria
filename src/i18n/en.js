@@ -156,6 +156,7 @@ const en = {
 
     destinations: 'Destinations',
     selectDestination: 'Choose a destination',
+    scrollToDestinations: 'Scroll to Destinations',
   },
 
   feedback: {

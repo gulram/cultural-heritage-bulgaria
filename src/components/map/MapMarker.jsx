@@ -28,15 +28,17 @@ function MapMarker({
 
     return divIcon({
       className: 'destination-marker-icon',
-      iconSize: [46, 54],
-      iconAnchor: [23, 54],
-      tooltipAnchor: [0, -52],
+      iconSize: [64, 72],
+      iconAnchor: [32, 72],
+      tooltipAnchor: [0, -62],
       html: `
-        <div class="destination-marker ${activeClass}">
-          <div class="destination-marker__pin">
-            <span class="destination-marker__number">
-              ${number}
-            </span>
+        <div class="destination-marker-touch-target">
+          <div class="destination-marker ${activeClass}">
+            <div class="destination-marker__pin">
+              <span class="destination-marker__number">
+                ${number}
+              </span>
+            </div>
           </div>
         </div>
       `,

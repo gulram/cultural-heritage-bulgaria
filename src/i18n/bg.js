@@ -156,6 +156,7 @@ const bg = {
 
     destinations: 'Дестинации',
     selectDestination: 'Изберете дестинация',
+    scrollToDestinations: 'Виж дестинациите',
   },
 
   feedback: {

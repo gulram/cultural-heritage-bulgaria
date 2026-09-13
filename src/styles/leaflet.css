@@ -37,6 +37,25 @@
   border: 0;
 }
 
+.destination-marker-touch-target {
+  position: relative;
+
+  width: 64px;
+  height: 72px;
+
+  cursor: pointer;
+}
+
+.destination-marker-touch-target
+  .destination-marker {
+  position: absolute;
+
+  bottom: 0;
+  left: 50%;
+
+  transform: translateX(-50%);
+}
+
 .destination-marker {
   position: relative;
   width: 46px;
