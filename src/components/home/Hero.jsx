@@ -40,31 +40,22 @@ function Hero() {
       id="home"
       aria-labelledby="hero-title"
       className="
-        relative
-        min-h-[580px]
+        relative 
+        min-h-[580px] 
         overflow-hidden
-
+        
+        bg-cover 
+        bg-center
+        
         sm:min-h-[560px]
         md:min-h-[540px]
-        lg:h-[550px]
+        lg:h-[550px] 
         lg:min-h-0
       "
+      style={{
+        backgroundImage: `url(${heroImage})`,
+      }}
     >
-      <img
-        src={heroImage}
-        alt=""
-        aria-hidden="true"
-        width="1800"
-        height="1004"
-        loading="eager"
-        fetchPriority="high"
-        className="
-          absolute inset-0
-          h-full w-full
-          object-cover object-center
-        "
-      />
-
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-black/40"
@@ -73,18 +64,18 @@ function Hero() {
       <div
         className="
           relative z-10 mx-auto
-
+          
           flex min-h-[580px] w-full max-w-main flex-col
-
+          
           px-4 pb-5 pt-[92px]
           text-white
-
+          
           sm:min-h-[560px] sm:px-6
-
+          
           md:min-h-[540px] md:px-4 md:pt-[135px]
-
+          
           lg:h-full lg:min-h-0 lg:px-5
-
+          
           xl:px-0
         "
       >
@@ -93,9 +84,9 @@ function Hero() {
             id="hero-title"
             className="
               font-heading text-mobile-h1
-
+              
               [text-shadow:0_2px_8px_rgba(0,0,0,0.65)]
-
+              
               md:text-h1
             "
           >
@@ -108,13 +99,13 @@ function Hero() {
 
           <p
             className="
-              mt-4
+              mt-4 
               max-w-[350px]
               font-body text-mobile-body text-white/90
-
+              
               sm:max-w-[430px]
-              md:mt-3
-              md:max-w-[570px]
+              md:mt-3 
+              md:max-w-[570px] 
               md:text-body-regular
             "
           >
@@ -134,15 +125,15 @@ function Hero() {
 
         <div
           className="
-            mt-6
-            flex flex-col
+            mt-6 
+            flex flex-col 
             gap-3
-
+            
             sm:mt-7
-            md:mt-auto
-            md:max-w-[1080px]
-            md:flex-row
-            md:gap-2
+            md:mt-auto 
+            md:max-w-[1080px] 
+            md:flex-row 
+            md:gap-2 
             md:pb-3
 
             lg:mt-3

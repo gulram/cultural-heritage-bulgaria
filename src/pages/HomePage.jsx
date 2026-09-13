@@ -147,13 +147,15 @@ function HomePage() {
             <p
               className="
                 font-body
-                text-section
+                text-mobile-section
                 uppercase
                 tracking-[0.12em]
                 text-accent-orange
+
+                md:text-section
               "
             >
-              {t('home.topFive')}
+              {t('home.fiveDestinations')}
             </p>
 
             <h2

@@ -83,7 +83,7 @@ const en = {
   },
 
   home: {
-    topFive: 'FIVE SELECTED SITES',
+    fiveDestinations: 'FIVE SELECTED SITES',
     destinationsTitle: 'Five UNESCO World Heritage Sites in Bulgaria',
     selectionNote: 'The sites were selected for the purposes of this project and are not ranked by popularity.',
 
