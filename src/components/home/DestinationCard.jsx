@@ -119,8 +119,10 @@ function DestinationCard({
             shadow-button
 
             font-heading
-            text-[24px] font-semibold leading-none
+            text-mobile-h3
             text-white
+
+            lg:text-h3
 
             opacity-100
 

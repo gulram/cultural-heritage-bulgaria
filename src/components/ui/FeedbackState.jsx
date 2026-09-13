@@ -51,7 +51,7 @@ function FeedbackState({
           flex h-(--spacing-6) w-(--spacing-6)
           items-center justify-center
 
-          rounded-full
+          rounded-lg
           bg-accent-orange/20
           text-accent-orange
         "

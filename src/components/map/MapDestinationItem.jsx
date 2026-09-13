@@ -57,8 +57,10 @@ function MapDestinationItem({
           rounded-md
 
           font-heading
-          text-[18px] font-semibold
+          text-mobile-h3
           text-white
+
+          lg:text-h3
 
           transition-colors duration-200
 
@@ -76,6 +78,8 @@ function MapDestinationItem({
             font-heading
             text-mobile-h3
             text-text-primary
+
+            lg:text-h3
           "
         >
           {destination.title}

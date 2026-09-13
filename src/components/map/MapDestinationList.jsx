@@ -28,15 +28,17 @@ function MapDestinationList({
   return (
     <section
       aria-labelledby="map-destinations-title"
-      className="mt-6 lg:mt-9"
+      className="mt-4 lg:mt-9"
     >
       <p
         className="
           font-body
-          text-section
+          text-mobile-section
           uppercase
           tracking-[0.12em]
           text-accent-orange
+
+          lg:text-section
         "
       >
         {t('mapPage.destinations')}
@@ -48,8 +50,10 @@ function MapDestinationList({
           mt-1
 
           font-body
-          text-body-regular
+          text-mobile-body
           text-text-secondary
+
+          lg:text-body-regular
         "
       >
         {t('mapPage.selectDestination')}
@@ -59,7 +63,7 @@ function MapDestinationList({
         className="
           mt-4
 
-          grid grid-cols-1 gap-3
+          grid grid-cols-1 gap-2
 
           sm:grid-cols-2
 

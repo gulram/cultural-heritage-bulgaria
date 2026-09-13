@@ -59,7 +59,7 @@ function DestinationGallery({
           id="gallery-title"
           className="
             font-heading text-mobile-h2 uppercase text-text-primary
-            md:text-h3
+            lg:text-h3
           "
         >
           {t('destination.gallery')}
@@ -108,7 +108,7 @@ function DestinationGallery({
             <span
               className="
                 font-body text-mobile-small text-text-primary
-                md:text-body-small
+                lg:text-body-small
               "
             >
               {t('destination.viewAllPhotos')}

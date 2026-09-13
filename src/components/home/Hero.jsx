@@ -87,7 +87,7 @@ function Hero() {
               
               [text-shadow:0_2px_8px_rgba(0,0,0,0.65)]
               
-              md:text-h1
+              lg:text-h1
             "
           >
             {t('hero.titleFirst')}
@@ -106,7 +106,7 @@ function Hero() {
               sm:max-w-[430px]
               md:mt-3 
               md:max-w-[570px] 
-              md:text-body-regular
+              lg:text-body-regular
             "
           >
             {t('hero.description')}

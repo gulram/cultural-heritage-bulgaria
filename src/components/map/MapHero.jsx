@@ -63,7 +63,7 @@ function MapHero({ image }) {
               font-heading
               text-mobile-h1
 
-              md:text-h1
+              lg:text-h1
             "
           >
             {t('mapPage.title')}
@@ -76,7 +76,7 @@ function MapHero({ image }) {
               font-body
               text-mobile-body
 
-              md:text-body-regular
+              lg:text-body-regular
             "
           >
             {t('mapPage.description')}

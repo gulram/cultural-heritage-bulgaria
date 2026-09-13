@@ -206,7 +206,7 @@ function HistoryModal({
                 font-heading text-mobile-h2 uppercase 
                 text-text-primary
                 
-                md:text-h3 
+                lg:text-h3 
                 md:whitespace-nowrap
               "
             >
@@ -220,7 +220,7 @@ function HistoryModal({
               
               font-body text-mobile-body text-text-secondary
               
-              md:text-body-regular
+              lg:text-body-regular
             "
           >
             {paragraphs.map((paragraph, index) => (

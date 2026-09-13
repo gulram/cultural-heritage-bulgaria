@@ -138,7 +138,7 @@ function MapMarkerPopup({ destination }) {
               text-mobile-h3
               text-text-primary
 
-              md:text-h3
+              lg:text-h3
             "
           >
             {destination.title}

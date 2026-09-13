@@ -157,10 +157,12 @@ function Footer() {
             <h2
               className="
                 font-body
-                text-regular
+                text-mobile-section
                 uppercase
                 tracking-[0.12em]
                 text-white
+
+                lg:text-section-small
               "
             >
               {t('footer.navigation')}
@@ -219,10 +221,12 @@ function Footer() {
             <h2
               className="
                 font-body
-                text-regular
+                text-mobile-section
                 uppercase
                 tracking-[0.12em]
                 text-white
+
+                lg:text-section-small
               "
             >
               {t('footer.projectInfo')}

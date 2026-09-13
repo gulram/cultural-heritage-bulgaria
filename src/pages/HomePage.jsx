@@ -152,7 +152,7 @@ function HomePage() {
                 tracking-[0.12em]
                 text-accent-orange
 
-                md:text-section
+                lg:text-section
               "
             >
               {t('home.fiveDestinations')}
@@ -167,7 +167,7 @@ function HomePage() {
                 text-mobile-h2
                 text-text-primary
 
-                md:text-h2
+                lg:text-h2
               "
             >
               {t('home.destinationsTitle')}
@@ -181,7 +181,7 @@ function HomePage() {
                 text-mobile-small
                 text-text-secondary
 
-                md:text-body-small
+                lg :text-body-small
               "
             >
               {t('home.selectionNote')}
@@ -265,10 +265,12 @@ function HomePage() {
               <p
                 className="
                   font-body
-                  text-section-small
+                  text-movile-section
                   uppercase
                   tracking-[0.12em]
                   text-accent-orange
+
+                  lg:text-section-small
                 "
               >
                 {t('home.aboutLabel')}
@@ -283,7 +285,7 @@ function HomePage() {
                   text-mobile-h2
                   text-text-primary
 
-                  md:text-h2
+                  lg:text-h2
                 "
               >
                 {t('home.aboutTitle')}
@@ -298,7 +300,7 @@ function HomePage() {
                   text-mobile-body
                   text-text-secondary
 
-                  md:text-body-regular
+                  lg:text-body-regular
                 "
               >
                 {t('home.aboutDescription')}

@@ -62,7 +62,7 @@ function ImageFallback({
               text-mobile-h2
               text-text-primary
 
-              md:text-h3
+              lg:text-h3
             "
           >
             {t('feedback.noImage.title')}
@@ -76,7 +76,7 @@ function ImageFallback({
               text-mobile-body
               text-text-secondary
 
-              md:text-body-regular
+              lg:text-body-regular
             "
           >
             {t('feedback.noImage.description')}

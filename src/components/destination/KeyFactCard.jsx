@@ -39,7 +39,6 @@ function KeyFactCard({
             font-heading
             text-mobile-h3
             uppercase
-            leading-tight
             text-text-primary
 
             lg:text-h3

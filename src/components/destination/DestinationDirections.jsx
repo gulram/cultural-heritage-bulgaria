@@ -30,7 +30,7 @@ function DestinationDirections({
           uppercase
           text-text-primary
 
-          md:text-h3
+          lg:text-h3
         "
       >
         {t('destination.directions')}
@@ -68,7 +68,7 @@ function DestinationDirections({
               text-mobile-small
               text-text-secondary
 
-              md:text-body-small
+              lg:text-body-small
             "
           >
             <MapPin

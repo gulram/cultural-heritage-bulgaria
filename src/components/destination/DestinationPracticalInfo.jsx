@@ -89,7 +89,7 @@ function DestinationPracticalInfo({
                 text-mobile-small
                 text-text-secondary
 
-                md:text-body-small
+                lg:text-body-small
               "
             >
               {t('destination.updated', {

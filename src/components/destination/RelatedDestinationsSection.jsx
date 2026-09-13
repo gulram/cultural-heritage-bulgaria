@@ -29,7 +29,7 @@ function RelatedDestinationsSection({
         className="
           font-heading text-mobile-h2 text-white
           
-          md:text-h3 md:uppercase
+          lg:text-h3 lg:uppercase
         "
       >
         {t('destination.exploreMore')}

@@ -37,7 +37,7 @@ function DestinationContent({
               className="
                 font-heading text-mobile-h2 uppercase text-text-primary
                 
-                md:text-h3
+                lg:text-h3
               "
             >
               {destination.aboutTitle}
@@ -49,7 +49,7 @@ function DestinationContent({
                 max-w-[750px]
                 font-body text-mobile-body text-text-secondary
                 
-                md:text-body-regular
+                lg:text-body-regular
               "
             >
               {destination.about}
@@ -69,9 +69,9 @@ function DestinationContent({
             <h2
               id="history-title"
               className="
-                font-heading text-mobile-h2 uppercase text-primary
+                font-heading text-mobile-h2 uppercase text-text-primary
                 
-                md:text-h3
+                lg:text-h3
               "
             >
               {t('destination.history')}
@@ -83,7 +83,7 @@ function DestinationContent({
                 max-w-[750px]
                 font-body text-mobile-body text-text-secondary
                 
-                md:text-body-regular
+                lg:text-body-regular
               "
             >
               {historyPreview}
