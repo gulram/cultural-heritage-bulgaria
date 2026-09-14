@@ -36,6 +36,12 @@ function MapPage() {
     setIsDestinationListVisible,
   ] = useState(false)
 
+  const [
+    isMapVisible,
+    setIsMapVisible,
+  ] = useState(true)
+
+  const mapRef = useRef(null)
   const destinationListRef = useRef(null)
 
   useEffect(() => {
@@ -66,6 +72,27 @@ function MapPage() {
     )
 
     observer.observe(destinationList)
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [destinations.length])
+
+  useEffect(() => {
+    const mapElement = mapRef.current
+
+    if (!mapElement) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsMapVisible(entry.isIntersecting)
+      },
+      {
+        threshold: 0.15,
+      }
+    )
+
+    observer.observe(mapElement)
 
     return () => {
       observer.disconnect()
@@ -163,61 +190,62 @@ function MapPage() {
             />
           ) : (
             <>
-              {!isDestinationListVisible && (
-                <div
-                  className="
-                    sticky top-20 z-[500]
-
-                    mb-2
-                    flex justify-end
-
-                    pointer-events-none
-
-                    lg:hidden
-                  "
-                >
-                  <button
-                    type="button"
-                    onClick={handleScrollToDestinations}
-                    aria-controls="map-destination-list"
+              {isMapVisible &&
+                !isDestinationListVisible && (
+                  <div
                     className="
-                      pointer-events-auto
+                      sticky top-20 z-[500]
 
-                      flex items-center gap-1
+                      mb-2
+                      flex justify-end
 
-                      rounded-full
-                      border border-border-light
-                      bg-surface/95
+                      pointer-events-none
 
-                      px-3 py-2
-
-                      font-body
-                      text-mobile-small
-                      text-accent-orange
-
-                      shadow-md
-                      backdrop-blur-sm
-
-                      transition
-                      duration-200
-
-                      hover:border-accent-orange
-                      hover:bg-background-highlight
-
-                      active:scale-[0.97]
+                      lg:hidden
                     "
                   >
-                    {t('mapPage.scrollToDestinations')}
+                    <button
+                      type="button"
+                      onClick={handleScrollToDestinations}
+                      aria-controls="map-destination-list"
+                      className="
+                        pointer-events-auto
 
-                    <span
-                      aria-hidden="true"
-                      className="text-base leading-none"
+                        flex items-center gap-1
+
+                        rounded-full
+                        border border-border-light
+                        bg-surface/95
+
+                        px-3 py-2
+
+                        font-body
+                        text-mobile-small
+                        text-accent-orange
+
+                        shadow-md
+                        backdrop-blur-sm
+
+                        transition
+                        duration-200
+
+                        hover:border-accent-orange
+                        hover:bg-background-highlight
+
+                        active:scale-[0.97]
+                      "
                     >
-                      ↓
-                    </span>
-                  </button>
-                </div>
-              )}
+                      {t('mapPage.scrollToDestinations')}
+
+                      <span
+                        aria-hidden="true"
+                        className="text-base leading-none"
+                      >
+                        ↓
+                      </span>
+                    </button>
+                  </div>
+                )}
 
               <div
                 className={`
@@ -226,16 +254,23 @@ function MapPage() {
                   ${mapLayoutClass}
                 `}
               >
-                <MapExplorer
-                  destinations={destinations}
-                  selectedDestination={selectedDestination}
-                  onSelectDestination={handleSelectDestination}
+                <div
+                  ref={mapRef}
                   className={`
                     h-[440px] min-w-0
 
                     ${mapHeightClass}
                   `}
-                />
+                >
+                  <MapExplorer
+                    destinations={destinations}
+                    selectedDestination={selectedDestination}
+                    onSelectDestination={handleSelectDestination}
+                    className="
+                      h-full min-w-0
+                    "
+                  />
+                </div>
 
                 {selectedDestination && (
                   <SelectedDestinationPanel
